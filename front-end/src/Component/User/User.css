@@ -1,0 +1,224 @@
+.user-h4{
+    font-size: 18px;
+    color: #767676;
+}
+.container{
+    margin-top: 20px;
+}
+.user-box-1{
+    background-color: #FAFAFA;
+    flex-wrap: wrap;
+}
+
+.btn-dangerpdf {
+    background-color: #fa8564;
+    border-color: #fa8564;
+    color: #FFFFFF;
+    width: 180px;
+ 
+}
+.btn-dangerpdf:hover {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    width: 180px;
+ 
+}
+.btn-dangerexcel{
+    background-color: #57c8f1;
+    border-color: #57c8f1;
+    color: #FFFFFF;
+    width: 180px;
+}
+.btn-dangerexcel:hover{
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    width: 180px;
+}
+.btn-primaryadd {
+    background-color: #1fb5ad;
+    border-color: #1fb5ad;
+    color: #FFFFFF;
+}
+.btn-primaryadd:hover {
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+.select-width{
+    width: 400px;
+}
+.table-striped>tbody>tr:nth-child(odd) {
+    background-color: #F7E3C0;
+}
+/* .table-hover tbody tr:hover {
+    background-color: AliceBlue;
+} */
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 110px;
+    height: 44px;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #F0AD4E;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 9px;
+    background-color: white;
+    -webkit-transition: .7s;
+    transition: .7s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2ab934;
+  }
+  .text-muted222{
+    color: red !important;
+  }
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(75px);
+    -ms-transform: translateX(75px);
+    transform: translateX(75px);
+  }
+  
+  /*------ ADDED CSS ---------*/
+  .on
+  {
+    display: none;
+  }
+  
+  .on, .off
+  {
+    color: white;
+    position: absolute;
+    transform: translate(-50%,-60%);
+    top: 50%;
+    left: 50%;
+    font-size: 10px;
+    font-family: Verdana, sans-serif;
+  }
+  
+  input:checked+ .slider .on
+  {display: block;}
+  
+  input:checked + .slider .off
+  {display: none;}
+  
+  /*--------- END --------*/
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .btn-save{
+    background-color: #95b75d;
+    border-color: #95b75d;
+    color: #FFFFFF;
+    width: 100px;
+  }
+  .btn-save:hover{
+    background-color: #95b75d;
+    border-color: #95b75d;
+    color: #FFFFFF;
+    width: 100px;
+  }
+  .btn-Cancel{
+    background-color: #c7cbd6;
+    border-color: #c7cbd6;
+    color: #fff;
+    width: 100px;
+  }
+  .btn-Cancel:hover{
+    background-color: #c7cbd6;
+    border-color: #c7cbd6;
+    color: #fff;
+    width: 100px;
+  }
+
+  .btn-active{
+    background-color: #A9D86E;
+    color: white;
+    font-size: 12px;
+  }
+  .btn-Inactive{
+    background-color: #F0AD4E;
+    color: white;
+    font-size: 12px;
+    
+  }
+  .btn-active:hover{
+    background-color: #A9D86E;
+    color: white;
+    font-size: 12px;
+  }
+  .btn-Inactive:hover{
+    background-color: #F0AD4E;
+    color: white;
+    font-size: 12px;
+    
+  }
+  .btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+.btn-xxs{
+  padding: 1px 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+.btn-Edit{
+  background-color: #fa8564;
+    border-color: #fa8564;
+    color: #FFFFFF;
+    width: 100px;
+}
+.btn-Edit:hover{
+  background-color: #fa8564;
+    border-color: #fa8564;
+    color: #FFFFFF;
+    width: 100px;
+}
+@media(max-width: 576px){
+    .select-width{
+        width: 98%;
+    }
+    .table-responsive{
+        display: block !important;
+        overflow-x: scroll !important;
+        width: 320px !important;
+        
+      }
+}
