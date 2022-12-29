@@ -60,6 +60,12 @@ import ShowSingleAgencyData from '../Agencies/ShowSingleAgencyData';
 import UpdateSingleAgencyData from '../Agencies/UpdateSingleAgencyData';
 import ShowSingleProgramData from '../Program/ShowSingleProgramData';
 import UpdateSingleProgramData from '../Program/UpdateSingleProgramData';
+import ShowSingleSchoolData from '../Schools/ShowSingleSchoolData';
+import UpdateSingleSchoolData from '../Schools/UpdateSingleSchoolData';
+import ShowSingleGradeData from '../Grade/ShowSingleGradeData';
+import UpdateSingleGradeData from '../Grade/UpdateSingleGradeData';
+import ShowSingleSubjectData from '../Subject/ShowSingleSubjectData';
+import UpdateSingleSubjectData from '../Subject/UpdateSingleSubjectData';
 // import IconLibraryBooks from '@material-ui/icons/LibraryBooks'
 // import Typography from '@mui/material/Typography';
 // import Button from '@mui/material/Button';
@@ -419,6 +425,13 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
           <Route exact path="/update_single_agency_data/:id" element={<UpdateSingleAgencyData/>}/>
           <Route exact path="/show_single_program_data/:id" element={<ShowSingleProgramData/>}/>
           <Route exact path="/update_single_program_data/:id" element={<UpdateSingleProgramData/>}/>
+          <Route exact path="/show_single_school_data/:id" element={<ShowSingleSchoolData/>}/>
+          <Route exact path="/update_single_school_data/:id" element={<UpdateSingleSchoolData/>}/>
+          <Route exact path="/show_single_Grade_data/:id" element={<ShowSingleGradeData/>}/>
+          <Route exact path="/update_single_Grade_data/:id" element={<UpdateSingleGradeData/>}/>
+          <Route exact path='/show_single_subject_data/:id' element={<ShowSingleSubjectData/>}/>
+          <Route exact path='/update_single_subject_data/:id' element={<UpdateSingleSubjectData/>}/>
+
         </Routes>
         {/* <Dashboard/> */}
         {/* <Routes>

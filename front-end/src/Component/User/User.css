@@ -49,6 +49,9 @@
 .select-width{
     width: 400px;
 }
+.select-width-demo{
+  width: 550px;
+}
 .table-striped>tbody>tr:nth-child(odd) {
     background-color: #F7E3C0;
 }
@@ -210,6 +213,21 @@
     border-color: #fa8564;
     color: #FFFFFF;
     width: 100px;
+}
+/* tbody{
+  border: 2px solid red;
+  display: flex;
+  align-items: center;
+} */
+tbody tr td {
+  font-size: 13px !important;
+ 
+}
+thead tr th{
+  font-size: 12px !important;
+}
+tbody tr th{
+  font-size: 12px !important;
 }
 @media(max-width: 576px){
     .select-width{

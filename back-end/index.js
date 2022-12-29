@@ -98,19 +98,172 @@ app.put("/update_single_person_programs_data/:id",async (req, res) => {
 })
 
 
+// ........................Schools data add .......................//
+const Schools = require("./Schema/SchoolSchema")
+app.post("/schools", async(req, res)=>{
+    console.log("req", req.body);
+    
+    let school = new Schools(req.body)
+    let result = await school.save();
+    console.log(result);
+    res.send(result);
+})
+// get Schools data
+app.get("/schools", async(req,res)=>{
+    let school = await Schools.find()
+    if (school.length) {
+        res.send(school)
+    } else {
+        res.send({ result: "No agency Data Found" })
+    }
+})
+
+// delete Schools data
+app.delete("/schools_data_delete/:id", async(req,res)=>{
+    console.log(req.params.id);
+    let result = await Schools.deleteOne({_id: req.params.id})
+    res.send(result)
+})
+
+// Find Single Schools Data
+app.get("/single_person_schools_data/:id",async(req,res)=>{
+    let result = await Schools.findOne({_id: req.params.id})
+    res.send(result);
+})
+
+//  Update Schools Data 
+app.put("/update_single_person_schools_data/:id",async (req, res) => {
+    let result = await Schools.updateOne(
+        { _id: req.params.id },
+        {
+            $set: req.body
+        })
+    res.send(result)
+})
+
+// ........................Grade data add .......................//
+const Grades = require("./Schema/GradeSchema")
+app.post("/grades", async(req, res)=>{
+    console.log("req", req.body);
+    
+    let school = new Grades(req.body)
+    let result = await school.save();
+    console.log(result);
+    res.send(result);
+})
+// get grades data
+app.get("/grades", async(req,res)=>{
+    let school = await Grades.find()
+    if (school.length) {
+        res.send(school)
+    } else {
+        res.send({ result: "No agency Data Found" })
+    }
+})
+
+// delete grades data
+app.delete("/grades_data_delete/:id", async(req,res)=>{
+    console.log(req.params.id);
+    let result = await Grades.deleteOne({_id: req.params.id})
+    res.send(result)
+})
+
+// Find Single grades Data
+app.get("/single_person_grades_data/:id",async(req,res)=>{
+    let result = await Grades.findOne({_id: req.params.id})
+    res.send(result);
+})
+
+//  Update grades Data 
+app.put("/update_single_person_grades_data/:id",async (req, res) => {
+    let result = await Grades.updateOne(
+        { _id: req.params.id },
+        {
+            $set: req.body
+        })
+    res.send(result)
+})
+
+// ........................Subjects data add .......................//
+const Subjects = require('./Schema/SubjectSchema')
+
+app.post("/subjects", async(req, res)=>{
+    console.log("req", req.body);
+    
+    let school = new Subjects(req.body)
+    let result = await school.save();
+    console.log(result);
+    res.send(result);
+})
+// get Subjects data
+app.get("/subjects", async(req,res)=>{
+    let school = await Subjects.find()
+    if (school.length) {
+        res.send(school)
+    } else {
+        res.send({ result: "No agency Data Found" })
+    }
+})
+
+// delete Subjects data
+app.delete("/subjects_data_delete/:id", async(req,res)=>{
+    console.log(req.params.id);
+    let result = await Subjects.deleteOne({_id: req.params.id})
+    res.send(result)
+})
+
+// Find Single Subjects Data
+app.get("/single_person_subjects_data/:id",async(req,res)=>{
+    let result = await Subjects.findOne({_id: req.params.id})
+    res.send(result);
+})
+
+//  Update Subjects Data 
+app.put("/update_single_person_subjects_data/:id",async (req, res) => {
+    let result = await Subjects.updateOne(
+        { _id: req.params.id },
+        {
+            $set: req.body
+        })
+    res.send(result)
+})
 
 
+// ................... Time Zone Add ....................../
+const TimeZone = require("./Schema/TimeZoneSchema")
+app.post("/timezone", async(req,res)=>{
+    let timezone = new TimeZone(req.body);
+    let result = await timezone.save();
+    console.log(result);
+    res.send(result);
+})
+app.get('/timezone', async(req,res)=>{
+    let timezones = await TimeZone.find()
+    if (timezones.length) {
+        res.send(timezones)
+    } else {
+        res.send({ result: "No agency Data Found" })
+    }
+})
 
 
+// .........................Language APi ..................//
+const Language = require("./Schema/LanguageSchema")
+app.post("/language", async(req,res)=>{
+    let language = new Language(req.body);
+    let result = await language.save();
+    console.log(result);
+    res.send(result);
+})
 
-
-
-
-
-
-
-
-
+app.get("/language", async(req,res)=>{
+    let lan = await Language.find();
+    if (lan.length) {
+        res.send(lan)
+    } else {
+        res.send({ result: "No agency Data Found" })
+    }
+})
 
 
 

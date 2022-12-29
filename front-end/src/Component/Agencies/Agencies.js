@@ -19,12 +19,13 @@ function Agencies() {
     const changeAgenciews = () => {
 
         setStatus(!status)
+        // setActive(!active)
     }
-
 
     //  agency data post
     const agencyData = async () => {
         try {
+            console.log("active", active);
             if (!title || !description) {
                 setError(true)
                 return false
@@ -37,10 +38,13 @@ function Agencies() {
                 description,
                 currentTime
             }).then((res) => {
-                console.log("res", res);
+                console.log("res", res.data);
                 setTitle("")
                 setDescription('')
                 setStatus(false)
+               if(res.data.active == "true"){
+                setActive(false)
+               }
                 agencyDataGet()
             }
             )
@@ -196,24 +200,27 @@ function Agencies() {
                                             </thead>
                                             <tbody className='text-start'>
                                                 {
-                                                    getAgencyData.map((items, index) => {
+                                                getAgencyData.length>0 ?    getAgencyData.map((items, index) => {
                                                         return (
                                                             <tr key={items._id}>
-                                                                <th scope="row">{index + 1}</th>
-                                                                <td>{items?.title}</td>
-                                                                <td>{items?.description}</td>
-                                                                <td>{items?.currentTime}</td>
-                                                                <td>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
+                                                                <th scope="row" className='pt-3'>{index + 1}</th>
+                                                                <td className='pt-3'>{items?.title}</td>
+                                                                <td className='pt-3'>{items?.description}</td>
+                                                                <td className='pt-3'>{items?.currentTime}</td>
+                                                                <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
                                                                 <td>
-                                                                    <Link to={`/show_single_agency_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
-                                                                    <Link to={`/update_single_agency_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
-                                                                    <button className='btn btn-xxs btn-danger' title="Delete" onClick={() => agencyDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
+                                                                    <Link to={`/show_single_agency_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                    <Link to={`/update_single_agency_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                    <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => agencyDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
 
                                                                 </td>
 
                                                             </tr>
                                                         )
-                                                    })
+                                                    }):
+                                                    (<tr className='text-center'>
+                                                    <td colSpan={6}><h1>No Result Found</h1></td>
+                                                </tr>)
                                                 }
 
 
