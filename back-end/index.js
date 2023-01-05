@@ -309,6 +309,16 @@ app.get("/user_single_data_find/:id", async(req,res)=>{
 })
 
 
+app.put("/user_single_data_Update/:id", async(req,res)=>{
+    let result = await UserData.updateOne(
+        { _id: req.params.id },
+        {
+            $set: req.body
+        }
+    )
+    res.send(result);
+})
+
 // ........................... Schedule api ................//
 const Schedule = require("./Schema/ScheduleSchema")
 app.post("/schedule", async (req, res) => {
@@ -329,6 +339,17 @@ app.get("/schedule", async(req,res)=>{
     }
     // res.send(result)
 })
+
+app.get("/schedule", async(req,res)=>{
+    let result = await Schedule.find();
+    if (result.length) {
+        res.send(result)
+    } else {
+        res.send({ result: "No agency Data Found" })
+    }
+    // res.send(result)
+})
+
 
 
 

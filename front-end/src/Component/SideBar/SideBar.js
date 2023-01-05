@@ -67,6 +67,8 @@ import UpdateSingleGradeData from '../Grade/UpdateSingleGradeData';
 import ShowSingleSubjectData from '../Subject/ShowSingleSubjectData';
 import UpdateSingleSubjectData from '../Subject/UpdateSingleSubjectData';
 import ViewSingleUserData from '../User/ViewSingleUserData';
+import UpdateSingleUserData from '../User/UpdateSingleUserData';
+import NewSchedule from '../Schedule/NewSchedule';
 // import IconLibraryBooks from '@material-ui/icons/LibraryBooks'
 // import Typography from '@mui/material/Typography';
 // import Button from '@mui/material/Button';
@@ -433,7 +435,8 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
           <Route exact path='/show_single_subject_data/:id' element={<ShowSingleSubjectData/>}/>
           <Route exact path='/update_single_subject_data/:id' element={<UpdateSingleSubjectData/>}/>
           <Route exact path="/view_single_User_Data/:id" element={<ViewSingleUserData/>}/>
-
+          <Route exact path="/update_single_user_data/:id" element={<UpdateSingleUserData/>}/>
+          <Route exact path="/newschedule" element={<NewSchedule/>}/>
         </Routes>
         {/* <Dashboard/> */}
         {/* <Routes>

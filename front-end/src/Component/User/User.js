@@ -477,7 +477,7 @@ function User() {
                 setTimeZoneGet(timezoneres.data)
             })
             await axios.get(`${BACKEND_URI}/language`).then((languageRes) => {
-                //   console.log("languageRes", languageRes.data);
+                  console.log("languageRes", languageRes.data);
                 setLanguageGet(languageRes.data)
             })
         } catch (e) {
@@ -662,7 +662,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {languageGet.map((name) => (
+                                                        {languageGet.length>0 ? languageGet.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -670,7 +670,9 @@ function User() {
                                                             >
                                                                 {name.language}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -810,7 +812,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {languageGet.map((name) => (
+                                                        {languageGet.length> 0 ? languageGet.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -818,7 +820,9 @@ function User() {
                                                             >
                                                                 {name.language}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -845,7 +849,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {languageGet.map((name) => (
+                                                        {languageGet.length>0? languageGet.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -853,7 +857,9 @@ function User() {
                                                             >
                                                                 {name.language}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -882,11 +888,13 @@ function User() {
                                                     >
 
                                                         {
-                                                            timeZoneGet.map((items) => {
+                                                           timeZoneGet.length>0 ? timeZoneGet.map((items) => {
                                                                 return (
                                                                     <MenuItem value={items} key={items._id}>{items.timezone}</MenuItem>
                                                                 )
-                                                            })
+                                                            }):(
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )
                                                         }
 
                                                     </Select>
@@ -913,7 +921,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {agencyData.map((name) => (
+                                                        {agencyData.length>0 ? agencyData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -921,7 +929,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
 
@@ -946,7 +956,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {programData.map((name) => (
+                                                        {programData.length>0 ? programData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -954,7 +964,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -977,7 +989,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {schoolsData.map((name) => (
+                                                        {schoolsData.length>0 ? schoolsData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -985,7 +997,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1008,7 +1022,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {gradeData.map((name) => (
+                                                        {gradeData.length>0? gradeData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1016,7 +1030,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1039,7 +1055,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {subjectData.map((name) => (
+                                                        { subjectData.length>0? subjectData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1047,7 +1063,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1070,7 +1088,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {languageGet.map((name) => (
+                                                        {languageGet.length>0 ? languageGet.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1078,20 +1096,22 @@ function User() {
                                                             >
                                                                 {name.language}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
                                         </div>
                                         <div className='col-lg-10  '>
-                                            <div className="mb-3 d-flex align-items-center">
-                                                <div className='col-md-2 text-start '>
+                                                <div className="mb-3 d-flex align-items-center">
+                                                    <div className='col-md-2 text-start '>
 
-                                                    <label htmlFor="exampleFormControlInput1" className="form-label mt-2">Consortium ID</label>
+                                                        <label htmlFor="exampleFormControlInput1" className="form-label mt-2">Consortium ID</label>
+                                                    </div>
+                                                    <TextField id="outlined-basic" label="Consortium ID" variant="outlined" className='select-width-demo' value={consortiumId} onChange={(e) => setConsortiumId(e.target.value)} />
                                                 </div>
-                                                <TextField id="outlined-basic" label="Consortium ID" variant="outlined" className='select-width-demo' />
                                             </div>
-                                        </div>
                                     </div>
                                 ) : role == "Teacher" ? (
                                     <div className='row d-flex justify-content-center'>
@@ -1116,11 +1136,13 @@ function User() {
                                                     >
 
                                                         {
-                                                            timeZoneGet.map((items) => {
+                                                         timeZoneGet.length>0?   timeZoneGet.map((items) => {
                                                                 return (
                                                                     <MenuItem value={items} key={items._id}>{items.timezone}</MenuItem>
                                                                 )
-                                                            })
+                                                            }):(
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )
                                                         }
 
                                                     </Select>
@@ -1147,7 +1169,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {agencyData.map((name) => (
+                                                        {agencyData.length>0 ? agencyData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1155,7 +1177,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
 
@@ -1180,7 +1204,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {programData.map((name) => (
+                                                        {programData.length>0 ? programData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1188,7 +1212,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1211,7 +1237,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {schoolsData.map((name) => (
+                                                        {schoolsData.length>0 ? schoolsData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1219,7 +1245,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1242,7 +1270,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {gradeData.map((name) => (
+                                                        {gradeData.length>0 ? gradeData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1250,7 +1278,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1273,7 +1303,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {subjectData.map((name) => (
+                                                        {subjectData.length >0 ? subjectData.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1281,7 +1311,9 @@ function User() {
                                                             >
                                                                 {name.title}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )}
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1305,7 +1337,7 @@ function User() {
                                                         MenuProps={MenuProps}
                                                         className='text-start'
                                                     >
-                                                        {languageGet.map((name) => (
+                                                        {languageGet.length>0 ? languageGet.map((name) => (
                                                             <MenuItem
                                                                 key={name.id}
                                                                 value={name}
@@ -1313,7 +1345,10 @@ function User() {
                                                             >
                                                                 {name.language}
                                                             </MenuItem>
-                                                        ))}
+                                                        )):(
+                                                            <MenuItem>No Data</MenuItem>
+                                                        )
+                                                    }
                                                     </Select>
                                                 </FormControl>
                                             </div>
@@ -1457,11 +1492,13 @@ function User() {
                                                         >
 
                                                             {
-                                                                timeZoneGet.map((items) => {
+                                                              timeZoneGet.length>0 ?  timeZoneGet.map((items) => {
                                                                     return (
                                                                         <MenuItem value={items} key={items._id}>{items.timezone}</MenuItem>
                                                                     )
-                                                                })
+                                                                }): (
+                                                                    <MenuItem>No Data</MenuItem>
+                                                                )
                                                             }
 
                                                         </Select>
@@ -1488,7 +1525,7 @@ function User() {
                                                             MenuProps={MenuProps}
                                                             className='text-start'
                                                         >
-                                                            {agencyData.map((name) => (
+                                                            {agencyData.length>0 ? agencyData.map((name) => (
 
                                                                 <MenuItem
                                                                     key={name.id}
@@ -1497,7 +1534,11 @@ function User() {
                                                                 >
                                                                     {name.title}
                                                                 </MenuItem>
-                                                            ))}
+                                                            )): (
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )
+                                                        
+                                                        }
                                                         </Select>
                                                     </FormControl>
 
@@ -1522,7 +1563,7 @@ function User() {
                                                             MenuProps={MenuProps}
                                                             className='text-start'
                                                         >
-                                                            {programData.map((name) => (
+                                                            {programData.length > 0 ? programData.map((name) => (
                                                                 <MenuItem
                                                                     key={name.id}
                                                                     value={name}
@@ -1530,7 +1571,9 @@ function User() {
                                                                 >
                                                                     {name.title}
                                                                 </MenuItem>
-                                                            ))}
+                                                            )): (
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )}
                                                         </Select>
                                                     </FormControl>
                                                 </div>
@@ -1553,7 +1596,7 @@ function User() {
                                                             MenuProps={MenuProps}
                                                             className='text-start'
                                                         >
-                                                            {schoolsData.map((name) => (
+                                                            {schoolsData.length>0 ? schoolsData.map((name) => (
                                                                 <MenuItem
                                                                     key={name.id}
                                                                     value={name}
@@ -1561,7 +1604,9 @@ function User() {
                                                                 >
                                                                     {name.title}
                                                                 </MenuItem>
-                                                            ))}
+                                                            )): (
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )}
                                                         </Select>
                                                     </FormControl>
                                                 </div>
@@ -1584,7 +1629,7 @@ function User() {
                                                             MenuProps={MenuProps}
                                                             className='text-start'
                                                         >
-                                                            {gradeData.map((name) => (
+                                                            {gradeData.length >0 ? gradeData.map((name) => (
                                                                 <MenuItem
                                                                     key={name.id}
                                                                     value={name}
@@ -1592,7 +1637,9 @@ function User() {
                                                                 >
                                                                     {name.title}
                                                                 </MenuItem>
-                                                            ))}
+                                                            )): (
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )}
                                                         </Select>
                                                     </FormControl>
                                                 </div>
@@ -1615,7 +1662,7 @@ function User() {
                                                             MenuProps={MenuProps}
                                                             className='text-start'
                                                         >
-                                                            {subjectData.map((name) => (
+                                                            {subjectData.length>0 ? subjectData.map((name) => (
                                                                 <MenuItem
                                                                     key={name.id}
                                                                     value={name}
@@ -1623,7 +1670,9 @@ function User() {
                                                                 >
                                                                     {name.title}
                                                                 </MenuItem>
-                                                            ))}
+                                                            )): (
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )}
                                                         </Select>
                                                     </FormControl>
                                                 </div>
@@ -1647,7 +1696,7 @@ function User() {
                                                             MenuProps={MenuProps}
                                                             className='text-start'
                                                         >
-                                                            {languageGet.map((name) => (
+                                                            {languageGet.length> 0 ? languageGet.map((name) => (
                                                                 <MenuItem
                                                                     key={name.id}
                                                                     value={name}
@@ -1655,7 +1704,9 @@ function User() {
                                                                 >
                                                                     {name.language}
                                                                 </MenuItem>
-                                                            ))}
+                                                            )): (
+                                                                <MenuItem>No Data</MenuItem>
+                                                            )}
                                                         </Select>
                                                     </FormControl>
                                                 </div>
@@ -1889,7 +1940,7 @@ function User() {
                                         MenuProps={MenuProps}
                                         className='text-start'
                                     >
-                                        {agencyData.map((name) => (
+                                        { agencyData.length> 0 ?  agencyData.map((name) => (
                                             <MenuItem
                                                 key={name.id}
                                                 value={name._id}
@@ -1897,7 +1948,15 @@ function User() {
                                             >
                                                 {name.title}
                                             </MenuItem>
-                                        ))}
+                                        )) :
+                                        (
+                                            <MenuItem>
+                                            No Data
+                                            </MenuItem>
+
+                                        )
+                                    
+                                    }
                                     </Select>
                                 </FormControl>
                             </div>
@@ -1914,15 +1973,21 @@ function User() {
                                         MenuProps={MenuProps}
                                         className='text-start'
                                     >
-                                        {languageGet.map((name) => (
+                                        {languageGet.length > 0 ? languageGet.map((name) => (
                                             <MenuItem
-                                                key={name}
-                                                value={name}
+                                                key={name.id}
+                                                value={name.language}
                                                 style={getStylesone(name, selectLanguages, theme)}
                                             >
-                                                {name}
+                                                {name.language}
                                             </MenuItem>
-                                        ))}
+                                        )) : (
+                                            <MenuItem>
+                                            No Data
+                                            </MenuItem>
+                                        )
+                                    
+                                    }
                                     </Select>
                                 </FormControl>
                             </div>
@@ -1939,7 +2004,7 @@ function User() {
                                         MenuProps={MenuProps}
                                         className='text-start'
                                     >
-                                        {programData.map((name) => (
+                                        {programData.length >0 ? programData.map((name) => (
                                             <MenuItem
                                                 key={name.id}
                                                 value={name._id}
@@ -1947,7 +2012,13 @@ function User() {
                                             >
                                                 {name.title}
                                             </MenuItem>
-                                        ))}
+                                        )): (
+                                            <MenuItem>
+                                            No Data
+                                            </MenuItem>
+                                        )
+                                    
+                                    }
                                     </Select>
                                 </FormControl>
                             </div>
@@ -1964,7 +2035,7 @@ function User() {
                                         MenuProps={MenuProps}
                                         className='text-start'
                                     >
-                                        {schoolsData.map((name) => (
+                                        {schoolsData.length >0 ? schoolsData.map((name) => (
                                             <MenuItem
                                                 key={name.id}
                                                 value={name._id}
@@ -1972,7 +2043,13 @@ function User() {
                                             >
                                                 {name.title}
                                             </MenuItem>
-                                        ))}
+                                        )): (
+                                            <MenuItem>
+                                            No Data
+                                            </MenuItem>
+                                        )
+                                    
+                                    }
                                     </Select>
                                 </FormControl>
                             </div>
@@ -1989,7 +2066,7 @@ function User() {
                                         MenuProps={MenuProps}
                                         className='text-start'
                                     >
-                                        {gradeData.map((name) => (
+                                        {gradeData.length >0 ? gradeData.map((name) => (
                                             <MenuItem
                                                 key={name.id}
                                                 value={name._id}
@@ -1997,7 +2074,12 @@ function User() {
                                             >
                                                 {name.title}
                                             </MenuItem>
-                                        ))}
+                                        )): (
+                                            <MenuItem>
+                                            No Data
+                                            </MenuItem>
+                                        )
+                                        }
                                     </Select>
                                 </FormControl>
                             </div>
@@ -2014,7 +2096,7 @@ function User() {
                                         MenuProps={MenuProps}
                                         className='text-start'
                                     >
-                                        {subjectData.map((name) => (
+                                        {subjectData.length>0 ?  subjectData.map((name) => (
                                             <MenuItem
                                                 key={name.id}
                                                 value={name._id}
@@ -2022,7 +2104,12 @@ function User() {
                                             >
                                                 {name.title}
                                             </MenuItem>
-                                        ))}
+                                        )): (
+                                            <MenuItem>
+                                            No Data
+                                            </MenuItem>
+                                        )
+                                    }
                                     </Select>
                                 </FormControl>
                             </div>
@@ -2130,9 +2217,9 @@ function User() {
                                                             <Link to={`/view_single_User_Data/${items._id}`} style={{ textDecoration: "none" }}>
                                                                 <button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button>
                                                             </Link>
-                                                            {/* <Link to={`/update_single_subject_data/${items._id}`} style={{ textDecoration: "none" }}> */}
+                                                            <Link to={`/update_single_user_data/${items._id}`} style={{ textDecoration: "none" }}>
                                                             <button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button>
-                                                            {/* </Link> */}
+                                                            </Link>
                                                             <button className='btn btn-xxs btn-danger mt-1' title="Delete"
                                                                 onClick={() => UserDataDelete(items._id)}
                                                             ><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>

@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Table from 'react-bootstrap/Table';
+import { Link } from 'react-router-dom';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -233,7 +234,7 @@ function Schedule() {
             </div>
             <div className='row d-flex justify-content-center justify-content-between pt-3 pb-3 align-items-center' style={{ background: "white" }}>
                 <div className='col-lg-5 text-md-start mt-2'>
-                    <button className='btn btn-primaryadd me-md-3 mt-2'><i class="fa-solid fa-plus"></i> Add New User</button>
+                    <button className='btn btn-primaryadd me-md-3 mt-2'><Link to="/newschedule" style={{ textDecoration: "none", color: "white" }}><i class="fa-solid fa-plus"></i> Add New Session</Link></button>
                     <button className='btn  mt-2'><i class="fa-solid fa-upload"></i> Bulk Upload</button>
                 </div>
                 <div className='col-lg-7  '>
