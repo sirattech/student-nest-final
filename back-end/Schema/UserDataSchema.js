@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+const bcrypt = require('bcryptjs');
 let UserData = new mongoose.Schema({
     role : String,
     timeZone: [
@@ -58,9 +58,24 @@ let UserData = new mongoose.Schema({
     mobileNumber: String,
     address: String,
     password: String,
-    reTypePassword: String,
+    // reTypePassword: String,
     active: String,
     activeStatus: String
 })
+
+
+// encrypting password before saving
+UserData.pre('save', async function(next){
+
+    if(!this.isModified('password')){
+        next()
+    }
+    this.password = await bcrypt.hash(this.password, 10);
+ });
+
+// verify password
+UserData.methods.comparePassword = async function(yourPassword){
+    return await bcrypt.compare(yourPassword, this.password);
+}
 
 module.exports = mongoose.model("UserData", UserData)

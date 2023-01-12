@@ -6,12 +6,13 @@ import {BrowserRouter} from "react-router-dom"
 import Table from './Component/Table/Table';
 function App() {
   return (
-    <div className="App">
+    <div className="App ">
       <BrowserRouter>
       <Sidebar/>
       </BrowserRouter>
       {/* <Table/> */}
       {/* <Drop/> */}
+         
     </div>
   );
 }

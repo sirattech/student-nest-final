@@ -5,6 +5,9 @@
 }
 body{
   background-color: #F1F2F7 !important;
+  /* border: 2px solid red; */
+  /* width: 100vw !important */
+  
 }
 .App-logo {
   height: 40vmin;

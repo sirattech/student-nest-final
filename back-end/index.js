@@ -340,19 +340,34 @@ app.get("/schedule", async(req,res)=>{
     // res.send(result)
 })
 
-app.get("/schedule", async(req,res)=>{
-    let result = await Schedule.find();
-    if (result.length) {
-        res.send(result)
-    } else {
-        res.send({ result: "No agency Data Found" })
-    }
-    // res.send(result)
+// app.get("/schedule", async(req,res)=>{
+//     let result = await Schedule.find();
+//     if (result.length) {
+//         res.send(result)
+//     } else {
+//         res.send({ result: "No agency Data Found" })
+//     }
+//     // res.send(result)
+// })
+
+
+
+// ................... Schedule google api .................//
+const NewSchedule = require("./Schema/NewScheduleSchema")
+app.post("/schedule_google",cors(), async(req,res)=>{
+    console.log(req.body);
+    let new_schedule = new NewSchedule(req.body);
+    let result = await new_schedule.save();
+    // console.log(result);
+    res.send(result)
 })
 
+app.get("/schedule_googles",cors(), async(req,res)=>{
 
-
-
+    let result = await NewSchedule.find({})
+    // console.log(result);
+    res.send(result)
+})
 
 
 

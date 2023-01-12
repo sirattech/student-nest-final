@@ -519,7 +519,6 @@ function User() {
                 mobileNumber,
                 address,
                 password,
-                reTypePassword,
                 active,
                 activeStatus
             }).then((userRes) => {

@@ -1,3 +1,6 @@
-export const data = [
+// export const data = [
     
-]
+// ]
+
+
+// console.log("data", data);
