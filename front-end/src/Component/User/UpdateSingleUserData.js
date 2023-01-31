@@ -80,14 +80,14 @@ function getStylesFive(name, selectSubjects, theme) {
                 : theme.typography.fontWeightMedium,
     };
 }
-function getStylesAgency(name, personNameEnter, theme) {
-    return {
-        fontWeight:
-            personNameEnter.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
-}
+// function getStylesAgency(name, personNameEnter, theme) {
+//     return {
+//         fontWeight:
+//             personNameEnter.indexOf(name) === -1
+//                 ? theme.typography.fontWeightRegular
+//                 : theme.typography.fontWeightMedium,
+//     };
+// }
 const MenuProps = {
     PaperProps: {
         style: {
@@ -566,7 +566,7 @@ function UpdateSingleUserData() {
                                     <MenuItem
                                         key={name.id}
                                         value={name}
-                                        style={getStylesAgency(name, personNameEnter, theme)}
+                                        // style={getStylesAgency(name, personNameEnter, theme)}
                                         // data-value = {name}
                                         // value2={}
                                     >
@@ -602,7 +602,7 @@ function UpdateSingleUserData() {
                                     <MenuItem
                                         key={name.id}
                                         value={name}
-                                        style={getStylesAgency(name, personNameEnter, theme)}
+                                        // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -634,7 +634,7 @@ function UpdateSingleUserData() {
                                     <MenuItem
                                         key={name.id}
                                         value={name}
-                                        style={getStylesAgency(name, personNameEnter, theme)}
+                                        // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -666,7 +666,7 @@ function UpdateSingleUserData() {
                                     <MenuItem
                                         key={name.id}
                                         value={name}
-                                        style={getStylesAgency(name, personNameEnter, theme)}
+                                        // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -698,7 +698,7 @@ function UpdateSingleUserData() {
                                     <MenuItem
                                         key={name.id}
                                         value={name}
-                                        style={getStylesAgency(name, personNameEnter, theme)}
+                                        // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -730,7 +730,7 @@ function UpdateSingleUserData() {
                                     <MenuItem
                                         key={name.id}
                                         value={name}
-                                        style={getStylesAgency(name, personNameEnter, theme)}
+                                        // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.language}
                                     </MenuItem>

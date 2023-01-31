@@ -11,6 +11,8 @@ function Grade() {
     const [description, setDescription] = useState("")
     const [error, setError] = useState(false);
     const [getAgencyData, setGetAgencyData] = useState([])
+    const [activeShow, setActiveShow] = useState(0)
+    const [getAgencyDataFalse, setGetAgencyDataFalse] = useState([])
     // const [currentTime, setCurrentTime] = useState("")
     const activeChange = (e) => {
 
@@ -59,8 +61,24 @@ function Grade() {
     const gradeDataGet = async () => {
         try {
             await axios.get(`${BACKEND_URI}/grades`).then((resp) => {
-                console.log("resp", resp.data);
-                setGetAgencyData(resp.data)
+                let arry = []
+                let arryfalse = []
+                for (var i = 0; i < resp.data.length; i++) {
+                    let statusCheck = resp.data[i].active
+
+                    if (activeShow == 1) {
+
+                        if (statusCheck == "false") {
+                            arryfalse.push(resp.data[i])
+                        }
+                    } else {
+                        if (statusCheck == "true") {
+                            arry.push(resp.data[i])
+                        }
+                    }
+                }
+                setGetAgencyData(arry)
+                setGetAgencyDataFalse(arryfalse)
             })
         } catch (e) {
             console.log("e", e);
@@ -70,19 +88,22 @@ function Grade() {
     // grade data delete 
 
     const gradeDataDelete = async (id) => {
-        console.log(id);
-        await axios.delete(`${BACKEND_URI}/grades_data_delete/${id}`).then((resps) => {
+        setActive(!active)
+        await axios.put(`${BACKEND_URI}/grades_data_delete/${id}`,{active}).then((resps) => {
             console.log("resps", resps);
             if (resps) {
                 gradeDataGet()
             }
         })
     }
+    const activeHandle = (e) => {
+        setActiveShow(e.target.value)
 
+    }
 
     useEffect(() => {
         gradeDataGet()
-    }, [])
+    }, [activeShow])
     return (
         <div className='container'>
             {
@@ -164,9 +185,9 @@ function Grade() {
                             <div className='col-lg-7  '>
                                 <div className='row  d-flex justify-content-lg-end mt-2'>
                                     <div className='col-lg-3 mt-2'>
-                                        <select className="form-select" aria-label="Default select example">
-                                            <option selected>Active</option>
-                                            <option value="1">Inactive</option>
+                                        <select className="form-select" aria-label="Default select example" value={activeShow} onChange={activeHandle}>
+                                            <option value={0}>Active</option>
+                                            <option value={1}>Inactive</option>
                                         </select>
                                     </div>
                                     <div className='col-lg-8 mt-2'>
@@ -196,31 +217,62 @@ function Grade() {
 
                                             </tr>
                                         </thead>
-                                        <tbody className='text-start'>
                                         {
-                                                getAgencyData.length>0 ?    getAgencyData.map((items, index) => {
-                                                        return (
-                                                            <tr key={items._id}>
-                                                                <th scope="row" className='pt-3'>{index + 1}</th>
-                                                                <td className='pt-3'>{items?.title}</td>
-                                                                <td className='pt-3'>{items?.description}</td>
-                                                                <td className='pt-3'>{items?.currentTime}</td>
-                                                                <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
-                                                                <td>
-                                                                    <Link to={`/show_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
-                                                                    <Link to={`/update_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
-                                                                    <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => gradeDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
-
-                                                                </td>
-
-                                                            </tr>
-                                                        )
-                                                    }):
-                                                    (<tr className='text-center'>
-                                                    <td colSpan={6}><h1>No Result Found</h1></td>
-                                                </tr>)
-                                                }
-                                        </tbody>
+                                            activeShow == 1 ? (
+                                                <tbody className='text-start'>
+                                                {
+                                                        getAgencyDataFalse.length>0 ?    getAgencyDataFalse.map((items, index) => {
+                                                                return (
+                                                                    <tr key={items._id}>
+                                                                        <th scope="row" className='pt-3'>{index + 1}</th>
+                                                                        <td className='pt-3'>{items?.title}</td>
+                                                                        <td className='pt-3'>{items?.description}</td>
+                                                                        <td className='pt-3'>{items?.currentTime}</td>
+                                                                        <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
+                                                                        <td>
+                                                                            <Link to={`/show_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/update_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                            <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => gradeDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
+        
+                                                                        </td>
+        
+                                                                    </tr>
+                                                                )
+                                                            }):
+                                                            (<tr className='text-center'>
+                                                            <td colSpan={6}><h1>No Result Found</h1></td>
+                                                        </tr>)
+                                                        }
+                                                </tbody>
+                                            ):(
+                                                <tbody className='text-start'>
+                                                {
+                                                        getAgencyData.length>0 ?    getAgencyData.map((items, index) => {
+                                                                return (
+                                                                    <tr key={items._id}>
+                                                                        <th scope="row" className='pt-3'>{index + 1}</th>
+                                                                        <td className='pt-3'>{items?.title}</td>
+                                                                        <td className='pt-3'>{items?.description}</td>
+                                                                        <td className='pt-3'>{items?.currentTime}</td>
+                                                                        <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
+                                                                        <td>
+                                                                            <Link to={`/show_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/update_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                            <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => gradeDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
+        
+                                                                        </td>
+        
+                                                                    </tr>
+                                                                )
+                                                            }):
+                                                            (<tr className='text-center'>
+                                                            <td colSpan={6}><h1>No Result Found</h1></td>
+                                                        </tr>)
+                                                        }
+                                                </tbody>
+                                            )
+                                        }
+                                       
                                     </table>
                                 </div>
                             </div>

@@ -104,6 +104,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isColor, setIsColor] = useState("Create AR Project")
   const [navColor, isNavColor] = useState("save")
+  const [teacherSelect, setTeacherSelect] = useState("")
   // const { pathname } = useLocation();
   const [editData, setEditData] = useState("");
   let [totalProject, setTotalProject] = useState(0);
@@ -416,7 +417,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
         <Routes>
           <Route exact path='/' element={<Dashboard />} />
           <Route exact path='/user' element={<User />} />
-          <Route exact path="/schedule" element={<Schedule />} />
+          <Route exact path="/schedule" element={<Schedule setTeacherSelect={setTeacherSelect} teacherSelect={teacherSelect} />} />
           <Route exact path='/agencies' element={<Agencies />} />
           <Route exact path="/program" element={<Programs />} />
           <Route exact path='/schools' element={<Schools />} />
@@ -436,7 +437,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
           <Route exact path='/update_single_subject_data/:id' element={<UpdateSingleSubjectData/>}/>
           <Route exact path="/view_single_User_Data/:id" element={<ViewSingleUserData/>}/>
           <Route exact path="/update_single_user_data/:id" element={<UpdateSingleUserData/>}/>
-          <Route exact path="/newschedule" element={<NewSchedule/>}/>
+          <Route exact path="/newschedule" element={<NewSchedule teacherSelect={teacherSelect}/>}/>
         </Routes>
         {/* <Dashboard/> */}
         {/* <Routes>

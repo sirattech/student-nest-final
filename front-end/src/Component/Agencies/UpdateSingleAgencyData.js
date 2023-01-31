@@ -25,7 +25,7 @@ function UpdateSingleAgencyData() {
             console.log("e", e);
         }
     }
-
+console.log("active", active);
     const UpdateData = async () => {
         try {
            

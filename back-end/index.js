@@ -30,9 +30,11 @@ app.get("/agency", async (req, res) => {
 })
 
 // delete Agency data
-app.delete("/ageny_data_delete/:id", async (req, res) => {
+app.put("/ageny_data_delete/:id", async (req, res) => {
     console.log(req.params.id);
-    let result = await Agency.deleteOne({ _id: req.params.id })
+    let result = await Agency.updateOne({ _id: req.params.id },{
+        $set: req.body
+    })
     res.send(result)
 })
 
@@ -75,9 +77,12 @@ app.get("/programs", async (req, res) => {
 })
 
 // delete programs data
-app.delete("/programs_data_delete/:id", async (req, res) => {
+app.put("/programs_data_delete/:id", async (req, res) => {
     console.log(req.params.id);
-    let result = await Programs.deleteOne({ _id: req.params.id })
+    let result = await Programs.updateOne({ _id: req.params.id },
+        {
+            $set: req.body
+        })
     res.send(result)
 })
 
@@ -119,9 +124,12 @@ app.get("/schools", async (req, res) => {
 })
 
 // delete Schools data
-app.delete("/schools_data_delete/:id", async (req, res) => {
+app.put("/schools_data_delete/:id", async (req, res) => {
     console.log(req.params.id);
-    let result = await Schools.deleteOne({ _id: req.params.id })
+    let result = await Schools.updateOne({ _id: req.params.id },
+        {
+            $set: req.body
+        })
     res.send(result)
 })
 
@@ -162,9 +170,12 @@ app.get("/grades", async (req, res) => {
 })
 
 // delete grades data
-app.delete("/grades_data_delete/:id", async (req, res) => {
+app.put("/grades_data_delete/:id", async (req, res) => {
     console.log(req.params.id);
-    let result = await Grades.deleteOne({ _id: req.params.id })
+    let result = await Grades.updateOne({ _id: req.params.id },
+        {
+            $set: req.body
+        })
     res.send(result)
 })
 
@@ -206,9 +217,12 @@ app.get("/subjects", async (req, res) => {
 })
 
 // delete Subjects data
-app.delete("/subjects_data_delete/:id", async (req, res) => {
+app.put("/subjects_data_delete/:id", async (req, res) => {
     console.log(req.params.id);
-    let result = await Subjects.deleteOne({ _id: req.params.id })
+    let result = await Subjects.updateOne({ _id: req.params.id },
+        {
+            $set: req.body
+        })
     res.send(result)
 })
 
@@ -326,7 +340,7 @@ app.post("/schedule", async (req, res) => {
     let scheduless = new Schedule(req.body)
 
     let result = await scheduless.save()
-    // console.log(req.body);
+    
     res.send(result)
 })
 
@@ -337,40 +351,40 @@ app.get("/schedule", async(req,res)=>{
     } else {
         res.send({ result: "No agency Data Found" })
     }
-    // res.send(result)
+    
 })
 
-// app.get("/schedule", async(req,res)=>{
-//     let result = await Schedule.find();
-//     if (result.length) {
-//         res.send(result)
-//     } else {
-//         res.send({ result: "No agency Data Found" })
-//     }
-//     // res.send(result)
-// })
+
 
 
 
 // ................... Schedule google api .................//
 const NewSchedule = require("./Schema/NewScheduleSchema")
 app.post("/schedule_google",cors(), async(req,res)=>{
-    console.log(req.body);
     let new_schedule = new NewSchedule(req.body);
     let result = await new_schedule.save();
-    // console.log(result);
     res.send(result)
 })
 
-app.get("/schedule_googles",cors(), async(req,res)=>{
-
-    let result = await NewSchedule.find({})
-    // console.log(result);
+app.get("/schedule_googles/:id",cors(), async(req,res)=>{
+    let result = await NewSchedule.find({teacherSelect: req.params.id})
     res.send(result)
 })
+ app.put(("/schedule_google/:id"), async(req,res)=>{
+    let result = await NewSchedule.updateOne(
+        { _id: req.body._id },
+        {
+            $set: req.body
+        }
+    )
+    res.send(result);
+ })
 
+app.delete(("/schedule_google/:id"),async(req,res)=>{
+    let result = await NewSchedule.deleteOne({ _id: req.params.id })
+    res.send(result)
 
-
+})
 
 
 

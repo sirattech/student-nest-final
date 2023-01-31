@@ -11,14 +11,13 @@ function Schools() {
     const [description, setDescription] = useState("")
     const [error, setError] = useState(false);
     const [getAgencyData, setGetAgencyData] = useState([])
-
+    const [activeShow, setActiveShow] = useState(0)
+    const [getAgencyDataFalse, setGetAgencyDataFalse] = useState([])
     const activeChange = (e) => {
-
         setActive(!active)
     }
 
     const changeAgenciews = () => {
-
         setStatus(!status)
     }
 
@@ -42,9 +41,9 @@ function Schools() {
                 setTitle("")
                 setDescription('')
                 setStatus(false)
-                if(res.data.active == "true"){
+                if (res.data.active == "true") {
                     setActive(false)
-                   }
+                }
                 schoolDataGet()
             }
             )
@@ -59,8 +58,24 @@ function Schools() {
     const schoolDataGet = async () => {
         try {
             await axios.get(`${BACKEND_URI}/schools`).then((resp) => {
-                console.log("resp", resp.data);
-                setGetAgencyData(resp.data)
+                let arry = []
+                let arryfalse = []
+                for (var i = 0; i < resp.data.length; i++) {
+                    let statusCheck = resp.data[i].active
+
+                    if (activeShow == 1) {
+
+                        if (statusCheck == "false") {
+                            arryfalse.push(resp.data[i])
+                        }
+                    } else {
+                        if (statusCheck == "true") {
+                            arry.push(resp.data[i])
+                        }
+                    }
+                }
+                setGetAgencyData(arry)
+                setGetAgencyDataFalse(arryfalse)
             })
         } catch (e) {
             console.log("e", e);
@@ -70,8 +85,9 @@ function Schools() {
     // school data delete 
 
     const schoolDataDelete = async (id) => {
-        console.log(id);
-        await axios.delete(`${BACKEND_URI}/schools_data_delete/${id}`).then((resps) => {
+        
+        setActive(!active)
+        await axios.put(`${BACKEND_URI}/schools_data_delete/${id}`,{active}).then((resps) => {
             console.log("resps", resps);
             if (resps) {
                 schoolDataGet()
@@ -79,10 +95,13 @@ function Schools() {
         })
     }
 
+    const activeHandle = (e) => {
+        setActiveShow(e.target.value)
 
+    }
     useEffect(() => {
         schoolDataGet()
-    }, [])
+    }, [activeShow])
 
 
 
@@ -168,9 +187,9 @@ function Schools() {
                             <div className='col-lg-7  '>
                                 <div className='row  d-flex justify-content-lg-end mt-2'>
                                     <div className='col-lg-3 mt-2'>
-                                        <select className="form-select" aria-label="Default select example">
-                                            <option selected>Active</option>
-                                            <option value="1">Inactive</option>
+                                        <select className="form-select" aria-label="Default select example" value={activeShow} onChange={activeHandle}>
+                                            <option value={0}>Active</option>
+                                            <option value={1}>Inactive</option>
                                         </select>
                                     </div>
                                     <div className='col-lg-8 mt-2'>
@@ -200,31 +219,62 @@ function Schools() {
 
                                             </tr>
                                         </thead>
-                                        <tbody className='text-start '>
                                         {
-                                                getAgencyData.length>0 ?    getAgencyData.map((items, index) => {
-                                                        return (
-                                                            <tr key={items._id}  >
-                                                                <th scope="row" className='pt-3'>{index + 1}</th>
-                                                                <td className='pt-3'>{items?.title}</td>
-                                                                <td className='pt-3'>{items?.description}</td>
-                                                                <td className='pt-3'>{items?.currentTime}</td>
-                                                                <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
-                                                                <td className='pt-2'>
-                                                                    <Link to={`/show_single_school_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
-                                                                    <Link to={`/update_single_school_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
-                                                                    <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => schoolDataDelete(items._id)}><i class="fa-solid fa-xmark " style={{ color: "white" }}></i></button>
+                                            activeShow == 1 ? (
+                                                <tbody className='text-start '>
+                                                    {
+                                                        getAgencyDataFalse.length > 0 ? getAgencyDataFalse.map((items, index) => {
+                                                            return (
+                                                                <tr key={items._id}  >
+                                                                    <th scope="row" className='pt-3'>{index + 1}</th>
+                                                                    <td className='pt-3'>{items?.title}</td>
+                                                                    <td className='pt-3'>{items?.description}</td>
+                                                                    <td className='pt-3'>{items?.currentTime}</td>
+                                                                    <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
+                                                                    <td className='pt-2'>
+                                                                        <Link to={`/show_single_school_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                        <Link to={`/update_single_school_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                        <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => schoolDataDelete(items._id)}><i class="fa-solid fa-xmark " style={{ color: "white" }}></i></button>
 
-                                                                </td>
+                                                                    </td>
 
-                                                            </tr>
-                                                        )
-                                                    }):
-                                                    (<tr className='text-center'>
-                                                    <td colSpan={6}><h1>No Result Found</h1></td>
-                                                </tr>)
-                                                }
-                                        </tbody>
+                                                                </tr>
+                                                            )
+                                                        }) :
+                                                            (<tr className='text-center'>
+                                                                <td colSpan={6}><h1>No Result Found</h1></td>
+                                                            </tr>)
+                                                    }
+                                                </tbody>
+                                            ) : (
+                                                <tbody className='text-start '>
+                                                    {
+                                                        getAgencyData.length > 0 ? getAgencyData.map((items, index) => {
+                                                            return (
+                                                                <tr key={items._id}  >
+                                                                    <th scope="row" className='pt-3'>{index + 1}</th>
+                                                                    <td className='pt-3'>{items?.title}</td>
+                                                                    <td className='pt-3'>{items?.description}</td>
+                                                                    <td className='pt-3'>{items?.currentTime}</td>
+                                                                    <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
+                                                                    <td className='pt-2'>
+                                                                        <Link to={`/show_single_school_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                        <Link to={`/update_single_school_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                        <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => schoolDataDelete(items._id)}><i class="fa-solid fa-xmark " style={{ color: "white" }}></i></button>
+
+                                                                    </td>
+
+                                                                </tr>
+                                                            )
+                                                        }) :
+                                                            (<tr className='text-center'>
+                                                                <td colSpan={6}><h1>No Result Found</h1></td>
+                                                            </tr>)
+                                                    }
+                                                </tbody>
+                                            )
+                                        }
+
                                     </table>
                                 </div>
                             </div>

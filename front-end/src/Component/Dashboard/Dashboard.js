@@ -1,6 +1,55 @@
-import React from 'react'
-import "./Dashboard.css"
+import React, { useEffect, useState } from 'react';
+import "./Dashboard.css";
+import { BACKEND_URI } from "../../config/config"
+import axios from 'axios';
 function Dashboard() {
+
+    const [teacher,setTeacher] = useState(0)
+    const [student,setStudent] = useState(0)
+    const [developer,setDeveloper] = useState(0)
+    const [manager,setManager] = useState(0);
+    const [employee,setEmployee] = useState(0);
+    const getData = async()=>{
+        try{
+            await axios.get(`${BACKEND_URI}/User_Data`).then((resdata)=>{
+                let teacherarry = []
+                let studentarry = []
+                let developerarry = []
+                let managerArry = [];
+                let employeeArry = [];
+                for(var i = 0;  i<= resdata.data.length;i++){
+                    if(resdata?.data[i]?.role == "Teacher"){
+                        let teacherData = resdata?.data[i]
+                        teacherarry.push(teacherData);
+                    }else if(resdata?.data[i]?.role == "Student"){
+                        let studentData = resdata?.data[i]
+                        studentarry.push(studentData)
+                    } else if(resdata?.data[i]?.role == "Developer"){
+                        let developerData = resdata?.data[i]
+                        developerarry.push(developerData)
+                    } else if(resdata?.data[i]?.role == "Manager"){
+                        let managerData = resdata?.data[i];
+                        managerArry.push(managerData)
+                    } else if(resdata?.data[i]?.role == "Employee"){
+                        let employeeData = resdata?.data[i];
+                        employeeArry.push(employeeData)
+                    }
+                }
+                // console.log();
+                setStudent(studentarry.length)
+                setTeacher(teacherarry.length)
+                setDeveloper(developerarry.length)
+                setManager(managerArry.length)
+                setEmployee(employeeArry.length)
+              })
+        }catch(e){
+            console.log("e", e);
+        }
+    }
+
+    useEffect(()=>{
+        getData()
+    },[])
     return (
         <div >
             <div className='container' >
@@ -11,7 +60,7 @@ function Dashboard() {
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
-                                0
+                                {student}
                             </span><br/>
                             <span className='Order-span'>Total Student</span>
                         </div>
@@ -23,9 +72,9 @@ function Dashboard() {
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
-                                0
+                                {teacher}
                             </span><br/>
-                            <span className='Order-span'>Total Student</span>
+                            <span className='Order-span'>Total Teachers</span>
                         </div>
 
                     </div>
@@ -35,9 +84,9 @@ function Dashboard() {
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
-                                0
+                                {developer}
                             </span><br/>
-                            <span className='Order-span'>Total Student</span>
+                            <span className='Order-span'>Total Developer</span>
                         </div>
 
                     </div>
@@ -48,9 +97,9 @@ function Dashboard() {
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
-                                0
+                                {manager}
                             </span><br/>
-                            <span className='Order-span'>Total Student</span>
+                            <span className='Order-span'>Total Managers</span>
                         </div>
 
                     </div>
@@ -60,9 +109,9 @@ function Dashboard() {
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
-                                0
+                                {employee}
                             </span><br/>
-                            <span className='Order-span'>Total Student</span>
+                            <span className='Order-span'>Total Employee</span>
                         </div>
 
                     </div>
