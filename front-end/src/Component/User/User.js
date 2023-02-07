@@ -584,7 +584,7 @@ function User() {
         getUserAllDatas();
       });
   };
-  console.log(activeStatus);
+  // console.log(activeStatus);
 
   useEffect(() => {
     allApiData();

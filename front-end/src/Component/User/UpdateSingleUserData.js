@@ -232,13 +232,10 @@ function UpdateSingleUserData() {
         setTimeZoneOpen(true);
     };
     const handleChangeAgency = (event) => {
-        // console.log("dataagency", {[event.target.getAttribute('data-value')]: event.target.value});
-        
         const {
             target: { value },
         } = event;
         setPersonNameEnter(
-            // [...personNameEnter, typeof value === 'string' ? value.split(',') : value,]
             typeof value === 'string' ? value.split(',') : value
         );
     };
@@ -249,7 +246,6 @@ function UpdateSingleUserData() {
             target: { value },
         } = event;
         setSelectProgramEnter(
-            // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
@@ -259,7 +255,6 @@ function UpdateSingleUserData() {
             target: { value },
         } = event;
         setSelectSchoolEnter(
-            // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
@@ -269,7 +264,6 @@ function UpdateSingleUserData() {
             target: { value },
         } = event;
         setSelectGradesEnter(
-            // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
@@ -279,7 +273,6 @@ function UpdateSingleUserData() {
             target: { value },
         } = event;
         setSelectSubjectsEnter(
-            // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
@@ -289,7 +282,6 @@ function UpdateSingleUserData() {
             target: { value },
         } = event;
         setSelectLanguagesEnter(
-            // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
@@ -308,7 +300,6 @@ function UpdateSingleUserData() {
     const allApiData = async () => {
         try {
             await axios.get(`${BACKEND_URI}/agency`).then((agencyRes) => {
-                // console.log("agencyRes", agencyRes.data);
                 setAgencyData(agencyRes.data)
                 let agenciesData = []
                 let agencydata = agencyRes.data;
@@ -320,30 +311,23 @@ function UpdateSingleUserData() {
                     }
 
                 })
-// console.log("agenciesData", agenciesData);
             })
             await axios.get(`${BACKEND_URI}/programs`).then((programsRes) => {
-                // console.log("programsRes", programsRes.data);
                 setProgramData(programsRes.data);
             })
             await axios.get(`${BACKEND_URI}/schools`).then((schoolsRes) => {
-                // console.log("schoolsRes", schoolsRes.data);
                 setSchoolData(schoolsRes.data)
             })
             await axios.get(`${BACKEND_URI}/grades`).then((gradesRes) => {
-                // console.log("gradesRes", gradesRes.data);
                 setGradeData(gradesRes.data)
             })
             await axios.get(`${BACKEND_URI}/subjects`).then((subjectsRes) => {
-                // console.log("subjectsRes", subjectsRes.data);
                 setSubjectData(subjectsRes.data)
             })
             await axios.get(`${BACKEND_URI}/timezone`).then((timezoneres) => {
-                // console.log("timezoneres", timezoneres.data);
                 setTimeZoneGet(timezoneres.data)
             })
             await axios.get(`${BACKEND_URI}/language`).then((languageRes) => {
-                //   console.log("languageRes", languageRes.data);
                 setLanguageGet(languageRes.data)
             })
         } catch (e) {
@@ -354,9 +338,7 @@ function UpdateSingleUserData() {
     const showSingleApiData = async () => {
         try {
             let userIds ;
-            await axios.get(`${BACKEND_URI}/user_single_data_find/${params.id}`).then((showRes) => {
-
-                
+            await axios.get(`${BACKEND_URI}/user_single_data_find/${params.id}`).then((showRes) => {                
                 let agencyarr = []
                 console.log("showRes", showRes.data._id);
                 setFirstName(showRes.data.firstName);
@@ -383,7 +365,6 @@ function UpdateSingleUserData() {
                 agencyData.map((agencydataaaa) => {
                     agencyarr.push(agencydataaaa)
                     console.log("agencydataaaa", agencydataaaa._id);
-                    // setAgencyPerNameSingle(agencydataaaa._id)
                     let textcheck = agencydataaaa
                     agencyarr.push(textcheck)
 
@@ -391,40 +372,30 @@ function UpdateSingleUserData() {
                         {agencyarr}
                     )
                 })
-                // let time = showRes?.data?.timeZone
-                // time.map((timesss) => {
-                //     // return 
-                //     console.log("timesss", timesss.timezone);
-                //     setTimeZone(timesss.timezone)
-                // })
-                // setTimeZone(timezone)
+               
             })
             let scheduleApi = await axios.get(`${BACKEND_URI}/schedule`)
 
             for(let i = 0; i <scheduleApi.data.length;i++ ){
-                
-                // if()
                 if(scheduleApi.data[i].ids == userIds){
+                    console.log("scheduleApi", scheduleApi.data[i]);
                     let value = scheduleApi.data[i].mondayStartTime;
-                    // value =  value && value.format('HH:mm')
                     console.log("scheduleApi", value);
                     setScheduleId(scheduleApi.data[i]._id);
                     setMondayStartTime(value)
                 }
             }
 
+
+    //  await axios.get(`${BACKEND_URI}/schedule`).then((schedule)=>{
+    //     console.log("schedule", schedule);
+    //  })
+
         } catch (e) {
             console.log("e", e);
         }
     }
-    console.log("peragencyName", personNameEnter);
-
-    //  let montime = mondayStartTime._i
-    // console.log("scheduleId", personNameEnter.map((items)=>{
-    //     console.log("items",items.title);
-    //     setPerName(typeof items.title === 'string' ? items.title.split(',') : items.title,)
-    // }));
-
+    // console.log("timeStatus", timeStatus);
     const updateUserData = async () => {
         try {
             await axios.put(`${BACKEND_URI}/user_single_data_Update/${params.id}`, {
@@ -741,7 +712,8 @@ function UpdateSingleUserData() {
                 </div>
 
                 {
-                    timeStatus == "true" ? (
+                    
+                    timeStatus !== true ? (
                         <div className='col-lg-10  text-start'>
                             <label htmlFor="exampleFormControlInput1" className="form-label mt-2">Schedule</label>
                             <div className='row  d-flex justify-content-center'>

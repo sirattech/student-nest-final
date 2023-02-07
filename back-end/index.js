@@ -4,7 +4,12 @@ const cors = require('cors')
 require("./config/config")
 app.use(express.json())
 app.use(cors())
-
+const https = require('https');
+var fs = require('fs')
+// const options = {
+//     key: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/privkey.pem'),
+//     cert: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/fullchain.pem')
+// };
 
 
 
@@ -340,7 +345,7 @@ app.post("/schedule", async (req, res) => {
     let scheduless = new Schedule(req.body)
 
     let result = await scheduless.save()
-    
+    console.log(result);
     res.send(result)
 })
 
@@ -361,8 +366,10 @@ app.get("/schedule", async(req,res)=>{
 // ................... Schedule google api .................//
 const NewSchedule = require("./Schema/NewScheduleSchema")
 app.post("/schedule_google",cors(), async(req,res)=>{
+    console.log(req.body);
     let new_schedule = new NewSchedule(req.body);
     let result = await new_schedule.save();
+    console.log(result);
     res.send(result)
 })
 
@@ -401,6 +408,13 @@ app.get("/", (req, res) => {
         console.error("error while get method", error);
     }
 });
+
+
+// const port = process.env.PORT || 8000
+// https.createServer(options, app).listen(port, () => {
+//     console.log(`Server Running at ${port}`)
+// });
+
 
 const port = process.env.PORT || 8000
 app.listen(port, () => {

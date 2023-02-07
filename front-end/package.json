@@ -2,7 +2,7 @@
   "name": "studentnext",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://studentnest.org/client",
+  "homepage": "https://rktutoring.com",
   "dependencies": {
     "@devextreme/runtime": "^3.0.11",
     "@emotion/react": "^11.10.5",
@@ -42,6 +42,7 @@
     "react-bootstrap": "^2.7.0",
     "react-css-transition-replace": "^4.0.5",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
