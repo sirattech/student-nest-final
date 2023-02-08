@@ -321,6 +321,26 @@ app.put("/user_Single_Data_Delete/:id", async (req, res) => {
     res.send(result);
 })
 
+app.get("/User_Data_Filter/:key", async (req, res) => {
+    let personNameEnters = "personNameEnter.title";
+    let selectProgramsEnters = "selectProgramsEnter.title";
+    let selectSchoolsEnters = "selectSchoolsEnter.title";
+    let selectGradesEnters = "selectGradesEnter.title";
+    let selectSubjectsEnters = "selectSubjectsEnter.title";
+    let selectLanguagesEnters = "selectLanguagesEnter.title"
+    let result = await UserData.findmul({
+        "$or" : [
+            {personNameEnters: [{ $regex: req.params.key }]},
+            {selectProgramsEnters: [{ $regex: req.params.key }]},
+            {selectSchoolsEnters: [{ $regex: req.params.key }]},
+            {selectGradesEnters: [{ $regex: req.params.key }]},
+            {selectSubjectsEnters: [{ $regex: req.params.key }]},
+            {selectLanguagesEnters: [{ $regex: req.params.key }]},
+        ]
+    })
+    console.log("req", result );
+    res.send(result )
+})
 // Find user Single data
 app.get("/user_single_data_find/:id", async(req,res)=>{
     let result = await UserData.findOne({_id: req.params.id})
@@ -386,7 +406,13 @@ app.get("/schedule_googles/:id",cors(), async(req,res)=>{
     )
     res.send(result);
  })
-
+app.get("/schedule_googles_Data" ,cors(), async(req,res)=>{
+    // let result = await NewSchedule.find()
+    let teacherId = "teacherSelect"
+    const distinctValues = await NewSchedule.distinct(teacherId);
+    // console.log(distinctValues);
+    res.send(distinctValues)
+})
 app.delete(("/schedule_google/:id"),async(req,res)=>{
     let result = await NewSchedule.deleteOne({ _id: req.params.id })
     res.send(result)

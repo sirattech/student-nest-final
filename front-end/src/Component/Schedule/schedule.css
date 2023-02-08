@@ -89,3 +89,24 @@
       background-color: transparent;
     }
   }
+
+
+
+
+  .rc-time-picker-input {
+    width: 315px !important;
+    position: relative;
+    display: inline-block;
+    padding: 27px 7px;
+    height: 28px;
+    cursor: text;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #666;
+    background-color: #F5F5F5;
+    background-image: none;
+    border: 1px solid #a9a8a8;
+    border-radius: 4px;
+    -webkit-transition: border 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), background 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), box-shadow 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: border 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), background 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), box-shadow 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }

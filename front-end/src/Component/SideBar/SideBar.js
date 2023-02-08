@@ -108,7 +108,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
   // const { pathname } = useLocation();
   const [editData, setEditData] = useState("");
   let [totalProject, setTotalProject] = useState(0);
-
+  let [sessionData,setSessionData] = useState()
   // let auth = localStorage.getItem("webar")
 
   // let auths = JSON.parse(auth)
@@ -415,9 +415,9 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
       >
         <Toolbar />
         <Routes>
-          <Route exact path='/' element={<Dashboard />} />
+          <Route exact path='/' element={<Dashboard sessionData={sessionData}/>} />
           <Route exact path='/user' element={<User />} />
-          <Route exact path="/schedule" element={<Schedule setTeacherSelect={setTeacherSelect} teacherSelect={teacherSelect} />} />
+          <Route exact path="/schedule" element={<Schedule setTeacherSelect={setTeacherSelect} teacherSelect={teacherSelect} setSessionData={setSessionData} sessionData={sessionData}  />} />
           <Route exact path='/agencies' element={<Agencies />} />
           <Route exact path="/program" element={<Programs />} />
           <Route exact path='/schools' element={<Schools />} />

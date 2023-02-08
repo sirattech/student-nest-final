@@ -14,6 +14,7 @@ import TimeCell from './TimeCell.js';
 import List from 'devextreme-react/list';
 import CustomStore from 'devextreme/data/custom_store';
 import { BACKEND_URI } from "../../config/config";
+import { Menu } from 'devextreme-react/menu';
 import 'whatwg-fetch';
 const currentDate = new Date();
 const views = ['week', 'month'];
@@ -149,11 +150,19 @@ function NewSchedule() {
     renderDataCell()
   }, [])
 
+//  const itemClick = (e) => {
+//     const { itemData, itemElement, itemIndex } = e;
+//     console.log("itemData", itemData);
+    
+// }
 
 
   return (
     <>
     <br/>
+    {/* <Menu 
+                onItemClick={itemClick}
+            /> */}
     <div className='d-flex align-items-center'>
     <h5>Teacher Name:</h5> &nbsp;&nbsp;
     <h6>{`${teacherName.firstName} ${teacherName.lastName}`}</h6>

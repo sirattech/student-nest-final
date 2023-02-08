@@ -165,6 +165,8 @@ function User() {
   const [activeStatus, setActiveStatus] = useState(true);
   const [activeShow, setActiveShow] = useState(0);
   const [getAgencyDataFalse, setGetAgencyDataFalse] = useState([]);
+  const [userActive, setUserActive] = useState(0)
+  const [userInactive,setUserInactive] = useState(0)
   // ...........Show Password functon ....................//
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -558,7 +560,9 @@ function User() {
           }
         }
         // setGetAgencyData(arry)
+        setUserActive(arryfalse.length)
         setGetAgencyDataFalse(arryfalse);
+        setUserInactive(arry.length)
         setUserAllData(arry);
       });
     } catch (e) {
@@ -2725,7 +2729,7 @@ function User() {
           </div>
 
           <div className="row " style={{ background: "white" }}>
-            <p className="text-start mt-3">Total Users: 195</p>
+            <p className="text-start mt-3">Total Users: {activeShow == 1 ? <span>{userActive}</span>: <span>{userInactive}</span>}</p>
             {/* <Table/> */}
             <div className="col-lg-12 table-responsive">
               <table className="table table-bordered table-striped table-hover">

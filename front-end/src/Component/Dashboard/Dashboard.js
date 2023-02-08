@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./Dashboard.css";
 import { BACKEND_URI } from "../../config/config"
 import axios from 'axios';
-function Dashboard() {
+function Dashboard({sessionData}) {
 
     const [teacher,setTeacher] = useState(0)
     const [student,setStudent] = useState(0)
@@ -84,9 +84,9 @@ function Dashboard() {
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
-                                {developer}
+                                {sessionData}
                             </span><br/>
-                            <span className='Order-span'>Total Developer</span>
+                            <span className='Order-span'>Total Sessions</span>
                         </div>
 
                     </div>
