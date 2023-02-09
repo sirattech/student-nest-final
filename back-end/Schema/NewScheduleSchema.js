@@ -21,7 +21,10 @@ let NewSchedule = new mongoose.Schema({
         startDate: String,
         EndDate: String,
         teacherSelect: String,
-        recurrenceRule: String
+        recurrenceRule: String,
+        day: String,
+        startTime:String,
+        endTIme:String,
     // }
 })
 

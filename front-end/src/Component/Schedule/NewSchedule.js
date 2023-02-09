@@ -15,12 +15,13 @@ import List from 'devextreme-react/list';
 import CustomStore from 'devextreme/data/custom_store';
 import { BACKEND_URI } from "../../config/config";
 import { Menu } from 'devextreme-react/menu';
+import { format } from 'date-fns'
 import 'whatwg-fetch';
 const currentDate = new Date();
 const views = ['week', 'month'];
 
 const notifyDisableDate = () => {
-  notify('Cannot create or move an appointment/event to disabled time/date regions.', 'warning', 1000);
+  notify('User is not available this Time', 'warning', 2000);
 };
 
 function NewSchedule() {
@@ -40,7 +41,11 @@ function NewSchedule() {
       return fetch(`${BACKEND_URI}/schedule_googles/${teacherSelect}`).then(response => response.json()).catch(() => { throw 'Network error' })
     },
     insert: (values) => {
-      console.log("values", values);
+      let data = new Date(values.startDate)
+      const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      let startTime = format(new Date(values.startDate), 'kk:mm');
+      let endTIme = format(new Date(values.EndDate), 'kk:mm')
+     let  day = weekday[data.getDay()]
       let text = values.text;
       let startDate = values.startDate;
       let EndDate = values.EndDate;
@@ -54,7 +59,10 @@ function NewSchedule() {
         description,
         recurrenceRule,
         teacherSelect,
-        text
+        text,
+        day,
+        startTime,
+        endTIme
       }
       return fetch(`${BACKEND_URI}/schedule_google`, {
         method: 'POST',
@@ -65,7 +73,6 @@ function NewSchedule() {
       })
         .then(handleErrors)
         .then(response => {
-          // console.log(response);
           response.json()
         })
         .catch(() => { throw 'Network error' });

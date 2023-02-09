@@ -161,7 +161,7 @@ function User() {
   const [address, setAddress] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [dataError, setDataError] = useState(false);
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
   const [activeStatus, setActiveStatus] = useState(true);
   const [activeShow, setActiveShow] = useState(0);
   const [getAgencyDataFalse, setGetAgencyDataFalse] = useState([]);
@@ -478,9 +478,6 @@ function User() {
         setPasswordError(true);
         return false;
       }
-
-      let statusCheck;
-      let ids;
       await axios
         .post(`${BACKEND_URI}/User_Data`, {
           role,
@@ -501,22 +498,7 @@ function User() {
           password,
           active,
           activeStatus,
-        })
-        .then((userRes) => {
-          console.log("userRes", userRes.data);
-          statusCheck = userRes.data.active;
-          ids = userRes.data._id;
-          setStatus(false);
-          getUserAllDatas();
-        });
-      console.log("statusCheck", statusCheck);
-      console.log("ids", ids);
-
-      if (statusCheck == "true") {
-        axios
-          .post(`${BACKEND_URI}/schedule`, {
-            ids,
-            mondayStartTime,
+          mondayStartTime,
             mondayEndTime,
             tuesdayStartTime,
             tuesdayEndTime,
@@ -530,11 +512,16 @@ function User() {
             saturdayEndTime,
             sundayStartTime,
             sundayEndTime,
-          })
-          .then((scheduleRes) => {
-            console.log("scheduleRes", scheduleRes);
-          });
-      }
+        })
+        .then((userRes) => {
+          console.log("userRes", userRes.data);
+          // statusCheck = userRes.data.active;
+          // ids = userRes.data._id;
+          // setRole("")
+          setStatus(false);
+          getUserAllDatas();
+        });
+      
     } catch (e) {
       console.log("e", e);
     }
@@ -695,34 +682,6 @@ function User() {
                   </div>
                 </div>
                 <div className="col-lg-10  ">
-                  <div className="mb-3 d-flex align-items-center">
-                    <div className="col-md-2 text-start d-flex">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label mt-2"
-                      >
-                        Schedule
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        id="checkbox"
-                        type="checkbox"
-                        className="checkboxoff "
-                        value={active}
-                        onChange={(e) => setActive(!active)}
-                      />
-
-                      <label for="checkbox" className="switchoff">
-                        <span className="switch__circleoff">
-                          <span className="switch__circle-inneroff"></span>
-                        </span>
-                        <span className="switch__leftoff">Off</span>
-                        <span className="switch__rightoff">On</span>
-                      </label>
-                    </div>
-                  </div>
-
                   {active ? (
                     <div className="row  d-flex justify-content-center">
                       <div className="col-lg-9 box-col d-flex align-items-center justify-content-around">
@@ -1627,34 +1586,7 @@ function User() {
                   </div>
                 </div>
                 <div className="col-lg-10  ">
-                  <div className="mb-3 d-flex align-items-center">
-                    <div className="col-md-2 text-start d-flex">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label mt-2"
-                      >
-                        Schedule
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        id="checkbox"
-                        type="checkbox"
-                        className="checkboxoff "
-                        value={active}
-                        onChange={(e) => setActive(!active)}
-                      />
-
-                      <label for="checkbox" className="switchoff">
-                        <span className="switch__circleoff">
-                          <span className="switch__circle-inneroff"></span>
-                        </span>
-                        <span className="switch__leftoff">Off</span>
-                        <span className="switch__rightoff">On</span>
-                      </label>
-                    </div>
-                  </div>
-
+                
                   {active ? (
                     <div className="row  d-flex justify-content-center">
                       <div className="col-lg-9 box-col d-flex align-items-center justify-content-around">

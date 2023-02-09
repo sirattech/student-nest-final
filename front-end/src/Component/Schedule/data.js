@@ -11,10 +11,10 @@ console.log("mydata", getTime() );
 export const dinnerTime =  getTime();
  function getTime (){ 
     try{
-     axios.get(`${BACKEND_URI}/schedule`).then((res)=>{
+     axios.get(`${BACKEND_URI}/User_Data`).then((res)=>{
         res.data.forEach((element) => {
             //  console.log("keys",element);
-            if(element.ids===teacherSelect){
+            if(element._id===teacherSelect){
                 // console.log("keys",element);
                 let start_time0 = element.sundayStartTime;
                 let end_time0 =  element.sundayEndTime;

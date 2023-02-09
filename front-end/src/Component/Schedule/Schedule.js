@@ -214,9 +214,9 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
       let teacherSelectssss = JSON.parse(localStorage.getItem("teacherSelect"));
       // console.log("teacherSelectssss", teacherSelectssss);
       // teacherSelect("")
-      await axios.get(`${BACKEND_URI}/schedule`).then((resss) => {
+      await axios.get(`${BACKEND_URI}/User_Data`).then((resss) => {
         resss.data.forEach((element) => {
-          if (teacherSelectssss == element.ids) {
+          if (teacherSelectssss == element._id) {
             teacherId.forEach((text) => {
               if (teacherSelectssss == text._id) {
                 console.log("element.ids", text);
@@ -312,24 +312,17 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
       let arr = [];
       let arryData = [];
       newscheduledata.data.forEach((element) => {
+        console.log("element", element);
         UserData.data.forEach((dataElement) => {
           if (element == dataElement._id) {
-            let idsss = dataElement._id;
-            resSchedule.data.forEach((scheduleElement) => {
-              if (idsss === scheduleElement.ids) {
-                let startTime = dataElement.firstName;
-                let endTime = dataElement.lastName;
-                // console.log("scheduleElement.length", scheduleElement);
-                arr.push({ scheduleElement, startTime, endTime });
-              }
-            });
+            console.log("dataElement", dataElement);
+            arr.push( dataElement);
+           
           }
         });
       });
-      // console.log("arr", arr.length);
       setSessionData(arr.length)
       setScheduleTableData(arr);
-      setscheduleTable(arryData);
     } catch (e) {
       console.log("e", e);
     }
@@ -337,20 +330,22 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
   
   const filterData = async()=>{
     try{
-      // console.log("personName", personName);
-      // console.log("selectPrograms", selectPrograms);
-      // console.log("selectLanguages", selectLanguages);
-      // console.log("selectSchools", selectSchools);
-      // console.log("selectGrades", selectGrades);
-      // console.log("selectSubjects", selectSubjects);
-      // console.log("age", age);
-      // console.log("mondayStartTime", mondayStartTime);
-      // console.log("mondayEndTime", mondayEndTime);
-      let keys = [personName,selectPrograms,selectLanguages,selectSchools,selectGrades, selectSubjects] 
-      // console.log("keys", keys);
-      await axios.get(`${BACKEND_URI}/User_Data_Filter/${keys}`).then((filtersss)=>{
-        console.log("filtersss", filtersss);
-      })
+      // let resSchedule = await axios.get(`${BACKEND_URI}/User_Data`);
+      // console.log("resSchedule", resSchedule.data);
+     await axios.get(`${BACKEND_URI}/User_Data_Filter/personName=${personName}&selectPrograms=${selectPrograms}&selectLanguages=${selectLanguages}&selectSchools=${selectSchools}&selectGrades=${selectGrades}&selectSubjects=${selectSubjects}&Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}`).then((filtersss)=>{
+       console.log("filtersss", filtersss?.data);
+      //  filtersss?.data.forEach((userAAA)=>{
+      //     console.log("userAAA", userAAA);
+      //     resSchedule.data.forEach(())
+       })
+
+
+    // })
+
+      // let newscheduledata = await axios.get(
+      //   `${BACKEND_URI}/schedule_googles_Data`
+      // );
+      // console.log("newscheduledata", newscheduledata);
     }catch(e){
       console.log("e", e);
     }
@@ -677,14 +672,14 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
                     return (
                       <tr key={index}>
                         <td>{index}</td>
-                        <td>{`${item.startTime} ${item.endTime}`}</td>
-                        <td>{`${item.scheduleElement.mondayStartTime} - ${item.scheduleElement.mondayEndTime}`}</td>
-                        <td>{`${item.scheduleElement.tuesdayStartTime} - ${item.scheduleElement.tuesdayEndTime}`}</td>
-                        <td>{`${item.scheduleElement.wednesdayStartTime} - ${item.scheduleElement.wednesdayEndTime}`}</td>
-                        <td>{`${item.scheduleElement.thursdayStartTime} - ${item.scheduleElement.thursdayEndTime}`}</td>
-                        <td>{`${item.scheduleElement.fridayStartTime} - ${item.scheduleElement.fridayEndTime}`}</td>
-                        <td>{`${item.scheduleElement.saturdayStartTime} - ${item.scheduleElement.saturdayEndTime}`}</td>
-                        <td>{`${item.scheduleElement.sundayStartTime} - ${item.scheduleElement.sundayEndTime}`}</td>
+                        <td>{`${item.firstName} ${item.lastName}`}</td>
+                        <td>{`${item.mondayStartTime} - ${item.mondayEndTime}`}</td>
+                        <td>{`${item.tuesdayStartTime} - ${item.tuesdayEndTime}`}</td>
+                        <td>{`${item.wednesdayStartTime} - ${item.wednesdayEndTime}`}</td>
+                        <td>{`${item.thursdayStartTime} - ${item.thursdayEndTime}`}</td>
+                        <td>{`${item.fridayStartTime} - ${item.fridayEndTime}`}</td>
+                        <td>{`${item.saturdayStartTime} - ${item.saturdayEndTime}`}</td>
+                        <td>{`${item.sundayStartTime} - ${item.sundayEndTime}`}</td>
                         <td>
                           {/* <Link
                                 to={`/view_single_User_Data/${items._id}`}
@@ -732,7 +727,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
                   })
                 ) : (
                   <tr>
-                    <td>No Data</td>
+                    <td colspan="10" className="text-center fs-4">No Data</td>
                   </tr>
                 )}
               </tbody>

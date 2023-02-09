@@ -46,7 +46,7 @@ let UserData = new mongoose.Schema({
     selectLanguagesEnter: [
         {
             _id : String,
-            title: String,
+            language: String,
             active: String,
         }
     ],
@@ -58,9 +58,22 @@ let UserData = new mongoose.Schema({
     mobileNumber: String,
     address: String,
     password: String,
-    // reTypePassword: String,
     active: String,
-    activeStatus: String
+    activeStatus: String,
+    mondayStartTime: String,
+    mondayEndTime: String,
+    tuesdayStartTime: String,
+    tuesdayEndTime: String,
+    wednesdayStartTime: String,
+    wednesdayEndTime: String,
+    thursdayStartTime: String,
+    thursdayEndTime: String,
+    fridayStartTime: String,
+    fridayEndTime: String,
+    saturdayStartTime: String,
+    saturdayEndTime: String,
+    sundayStartTime: String,
+    sundayEndTime: String
 })
 
 

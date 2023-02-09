@@ -17,6 +17,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
+    "date-fns": "^2.29.3",
     "devexpress-diagram": "^2.1.65",
     "devexpress-gantt": "^4.1.37",
     "devextreme": "22.2.3",

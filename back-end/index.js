@@ -322,24 +322,60 @@ app.put("/user_Single_Data_Delete/:id", async (req, res) => {
 })
 
 app.get("/User_Data_Filter/:key", async (req, res) => {
+    let data = req.params.key
+    console.log("data", data);
+    let query= new URLSearchParams(data);
+    let personName = query.get("personName")
+    personName = personName.split(",");
+    // console.log("personName", personName);
+    let selectPrograms = query.get("selectPrograms")
+    selectPrograms = selectPrograms.split(",");
+    // console.log("selectPrograms", selectPrograms);
+    let selectLanguages = query.get("selectLanguages")
+    selectLanguages = selectLanguages.split(",");
+    // console.log("selectLanguages", selectLanguages);
+    let selectSchools = query.get("selectSchools");
+    selectSchools = selectSchools.split(",")
+    // console.log("selectSchools", selectSchools);
+    let selectGrades = query.get("selectGrades");
+    selectGrades = selectGrades.split(",");
+    // console.log("selectGrades", selectGrades);
+    let selectSubjects = query.get("selectSubjects")
+    selectSubjects = selectSubjects.split(",")
+    let day = query.get("Day")
+    console.log("day", day);
+    let startTime = query.get("StartTime")
+    console.log("startTime", startTime);
+    let endTime = query.get("EndTime")
+    console.log("endTime", endTime);
+
+
+
     let personNameEnters = "personNameEnter.title";
     let selectProgramsEnters = "selectProgramsEnter.title";
     let selectSchoolsEnters = "selectSchoolsEnter.title";
     let selectGradesEnters = "selectGradesEnter.title";
     let selectSubjectsEnters = "selectSubjectsEnter.title";
     let selectLanguagesEnters = "selectLanguagesEnter.title"
-    let result = await UserData.findmul({
-        "$or" : [
-            {personNameEnters: [{ $regex: req.params.key }]},
-            {selectProgramsEnters: [{ $regex: req.params.key }]},
-            {selectSchoolsEnters: [{ $regex: req.params.key }]},
-            {selectGradesEnters: [{ $regex: req.params.key }]},
-            {selectSubjectsEnters: [{ $regex: req.params.key }]},
-            {selectLanguagesEnters: [{ $regex: req.params.key }]},
-        ]
+    let result = await UserData.find({
+        $and :  [ {"personNameEnter.title" : {$all: personName}},
+        {"selectProgramsEnter.title" : {$all : selectPrograms}},
+        {"selectSchoolsEnter.title" : {$all : selectSchools}},
+        {"selectGradesEnter.title" : {$all : selectGrades}},
+        {"selectSubjectsEnter.title": {$all : selectSubjects}}
+]
+
+        // "$or" : [
+        //     {personNameEnter: { $elemMatch: {title:  personName} }},
+        //     {selectProgramsEnter: { $elemMatch: {title:  selectPrograms} }},
+        //     {selectSchoolsEnter: { $elemMatch: {title:  selectSchools} }},
+        //     {selectGradesEnter: { $elemMatch: {title:  selectGrades} }},
+        //     {selectSubjectsEnter: { $elemMatch: {title:  selectSubjects} }},
+        //     {selectLanguagesEnter: { $elemMatch: {title:  selectLanguages} }},
+        // ]
     })
-    console.log("req", result );
-    res.send(result )
+    // console.log("req", result );
+    res.send(result)
 })
 // Find user Single data
 app.get("/user_single_data_find/:id", async(req,res)=>{
