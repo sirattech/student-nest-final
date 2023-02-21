@@ -16,12 +16,14 @@ import Select from "@mui/material/Select";
 import Table from "react-bootstrap/Table";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import Spinner from 'react-bootstrap/Spinner';
 import axios from "axios";
 import { BACKEND_URI } from "../../config/config";
 import Form from "react-bootstrap/Form";
 import { element } from "prop-types";
 import toast, { Toaster } from "react-hot-toast";
 import TimePicker from "rc-time-picker";
+import {secondsToHms, toSeconds} from "../../Convertor"
 // import {getTime} from "./data"
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -110,9 +112,9 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
   const [teacherId, setTeacherId] = useState([]);
   const [scheduleTable, setscheduleTable] = useState([]);
   const [scheduleTableData, setScheduleTableData] = useState([]);
-  const [mondayStartTime, setMondayStartTime] = useState("00:00");
-  const [mondayEndTime, setMondayEndTime] = useState("");
-  
+  const [mondayStartTimes, setMondayStartTime] = useState("00:00");
+  const [mondayEndTimes, setMondayEndTime] = useState("");
+  const [spiner,setSpiner] = useState(false)
   const handleChange = (event) => {
     // console.log(event.target.value);
     const {
@@ -176,11 +178,9 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
   };
 
   const mondayTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setMondayStartTime(value && value.format("HH:mm"));
   };
   const mondayendTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setMondayEndTime(value && value.format("HH:mm"));
   };
 
@@ -212,8 +212,6 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
   const handleData = async () => {
     try {
       let teacherSelectssss = JSON.parse(localStorage.getItem("teacherSelect"));
-      // console.log("teacherSelectssss", teacherSelectssss);
-      // teacherSelect("")
       await axios.get(`${BACKEND_URI}/User_Data`).then((resss) => {
         resss.data.forEach((element) => {
           if (teacherSelectssss == element._id) {
@@ -223,26 +221,14 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
                 localStorage.setItem("teacherName", JSON.stringify(text));
               }
             });
-            //  alert("good")
-            // getTime()
+            
             navigate("/newschedule");
             window.location.reload();
           } else {
             toast.error("please enter Schedule from User");
           }
-          //    else {
-          //
-          //    }
         });
-        //   for(var i = 0; i< resss.data.length;i++){
-        //     console.log("resss", resss.data[i].ids);
-        //    if(resss.data[i].ids == teacherSelectssss){
-        //      alert("good")
-        //     navigate("/newschedule")
-        //    } else {
-        //     alert("please enter Schedule from User")
-        //    }
-        // }
+        
       });
     } catch (e) {
       console.log("e", e);
@@ -267,31 +253,24 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
   const allApiData = async () => {
     try {
       await axios.get(`${BACKEND_URI}/agency`).then((agencyRes) => {
-        // console.log("agencyRes", agencyRes.data);
         setAgencyData(agencyRes.data);
       });
       await axios.get(`${BACKEND_URI}/programs`).then((programsRes) => {
-        // console.log("programsRes", programsRes.data);
         setProgramData(programsRes.data);
       });
       await axios.get(`${BACKEND_URI}/schools`).then((schoolsRes) => {
-        // console.log("schoolsRes", schoolsRes.data);
         setSchoolData(schoolsRes.data);
       });
       await axios.get(`${BACKEND_URI}/grades`).then((gradesRes) => {
-        // console.log("gradesRes", gradesRes.data);
         setGradeData(gradesRes.data);
       });
       await axios.get(`${BACKEND_URI}/subjects`).then((subjectsRes) => {
-        // console.log("subjectsRes", subjectsRes.data);
         setSubjectData(subjectsRes.data);
       });
       await axios.get(`${BACKEND_URI}/timezone`).then((timezoneres) => {
-        // console.log("timezoneres", timezoneres.data);
         setTimeZoneGet(timezoneres.data);
       });
       await axios.get(`${BACKEND_URI}/language`).then((languageRes) => {
-        // console.log("languageRes", languageRes.data);
         setLanguageGet(languageRes.data);
       });
     } catch (e) {
@@ -304,6 +283,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
 
   const scheduleShowData = async () => {
     try {
+      setSpiner(false)
       let newscheduledata = await axios.get(
         `${BACKEND_URI}/schedule_googles_Data`
       );
@@ -312,36 +292,74 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
       let arr = [];
       let arryData = [];
       newscheduledata.data.forEach((element) => {
-        console.log("element", element);
+        // console.log("element", element);
         UserData.data.forEach((dataElement) => {
           if (element == dataElement._id) {
-            console.log("dataElement", dataElement);
+            // console.log("dataElement", dataElement);
             arr.push( dataElement);
            
           }
         });
       });
+      setSpiner(false)
       setSessionData(arr.length)
       setScheduleTableData(arr);
+      setSpiner(false)
     } catch (e) {
       console.log("e", e);
+      setSpiner(false)
     }
   };
   
   const filterData = async()=>{
     try{
-      // let resSchedule = await axios.get(`${BACKEND_URI}/User_Data`);
+      let fetchdata = []
+      let mondayStartTime = toSeconds(mondayStartTimes)
+      let mondayEndTime = toSeconds(mondayEndTimes)
       // console.log("resSchedule", resSchedule.data);
-     await axios.get(`${BACKEND_URI}/User_Data_Filter/personName=${personName}&selectPrograms=${selectPrograms}&selectLanguages=${selectLanguages}&selectSchools=${selectSchools}&selectGrades=${selectGrades}&selectSubjects=${selectSubjects}&Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}`).then((filtersss)=>{
-       console.log("filtersss", filtersss?.data);
-      //  filtersss?.data.forEach((userAAA)=>{
-      //     console.log("userAAA", userAAA);
-      //     resSchedule.data.forEach(())
-       })
+      await axios.get(`${BACKEND_URI}/User_Data_Filter/personName=${personName}&selectPrograms=${selectPrograms}&selectLanguages=${selectLanguages}&selectSchools=${selectSchools}&selectGrades=${selectGrades}&selectSubjects=${selectSubjects}&Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}`).then((filtersss)=>{
+        console.log("filtersss", filtersss?.data);
+        
+        
+        
+        
+        
+        filtersss?.data.forEach(async(userAAA, index)=>{
+          // console.log("userAAA", userAAA);
+          let teacherId = userAAA._id;
+          
+          let resSchedule = await axios.get(`${BACKEND_URI}/schedule_googles_filter/Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}&teacherId=${teacherId}`)
 
+          if( resSchedule?.data?.length  ){
 
-    // })
+            if(teacherId === resSchedule?.data[index]?.teacherSelect){
+             
+              // setScheduleTableData([])
+            } else{
+            
 
+              // setScheduleTableData(userAAA)
+            }
+            
+          } else{
+            fetchdata.push(userAAA)
+            setSpiner(true)
+            setTimeout(() => {
+              
+              setScheduleTableData(fetchdata)
+            }, 2000);
+            setSpiner(false)
+          }
+          
+          // resSchedule.data.forEach(())
+        })
+        
+        
+      })
+      //  return 
+      console.log("fetchdata", fetchdata);
+      
+      
       // let newscheduledata = await axios.get(
       //   `${BACKEND_URI}/schedule_googles_Data`
       // );
@@ -350,7 +368,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
       console.log("e", e);
     }
   }
-
+console.log(scheduleTableData);
   useEffect(() => {
     scheduleShowData();
   }, []);
@@ -404,20 +422,20 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
               </select>
             </div>
             <div className="col-lg-8 mt-2">
-              <div class="input-group ">
+              <div className="input-group ">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="search here"
                   aria-label="Recipient's username"
                   aria-describedby="button-addon2"
                 />
                 <button
-                  class="btn btn-outline-secondary"
+                  className="btn btn-outline-secondary"
                   type="button"
                   id="button-addon2"
                 >
-                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
               </div>
             </div>
@@ -600,16 +618,16 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
               className="text-start"
               onChange={handleChangesix}
             >
-              <MenuItem value="">
+              {/* <MenuItem value="">
                 <em>None</em>
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem value="Monday">Monday</MenuItem>
               <MenuItem value="Tuesday">Tuesday</MenuItem>
               <MenuItem value="Wednesday">Wednesday</MenuItem>
               <MenuItem value="Thursday">Thursday</MenuItem>
               <MenuItem value="Friday">Friday</MenuItem>
               <MenuItem value="Saturday">Saturday</MenuItem>
-              <MenuItem value="Sunday ">Sunday </MenuItem>
+              <MenuItem value="Sunday">Sunday</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -666,20 +684,28 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
                   <th scope="col">Control</th>
                 </tr>
               </thead>
-              <tbody className="text-start">
+              
                 {scheduleTableData.length > 0 ? (
                   scheduleTableData.map((item, index) => {
+                    // console.log("item", item);
                     return (
-                      <tr key={index}>
-                        <td>{index}</td>
-                        <td>{`${item.firstName} ${item.lastName}`}</td>
-                        <td>{`${item.mondayStartTime} - ${item.mondayEndTime}`}</td>
-                        <td>{`${item.tuesdayStartTime} - ${item.tuesdayEndTime}`}</td>
-                        <td>{`${item.wednesdayStartTime} - ${item.wednesdayEndTime}`}</td>
-                        <td>{`${item.thursdayStartTime} - ${item.thursdayEndTime}`}</td>
-                        <td>{`${item.fridayStartTime} - ${item.fridayEndTime}`}</td>
-                        <td>{`${item.saturdayStartTime} - ${item.saturdayEndTime}`}</td>
-                        <td>{`${item.sundayStartTime} - ${item.sundayEndTime}`}</td>
+                      // <div>
+                      <tbody className="text-start">
+                      {spiner == true ? (
+                        <tr><Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner></tr>
+                      ): (
+                        <tr key={item?.index}>
+                        <td key={item?.index}>{index}</td>
+                        <td>{`${item?.firstName} ${item?.lastName}`}</td>
+                        <td>{`${secondsToHms(item?.mondayStartTime)} - ${secondsToHms(item?.mondayEndTime)}`}</td>
+                        <td>{`${secondsToHms(item?.tuesdayStartTime)} - ${secondsToHms(item?.tuesdayEndTime)}`}</td>
+                        <td>{`${secondsToHms(item?.wednesdayStartTime)} - ${secondsToHms(item?.wednesdayEndTime)}`}</td>
+                        <td>{`${secondsToHms(item?.thursdayStartTime)} - ${secondsToHms(item?.thursdayEndTime)}`}</td>
+                        <td>{`${secondsToHms(item?.fridayStartTime)} - ${secondsToHms(item?.fridayEndTime)}`}</td>
+                        <td>{`${secondsToHms(item?.saturdayStartTime)} - ${secondsToHms(item?.saturdayEndTime)}`}</td>
+                        <td>{`${secondsToHms(item?.sundayStartTime)} - ${secondsToHms(item?.sundayEndTime)}`}</td>
                         <td>
                           {/* <Link
                                 to={`/view_single_User_Data/${items._id}`}
@@ -722,15 +748,19 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
                             ></i>
                           </button>
                         </td>
-                      </tr>
+                        </tr>
+                      )}
+                    </tbody>
                     );
                   })
                 ) : (
+                  <tbody className="text-start">
                   <tr>
-                    <td colspan="10" className="text-center fs-4">No Data</td>
+                    <td colSpan="10" className="text-center fs-4">No Data</td>
                   </tr>
+                  </tbody>
                 )}
-              </tbody>
+              
             </table>
           </div>
         </div>
@@ -770,13 +800,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
           </Modal.Body>
           <Modal.Footer>
             <button className="btn btn-primary" onClick={handleData}>
-              {" "}
-              {/* <Link
-                to="/newschedule"
-                style={{ textDecoration: "none", color: "white" }}
-              > */}
               Done
-              {/* </Link> */}
             </button>
           </Modal.Footer>
         </Modal>

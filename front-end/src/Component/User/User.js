@@ -25,7 +25,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import "rc-time-picker/assets/index.css";
 import TimePicker from "rc-time-picker";
 import moment from "moment";
-
+import {toSeconds} from "../../Convertor"
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -119,20 +119,20 @@ function User() {
   const [reTypePassword, setReTypePassword] = useState("");
   const [showreTypePassword, setShowreTypePassword] = useState(false);
   // ........Time Pick .................//
-  const [mondayStartTime, setMondayStartTime] = useState("00:00");
-  const [mondayEndTime, setMondayEndTime] = useState("");
-  const [tuesdayStartTime, setTuesdayStartTime] = useState("");
-  const [tuesdayEndTime, setTuesdayEndTime] = useState("");
-  const [wednesdayStartTime, setWednesdayStartTime] = useState("");
-  const [wednesdayEndTime, setWednesdayEndTime] = useState("");
-  const [thursdayStartTime, setThursdayStartTime] = useState("");
-  const [thursdayEndTime, setThursdayEndTime] = useState("");
-  const [fridayStartTime, setFridayStartTime] = useState("");
-  const [fridayEndTime, setFridayEndTime] = useState("");
-  const [saturdayStartTime, setSaturdayStartTime] = useState("");
-  const [saturdayEndTime, setSaturdayEndTime] = useState("");
-  const [sundayStartTime, setSundayStartTime] = useState("");
-  const [sundayEndTime, setSundayEndTime] = useState("");
+  const [mondayStartTimes, setMondayStartTime] = useState("00:00");
+  const [mondayEndTimes, setMondayEndTime] = useState("");
+  const [tuesdayStartTimes, setTuesdayStartTime] = useState("");
+  const [tuesdayEndTimes, setTuesdayEndTime] = useState("");
+  const [wednesdayStartTimes, setWednesdayStartTime] = useState("");
+  const [wednesdayEndTimes, setWednesdayEndTime] = useState("");
+  const [thursdayStartTimes, setThursdayStartTime] = useState("");
+  const [thursdayEndTimes, setThursdayEndTime] = useState("");
+  const [fridayStartTimes, setFridayStartTime] = useState("");
+  const [fridayEndTimes, setFridayEndTime] = useState("");
+  const [saturdayStartTimes, setSaturdayStartTime] = useState("");
+  const [saturdayEndTimes, setSaturdayEndTime] = useState("");
+  const [sundayStartTimes, setSundayStartTime] = useState("");
+  const [sundayEndTimes, setSundayEndTime] = useState("");
 
   const [age, setAge] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -172,7 +172,7 @@ function User() {
     setShowPassword(!showPassword);
   };
   const handleChangepassword = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setPassword(e.target.value);
   };
 
@@ -181,12 +181,12 @@ function User() {
   };
 
   const handleChangeTypePassword = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setReTypePassword(e.target.value);
   };
 
   const handleChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -197,14 +197,14 @@ function User() {
   };
 
   const handleChangeOne = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
     setSelectLanguages([typeof value === "string" ? value.split(",") : value]);
   };
   const handleChangeTwo = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -214,7 +214,7 @@ function User() {
     );
   };
   const handleChangeThree = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -224,7 +224,7 @@ function User() {
     );
   };
   const handleChangeFour = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -234,7 +234,7 @@ function User() {
     );
   };
   const handleChangeFive = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -246,7 +246,7 @@ function User() {
 
   // Add user Select Box
   const handleChangeAgency = (event) => {
-    console.log("dataagency", event.target.value);
+    // console.log("dataagency", event.target.value);
     const {
       target: { value },
     } = event;
@@ -257,7 +257,7 @@ function User() {
   };
 
   const handleChangePrograms = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -267,7 +267,7 @@ function User() {
     );
   };
   const handleChangeSchool = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -277,7 +277,7 @@ function User() {
     );
   };
   const handleChangeGrade = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -287,7 +287,7 @@ function User() {
     );
   };
   const handleChangeSubjects = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -297,7 +297,7 @@ function User() {
     );
   };
   const handleChangeLanguage = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const {
       target: { value },
     } = event;
@@ -321,7 +321,7 @@ function User() {
 
   const handleChangeGender = (event) => {
     setGender(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const handleCloseGender = () => {
@@ -334,7 +334,7 @@ function User() {
 
   const handleChangeRole = (event) => {
     setRole(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
   // console.log("role", role);
   const handleCloseRole = () => {
@@ -347,7 +347,7 @@ function User() {
 
   const handleChangeTimeZone = (event) => {
     setTimeZone(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const handleCloseTimeZone = () => {
@@ -360,61 +360,46 @@ function User() {
 
   // ........Time Pick .................//
   const mondayTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setMondayStartTime(value && value.format("HH:mm"));
   };
-
   const mondayendTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setMondayEndTime(value && value.format("HH:mm"));
   };
 
   const tuesdayStartTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setTuesdayStartTime(value && value.format("HH:mm"));
   };
   const tuesdayEndTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setTuesdayEndTime(value && value.format("HH:mm"));
   };
   const wednesdayStartTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setWednesdayStartTime(value && value.format("HH:mm"));
   };
   const wednesdayEndTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setWednesdayEndTime(value && value.format("HH:mm"));
   };
   const thursdayStartTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setThursdayStartTime(value && value.format("HH:mm"));
   };
   const thursdayEndTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setThursdayEndTime(value && value.format("HH:mm"));
   };
   const fridayStartTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setFridayStartTime(value && value.format("HH:mm"));
   };
   const fridayEndTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setFridayEndTime(value && value.format("HH:mm"));
   };
   const saturdayStartTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setSaturdayStartTime(value && value.format("HH:mm"));
   };
   const saturdayEndTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setSaturdayEndTime(value && value.format("HH:mm"));
   };
   const sundayStartTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setSundayStartTime(value && value.format("HH:mm"));
   };
   const sundayEndTimeChange = (value) => {
-    console.log("e.target.value", value && value.format("HH:mm"));
     setSundayEndTime(value && value.format("HH:mm"));
   };
 
@@ -427,31 +412,24 @@ function User() {
   const allApiData = async () => {
     try {
       await axios.get(`${BACKEND_URI}/agency`).then((agencyRes) => {
-        // console.log("agencyRes", agencyRes.data);
         setAgencyData(agencyRes.data);
       });
       await axios.get(`${BACKEND_URI}/programs`).then((programsRes) => {
-        // console.log("programsRes", programsRes.data);
         setProgramData(programsRes.data);
       });
       await axios.get(`${BACKEND_URI}/schools`).then((schoolsRes) => {
-        // console.log("schoolsRes", schoolsRes.data);
         setSchoolData(schoolsRes.data);
       });
       await axios.get(`${BACKEND_URI}/grades`).then((gradesRes) => {
-        // console.log("gradesRes", gradesRes.data);
         setGradeData(gradesRes.data);
       });
       await axios.get(`${BACKEND_URI}/subjects`).then((subjectsRes) => {
-        // console.log("subjectsRes", subjectsRes.data);
         setSubjectData(subjectsRes.data);
       });
       await axios.get(`${BACKEND_URI}/timezone`).then((timezoneres) => {
-        // console.log("timezoneres", timezoneres.data);
         setTimeZoneGet(timezoneres.data);
       });
       await axios.get(`${BACKEND_URI}/language`).then((languageRes) => {
-        console.log("languageRes", languageRes.data);
         setLanguageGet(languageRes.data);
       });
     } catch (e) {
@@ -478,6 +456,20 @@ function User() {
         setPasswordError(true);
         return false;
       }
+      let mondayStartTime = toSeconds(mondayStartTimes);
+      let mondayEndTime = toSeconds(mondayEndTimes);
+      let tuesdayStartTime = toSeconds(tuesdayStartTimes);
+      let tuesdayEndTime = toSeconds(tuesdayEndTimes);
+      let wednesdayStartTime = toSeconds(wednesdayStartTimes);
+      let wednesdayEndTime = toSeconds(wednesdayEndTimes);
+      let thursdayStartTime = toSeconds(thursdayStartTimes);
+      let thursdayEndTime = toSeconds(thursdayEndTimes);
+      let fridayStartTime = toSeconds(fridayStartTimes);
+      let fridayEndTime = toSeconds(fridayEndTimes);
+      let saturdayStartTime = toSeconds(saturdayStartTimes);
+      let saturdayEndTime = toSeconds(saturdayEndTimes);
+      let sundayStartTime = toSeconds(sundayStartTimes);
+      let sundayEndTime = toSeconds(sundayEndTimes)
       await axios
         .post(`${BACKEND_URI}/User_Data`, {
           role,
@@ -517,7 +509,9 @@ function User() {
           console.log("userRes", userRes.data);
           // statusCheck = userRes.data.active;
           // ids = userRes.data._id;
-          // setRole("")
+          setRole("")
+          setTimeZone([])
+          
           setStatus(false);
           getUserAllDatas();
         });
@@ -533,7 +527,6 @@ function User() {
         let arry = [];
         let arryfalse = [];
         for (var i = 0; i < allyerDataRes.data.length; i++) {
-          console.log("allyerDataRes", allyerDataRes.data[i].activeStatus);
           let statusCheck = allyerDataRes.data[i].activeStatus;
 
           if (activeShow == 1) {
@@ -2380,10 +2373,10 @@ function User() {
                 className="btn btn-primaryadd me-md-3 mt-2"
                 onClick={changeAgenciews}
               >
-                <i class="fa-solid fa-plus"></i> Add New User
+                <i className="fa-solid fa-plus"></i> Add New User
               </button>
               <button className="btn  mt-2">
-                <i class="fa-solid fa-upload"></i> Bulk Upload
+                <i className="fa-solid fa-upload"></i> Bulk Upload
               </button>
             </div>
             <div className="col-lg-7  ">
@@ -2400,20 +2393,20 @@ function User() {
                   </select>
                 </div>
                 <div className="col-lg-8 mt-2">
-                  <div class="input-group ">
+                  <div className="input-group ">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="search here"
                       aria-label="Recipient's username"
                       aria-describedby="button-addon2"
                     />
                     <button
-                      class="btn btn-outline-secondary"
+                      className="btn btn-outline-secondary"
                       type="button"
                       id="button-addon2"
                     >
-                      <i class="fa-solid fa-magnifying-glass"></i>
+                      <i className="fa-solid fa-magnifying-glass"></i>
                     </button>
                   </div>
                 </div>
@@ -2654,7 +2647,7 @@ function User() {
                   size="lg"
                   style={{ color: "white" }}
                 >
-                  <i class="fa-solid fa-magnifying-glass"></i> Search
+                  <i className="fa-solid fa-magnifying-glass"></i> Search
                 </button>
               </div>
             </div>
@@ -2704,7 +2697,7 @@ function User() {
                     {getAgencyDataFalse.length > 0 ? (
                       getAgencyDataFalse.map((items, index) => {
                         return (
-                          <tr>
+                          <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td style={{ width: "50px" }}>
                               {items.firstName} {items.lastName}
@@ -2745,7 +2738,7 @@ function User() {
                                   title="View"
                                 >
                                   <i
-                                    class="fa-solid fa-eye"
+                                    className="fa-solid fa-eye"
                                     style={{ color: "white" }}
                                   ></i>
                                 </button>
@@ -2760,7 +2753,7 @@ function User() {
                                   title="Update"
                                 >
                                   <i
-                                    class="fa-solid fa-pencil"
+                                    className="fa-solid fa-pencil"
                                     style={{ color: "white" }}
                                   ></i>
                                 </button>
@@ -2771,7 +2764,7 @@ function User() {
                                 onClick={() => UserDataDelete(items._id)}
                               >
                                 <i
-                                  class="fa-solid fa-xmark"
+                                  className="fa-solid fa-xmark"
                                   style={{ color: "white" }}
                                 ></i>
                               </button>
@@ -2792,7 +2785,7 @@ function User() {
                     {userAllData.length > 0 ? (
                       userAllData.map((items, index) => {
                         return (
-                          <tr>
+                          <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td style={{ width: "50px" }}>
                               {items.firstName} {items.lastName}
@@ -2833,7 +2826,7 @@ function User() {
                                   title="View"
                                 >
                                   <i
-                                    class="fa-solid fa-eye"
+                                    className="fa-solid fa-eye"
                                     style={{ color: "white" }}
                                   ></i>
                                 </button>
@@ -2848,7 +2841,7 @@ function User() {
                                   title="Update"
                                 >
                                   <i
-                                    class="fa-solid fa-pencil"
+                                    className="fa-solid fa-pencil"
                                     style={{ color: "white" }}
                                   ></i>
                                 </button>
@@ -2859,7 +2852,7 @@ function User() {
                                 onClick={() => UserDataDelete(items._id)}
                               >
                                 <i
-                                  class="fa-solid fa-xmark"
+                                  className="fa-solid fa-xmark"
                                   style={{ color: "white" }}
                                 ></i>
                               </button>

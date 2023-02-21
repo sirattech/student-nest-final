@@ -1,12 +1,12 @@
 import { dinnerTime, holidays } from "./data.js";
-
+import {secondsToHms} from "../../Convertor"
 export default class Utils {
   static isHoliday(date) {
     const localeDate = date.toLocaleDateString();
-    return (
-      holidays.filter((holiday) => holiday.toLocaleDateString() === localeDate)
-        .length > 0
-    );
+    // return (
+    //   holidays.filter((holiday) => holiday.toLocaleDateString() === localeDate)
+    //     .length > 0
+    // );
   }
 
   static isWeekend(date) {
@@ -28,20 +28,24 @@ export default class Utils {
     
     // console.log("day", day == 0 );
     return dinnerTime.filter((lol)=> {
-      if(lol.from!==''){
-        var fhrs = parseInt(lol.from.split(':')[0]);
-        var fmins = parseInt(lol.from.split(':')[1]);
+      let fromTime = secondsToHms(lol.from);
+      let toTime = secondsToHms(lol.to)
+      // console.log(toTime);
+      if(fromTime!==''){
+        var fhrs = parseInt(fromTime.split(':')[0]);
+        var fmins = parseInt(fromTime.split(':')[1]);
       }
-      if(lol.to!==''){
-        var thrs = parseInt(lol.to.split(':')[0]);
-        var tmins = parseInt(lol.to.split(':')[1]);
+      if(toTime!==''){
+        var thrs = parseInt(toTime.split(':')[0]);
+        var tmins = parseInt(toTime.split(':')[1]);
       }
       
-      // console.log("hours", parseInt(hrs));
+      
       return  !((hours >= fhrs && hours < thrs)  ) && (lol.date === day)
-    }).length>0
+    }
+    ).length>0
     // (hours >= fhrs && hours < thrs)
-    // && (minute >= fmins && minute<tmins)
+    // && (minute >= fmins && minute<tmi ns)
     // !(hours >= lol.from && hours  <lol.to) && ( lol.date == day)).length>0
     // !(hours >= lol.from && hours  <lol.to) && (lol.date.toLocaleDateString() === localeDate).length>0)
     // &&  (lol.date.toLocaleDateString() === localeDate).length>0 

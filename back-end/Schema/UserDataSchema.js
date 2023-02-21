@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const bcrypt = require('bcryptjs');
-let UserData = new mongoose.Schema({
+let UserData = new mongoose.Schema(
+    {
     role : String,
     timeZone: [
         {
@@ -60,21 +61,22 @@ let UserData = new mongoose.Schema({
     password: String,
     active: String,
     activeStatus: String,
-    mondayStartTime: String,
-    mondayEndTime: String,
-    tuesdayStartTime: String,
-    tuesdayEndTime: String,
-    wednesdayStartTime: String,
-    wednesdayEndTime: String,
-    thursdayStartTime: String,
-    thursdayEndTime: String,
-    fridayStartTime: String,
-    fridayEndTime: String,
-    saturdayStartTime: String,
-    saturdayEndTime: String,
-    sundayStartTime: String,
-    sundayEndTime: String
-})
+    mondayStartTime: Number,
+    mondayEndTime: Number,
+    tuesdayStartTime: Number,
+    tuesdayEndTime: Number,
+    wednesdayStartTime: Number,
+    wednesdayEndTime: Number,
+    thursdayStartTime: Number,
+    thursdayEndTime: Number,
+    fridayStartTime: Number,
+    fridayEndTime: Number,
+    saturdayStartTime: Number,
+    saturdayEndTime: Number,
+    sundayStartTime: Number,
+    sundayEndTime: Number
+}
+)
 
 
 // encrypting password before saving

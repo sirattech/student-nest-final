@@ -1,7 +1,6 @@
 
 /* eslint-disable func-style */
 import React, { useEffect } from 'react';
-
 import Scheduler from 'devextreme-react/scheduler';
 import notify from 'devextreme/ui/notify';
 import "./schedule.css"
@@ -16,6 +15,7 @@ import CustomStore from 'devextreme/data/custom_store';
 import { BACKEND_URI } from "../../config/config";
 import { Menu } from 'devextreme-react/menu';
 import { format } from 'date-fns'
+import {toSeconds} from "../../Convertor"
 import 'whatwg-fetch';
 const currentDate = new Date();
 const views = ['week', 'month'];
@@ -45,6 +45,8 @@ function NewSchedule() {
       const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
       let startTime = format(new Date(values.startDate), 'kk:mm');
       let endTIme = format(new Date(values.EndDate), 'kk:mm')
+      startTime = toSeconds(startTime)
+      endTIme = toSeconds(endTIme)
      let  day = weekday[data.getDay()]
       let text = values.text;
       let startDate = values.startDate;

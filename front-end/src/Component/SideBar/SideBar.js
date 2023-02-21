@@ -439,16 +439,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
           <Route exact path="/update_single_user_data/:id" element={<UpdateSingleUserData/>}/>
           <Route exact path="/newschedule" element={<NewSchedule teacherSelect={teacherSelect}/>}/>
         </Routes>
-        {/* <Dashboard/> */}
-        {/* <Routes>
-          <Route exact path='/Homepage' element={<HomePage editData={editData} isNavColor={isNavColor} />} >
-          </Route>
-          <Route path="preview" element={<Preview />} isNavColor={isNavColor} />
-          <Route path="publish" element={<Publish setIsColor={setIsColor} />} />
-          <Route exact path="/myproject" element={<MyProject />} />
-          <Route exact path="/myprofile" element={<MyProfile />} />
-          <Route exact path="/mindar" element={<div className="container121"><MindarViewer /><video></video></div>} />
-        </Routes> */}
+       
       </Box>
     </Box>
   );

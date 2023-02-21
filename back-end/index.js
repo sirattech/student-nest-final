@@ -322,60 +322,82 @@ app.put("/user_Single_Data_Delete/:id", async (req, res) => {
 })
 
 app.get("/User_Data_Filter/:key", async (req, res) => {
-    let data = req.params.key
-    console.log("data", data);
-    let query= new URLSearchParams(data);
-    let personName = query.get("personName")
-    personName = personName.split(",");
-    // console.log("personName", personName);
-    let selectPrograms = query.get("selectPrograms")
-    selectPrograms = selectPrograms.split(",");
-    // console.log("selectPrograms", selectPrograms);
-    let selectLanguages = query.get("selectLanguages")
-    selectLanguages = selectLanguages.split(",");
-    // console.log("selectLanguages", selectLanguages);
-    let selectSchools = query.get("selectSchools");
-    selectSchools = selectSchools.split(",")
-    // console.log("selectSchools", selectSchools);
-    let selectGrades = query.get("selectGrades");
-    selectGrades = selectGrades.split(",");
-    // console.log("selectGrades", selectGrades);
-    let selectSubjects = query.get("selectSubjects")
-    selectSubjects = selectSubjects.split(",")
-    let day = query.get("Day")
-    console.log("day", day);
-    let startTime = query.get("StartTime")
-    console.log("startTime", startTime);
-    let endTime = query.get("EndTime")
-    console.log("endTime", endTime);
 
+    try{
+        let data = req.params.key
+        
+        let query= new URLSearchParams(data);
+        let personName = query.get("personName")
+        // personName = personName.split(",");
+       
+        let selectPrograms = query.get("selectPrograms")
+        selectPrograms = selectPrograms.split(",");
+ 
+        let selectLanguages = query.get("selectLanguages")
+        selectLanguages = selectLanguages.split(",");
+   
+        let selectSchools = query.get("selectSchools");
+        selectSchools = selectSchools.split(",")
 
-
-    let personNameEnters = "personNameEnter.title";
-    let selectProgramsEnters = "selectProgramsEnter.title";
-    let selectSchoolsEnters = "selectSchoolsEnter.title";
-    let selectGradesEnters = "selectGradesEnter.title";
-    let selectSubjectsEnters = "selectSubjectsEnter.title";
-    let selectLanguagesEnters = "selectLanguagesEnter.title"
-    let result = await UserData.find({
-        $and :  [ {"personNameEnter.title" : {$all: personName}},
-        {"selectProgramsEnter.title" : {$all : selectPrograms}},
-        {"selectSchoolsEnter.title" : {$all : selectSchools}},
-        {"selectGradesEnter.title" : {$all : selectGrades}},
-        {"selectSubjectsEnter.title": {$all : selectSubjects}}
-]
-
-        // "$or" : [
-        //     {personNameEnter: { $elemMatch: {title:  personName} }},
-        //     {selectProgramsEnter: { $elemMatch: {title:  selectPrograms} }},
-        //     {selectSchoolsEnter: { $elemMatch: {title:  selectSchools} }},
-        //     {selectGradesEnter: { $elemMatch: {title:  selectGrades} }},
-        //     {selectSubjectsEnter: { $elemMatch: {title:  selectSubjects} }},
-        //     {selectLanguagesEnter: { $elemMatch: {title:  selectLanguages} }},
-        // ]
-    })
-    // console.log("req", result );
-    res.send(result)
+        let selectGrades = query.get("selectGrades");
+       
+ 
+        let selectSubjects = query.get("selectSubjects")
+        selectSubjects = selectSubjects.split(",")
+        let day = query.get("Day")
+        // console.log("day", day);
+        let startTime = query.get("StartTime")
+      
+        // console.log("startTime", startTime);
+        let endTime = query.get("EndTime")
+    
+    
+        // console.log("endTime", endTime);
+        let dbStartTime;
+        let dbEndTime;
+         if(day === "Monday"){
+            dbStartTime = {"mondayStartTime" : {$lte: startTime  }};
+            dbEndTime = {"mondayEndTime" : {$gte: endTime}}
+         } else if(day === "Tuesday"){
+            dbStartTime = {"tuesdayStartTime" : {$lte: startTime  }};
+            dbEndTime = {"tuesdayEndTime" : {$gte: endTime}}
+         } else if(day === "Wednesday"){
+            dbStartTime = {"wednesdayStartTime"  : {$lte: startTime  }};
+            dbEndTime = {"wednesdayEndTime" : {$gte: endTime}}
+         } else if(day === "Thursday"){
+            dbStartTime ={ "thursdayStartTime": {$lte: startTime  }};
+            dbEndTime = {"thursdayEndTime" : {$gte: endTime}}
+         } else if(day === "Friday"){
+            dbStartTime = {"fridayStartTime" : {$lte: startTime  }};
+            dbEndTime = {"fridayEndTime" : {$gte: endTime}}
+         } else if(day === "Saturday"){
+            dbStartTime = {"saturdayStartTime" : {$lte: startTime  }};
+            dbEndTime = {"saturdayEndTime": {$gte: endTime}}
+         } else if(day === "Sunday"){
+            dbStartTime = {"sundayStartTime" : {$lte: startTime}};
+                dbEndTime = {"sundayEndTime" : {$gte: endTime}}
+         }
+    
+        let result = await UserData.find({
+            $and :  [ 
+            //     {"personNameEnter.title" : {$all: personName}},
+            // {"selectProgramsEnter.title" : {$all : selectPrograms}},
+            // {"selectSchoolsEnter.title" : {$all : selectSchools}},
+            // {"selectGradesEnter.title" : {$all : selectGrades}},
+            // {"selectSubjectsEnter.title": {$all : selectSubjects}},
+            // {"selectLanguagesEnter.language" : {$all : selectLanguages}},
+            dbStartTime ,
+            dbEndTime,
+          
+    ]
+    
+           
+        })
+        res.send(result)
+    }catch(e){
+console.log("e", e);
+    }
+    
 })
 // Find user Single data
 app.get("/user_single_data_find/:id", async(req,res)=>{
@@ -401,7 +423,6 @@ app.post("/schedule", async (req, res) => {
     let scheduless = new Schedule(req.body)
 
     let result = await scheduless.save()
-    console.log(result);
     res.send(result)
 })
 
@@ -422,13 +443,37 @@ app.get("/schedule", async(req,res)=>{
 // ................... Schedule google api .................//
 const NewSchedule = require("./Schema/NewScheduleSchema")
 app.post("/schedule_google",cors(), async(req,res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     let new_schedule = new NewSchedule(req.body);
     let result = await new_schedule.save();
+    // console.log(result);
+    res.send(result)
+})
+app.get("/schedule_googles_filter/:key",cors(), async(req,res)=>{
+    let data = req.params.key
+    // console.log("data", data);    
+    let query= new URLSearchParams(data);
+    let day = query.get("Day")
+        console.log("day", day);
+        let startTime = query.get("StartTime")
+        console.log("startTime", startTime);
+        let endTime = query.get("EndTime")
+        let teacherId = query.get("teacherId")
+        console.log("day11111", endTime);
+        console.log("teacherId", teacherId);
+
+    // console.log("query", query);
+    let result = await NewSchedule.find({
+        $and: [
+            {"teacherSelect" : {$all: teacherId}},
+            {"day" : {$all: day}},
+            {"startTime" : {$all: startTime}},
+            {"endTIme" : {$all: endTime}}
+        ]
+    })
     console.log(result);
     res.send(result)
 })
-
 app.get("/schedule_googles/:id",cors(), async(req,res)=>{
     let result = await NewSchedule.find({teacherSelect: req.params.id})
     res.send(result)
