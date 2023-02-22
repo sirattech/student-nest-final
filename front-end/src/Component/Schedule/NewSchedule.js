@@ -41,6 +41,7 @@ function NewSchedule() {
       return fetch(`${BACKEND_URI}/schedule_googles/${teacherSelect}`).then(response => response.json()).catch(() => { throw 'Network error' })
     },
     insert: (values) => {
+      // console.log("values", values);
       let data = new Date(values.startDate)
       const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
       let startTime = format(new Date(values.startDate), 'kk:mm');
@@ -54,6 +55,7 @@ function NewSchedule() {
       let allDay = values.AllDay;
       let description = values.description;
       let recurrenceRule = values.recurrenceRule
+      console.log("values", recurrenceRule);
       let value = {
         startDate,
         EndDate,

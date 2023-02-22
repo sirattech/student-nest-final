@@ -26,7 +26,10 @@ import { Link } from "react-router-dom"
 import InputAdornment from '@mui/material/InputAdornment';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
+import {secondsToHmsssss, toSeconds} from "../../Convertor"
+import TimeInput from "react-time-picker-input";
 import moment from 'moment';
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -127,88 +130,26 @@ function UpdateSingleUserData() {
     const [genderOpen, setGenderOpen] = useState(false)
     const [timeStatus, checkTimeStatus] = useState();
 
-    const [mondayStartTime, setMondayStartTime] = useState()
-    const [mondayEndTime, setMondayEndTime] = useState("")
-    const [tuesdayStartTime, setTuesdayStartTime] = useState('')
-    const [tuesdayEndTime, setTuesdayEndTime] = useState('');
-    const [wednesdayStartTime, setWednesdayStartTime] = useState('');
-    const [wednesdayEndTime, setWednesdayEndTime] = useState('');
-    const [thursdayStartTime, setThursdayStartTime] = useState('');
-    const [thursdayEndTime, setThursdayEndTime] = useState('');
-    const [fridayStartTime, setFridayStartTime] = useState("");
-    const [fridayEndTime, setFridayEndTime] = useState("");
-    const [saturdayStartTime, setSaturdayStartTime] = useState('');
-    const [saturdayEndTime, setSaturdayEndTime] = useState('');
-    const [sundayStartTime, setSundayStartTime] = useState('');
-    const [sundayEndTime, setSundayEndTime] = useState('');
+    const [mondayStartTimes, setMondayStartTime] = useState("")
+    const [mondayEndTimes, setMondayEndTime] = useState("")
+    const [tuesdayStartTimes, setTuesdayStartTime] = useState('')
+    const [tuesdayEndTimes, setTuesdayEndTime] = useState('');
+    const [wednesdayStartTimes, setWednesdayStartTime] = useState('');
+    const [wednesdayEndTimes, setWednesdayEndTime] = useState('');
+    const [thursdayStartTimes, setThursdayStartTime] = useState('');
+    const [thursdayEndTimes, setThursdayEndTime] = useState('');
+    const [fridayStartTimes, setFridayStartTime] = useState("");
+    const [fridayEndTimes, setFridayEndTime] = useState("");
+    const [saturdayStartTimes, setSaturdayStartTime] = useState('');
+    const [saturdayEndTimes, setSaturdayEndTime] = useState('');
+    const [sundayStartTimes, setSundayStartTime] = useState('');
+    const [sundayEndTimes, setSundayEndTime] = useState('');
 
     const [peragencyName,setAgencyPerNameSingle] = useState([])
     const [slectagencydata,setSelectAgencyData] = useState([])
     const [scheduleId,setScheduleId] = useState()
     // ........Time Pick .................//
-    const mondayTimeChange = (value) => {
-        // console.log("e.target.value", value && value.format('HH:mm'));
-        setMondayStartTime(value && value.format('HH:mm'))
-    }
-
-    const mondayendTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setMondayEndTime(value && value.format('HH:mm'))
-    }
-
-    const tuesdayStartTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setTuesdayStartTime(value && value.format('HH:mm'))
-    }
-    const tuesdayEndTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setTuesdayEndTime(value && value.format('HH:mm'))
-    }
-    const wednesdayStartTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setWednesdayStartTime(value && value.format('HH:mm'))
-    }
-    const wednesdayEndTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setWednesdayEndTime(value && value.format('HH:mm'))
-    }
-    const thursdayStartTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setThursdayStartTime(value && value.format('HH:mm'))
-    }
-    const thursdayEndTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setThursdayEndTime(value && value.format('HH:mm'))
-    }
-    const fridayStartTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setFridayStartTime(value && value.format('HH:mm'))
-    }
-    const fridayEndTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setFridayEndTime(value && value.format('HH:mm'))
-    }
-    const saturdayStartTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setSaturdayStartTime(value && value.format('HH:mm'))
-    }
-    const saturdayEndTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setSaturdayEndTime(value && value.format('HH:mm'))
-    }
-    const sundayStartTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setSundayStartTime(value && value.format('HH:mm'))
-    }
-    const sundayEndTimeChange = (value) => {
-        console.log("e.target.value", value && value.format('HH:mm'));
-        setSundayEndTime(value && value.format('HH:mm'))
-    }
-
-
-
-
-
+  
     const handleChangeRole = (event) => {
         setRole(event.target.value);
         console.log(event.target.value);
@@ -239,7 +180,7 @@ function UpdateSingleUserData() {
             typeof value === 'string' ? value.split(',') : value
         );
     };
-    console.log("personNameEnter", personNameEnter);
+    // console.log("personNameEnter", personNameEnter);
     const handleChangePrograms = (event) => {
         console.log(event.target.value);
         const {
@@ -340,7 +281,7 @@ function UpdateSingleUserData() {
             let userIds ;
             await axios.get(`${BACKEND_URI}/user_single_data_find/${params.id}`).then((showRes) => {                
                 let agencyarr = []
-                console.log("showRes", showRes.data._id);
+                console.log("showRes", showRes.data);
                 setFirstName(showRes.data.firstName);
                 setLastName(showRes.data.lastName);
                 setEMail(showRes.data.email);
@@ -352,7 +293,35 @@ function UpdateSingleUserData() {
                 checkTimeStatus(showRes.data.active)
                 userIds = showRes.data._id;
                 let agencyData = showRes.data.personNameEnter;
-                // console.log("agencyData, ", agencyData);
+                let mondyStartTime = secondsToHmsssss(showRes?.data?.mondayStartTime);
+                let mondyendTime = secondsToHmsssss(showRes?.data?.mondayEndTime)
+                let tusStartTime = secondsToHmsssss(showRes?.data?.tuesdayStartTime);
+                let tusEndTime = secondsToHmsssss(showRes?.data?.tuesdayEndTime);
+                let wedStartTime = secondsToHmsssss(showRes?.data?.wednesdayStartTime);
+                let wedEndTime = secondsToHmsssss(showRes?.data?.wednesdayEndTime);
+                let thuStartTime = secondsToHmsssss(showRes?.data?.thursdayStartTime);
+                let thuEndTime = secondsToHmsssss(showRes?.data?.thursdayEndTime);
+                let friStartEnd = secondsToHmsssss(showRes?.data?.fridayStartTime);
+                let friEndTime = secondsToHmsssss(showRes?.data?.fridayEndTime);
+                let satStartTime = secondsToHmsssss(showRes?.data?.saturdayStartTime);
+                let satEndTime = secondsToHmsssss(showRes?.data?.sundayStartTime);
+                let sunSTartTime = secondsToHmsssss(showRes?.data?.saturdayEndTime);
+                let sunEndTime = secondsToHmsssss(showRes?.data?.sundayEndTime);
+                setMondayStartTime(mondyStartTime);
+                setMondayEndTime(mondyendTime)
+                setTuesdayStartTime(tusStartTime)
+                setTuesdayEndTime(tusEndTime)
+                setWednesdayStartTime(wedStartTime)
+                setWednesdayEndTime(wedEndTime)
+                setThursdayStartTime(thuStartTime)
+                setThursdayEndTime(thuEndTime);
+                setFridayStartTime(friStartEnd);
+                setFridayEndTime(friEndTime);
+                setSaturdayStartTime(satStartTime);
+                setSaturdayEndTime(satEndTime);
+                setSundayStartTime(sunSTartTime);
+                setSundayEndTime(sunEndTime)
+                // console.log("mondyStartTime, ", mondyendTime);
                 // setPersonNameEnter(agencyData)
                 // console.log("agencydata", agencyData.length);
 
@@ -374,17 +343,17 @@ function UpdateSingleUserData() {
                 })
                
             })
-            let scheduleApi = await axios.get(`${BACKEND_URI}/schedule`)
+            // let scheduleApi = await axios.get(`${BACKEND_URI}/schedule`)
 
-            for(let i = 0; i <scheduleApi.data.length;i++ ){
-                if(scheduleApi.data[i].ids == userIds){
-                    console.log("scheduleApi", scheduleApi.data[i]);
-                    let value = scheduleApi.data[i].mondayStartTime;
-                    console.log("scheduleApi", value);
-                    setScheduleId(scheduleApi.data[i]._id);
-                    setMondayStartTime(value)
-                }
-            }
+            // for(let i = 0; i <scheduleApi.data.length;i++ ){
+            //     if(scheduleApi.data[i].ids == userIds){
+            //         console.log("scheduleApi", scheduleApi.data[i]);
+            //         let value = scheduleApi.data[i].mondayStartTime;
+            //         console.log("scheduleApi", value);
+            //         setScheduleId(scheduleApi.data[i]._id);
+            //         setMondayStartTime(value)
+            //     }
+            // }
 
 
     //  await axios.get(`${BACKEND_URI}/schedule`).then((schedule)=>{
@@ -397,6 +366,20 @@ function UpdateSingleUserData() {
     }
     // console.log("timeStatus", timeStatus);
     const updateUserData = async () => {
+        let mondayStartTime = toSeconds(mondayStartTimes);
+        let mondayEndTime = toSeconds(mondayEndTimes)
+        let tuesdayStartTime = toSeconds(tuesdayStartTimes);
+        let tuesdayEndTime = toSeconds(tuesdayEndTimes);
+        let wednesdayStartTime = toSeconds(wednesdayStartTimes);
+        let wednesdayEndTime = toSeconds(wednesdayEndTimes);
+        let thursdayStartTime = toSeconds(thursdayStartTimes);
+        let thursdayEndTime = toSeconds(thursdayEndTimes);
+        let fridayStartTime = toSeconds(fridayStartTimes);
+        let fridayEndTime = toSeconds(fridayEndTimes);
+        let saturdayStartTime = toSeconds(saturdayStartTimes)
+        let saturdayEndTime = toSeconds(saturdayEndTimes);
+        let sundayStartTime = toSeconds(sundayStartTimes);
+        let sundayEndTime = toSeconds(sundayEndTimes)
         try {
             await axios.put(`${BACKEND_URI}/user_single_data_Update/${params.id}`, {
                 role,
@@ -414,6 +397,20 @@ function UpdateSingleUserData() {
                 email,
                 mobileNumber,
                 address,
+                mondayStartTime,
+                mondayEndTime,
+                tuesdayStartTime,
+                tuesdayEndTime,
+                wednesdayStartTime,
+                wednesdayEndTime,
+                thursdayStartTime,
+                thursdayEndTime,
+                fridayStartTime,
+                fridayEndTime,
+                saturdayStartTime,
+                saturdayEndTime,
+                sundayStartTime,
+                sundayEndTime
             }).then((res) => {
                 console.log("res", res);
                 navigate("/user")
@@ -422,6 +419,7 @@ function UpdateSingleUserData() {
             console.log("e", e);
         }
     }
+    // console.log("mondayEndTime", mondayEndTime);
     useEffect(() => {
         allApiData()
     }, [])
@@ -721,11 +719,13 @@ function UpdateSingleUserData() {
                                     <h6>Monday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimePicker defaultValue={mondayStartTime} showSecond={false}  onChange={mondayTimeChange} />
+                                        <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString)=>setMondayStartTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={mondayStartTime} showSecond={false}  onChange={mondayTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={mondayendTimeChange} />
+                                        <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString)=>setMondayEndTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={moment("13:56" , 'HH:mm' )}   showSecond={false} onChange={mondayendTimeChange} dateFormat="MMMM dd, yyyy"/> */}
                                     </div>
                                 </div>
 
@@ -733,11 +733,11 @@ function UpdateSingleUserData() {
                                     <h6>Tuesday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={tuesdayStartTimeChange} />
+                                        <TimeInput value={tuesdayStartTimes} eachInputDropdown onChange={(dateString)=>setTuesdayStartTime(dateString)}/>
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={tuesdayEndTimeChange} />
+                                        <TimeInput value={tuesdayEndTimes} eachInputDropdown onChange={(dateString)=>setTuesdayEndTime(dateString)}/>
                                     </div>
                                 </div>
 
@@ -746,11 +746,13 @@ function UpdateSingleUserData() {
                                     <h6>Wednesday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={wednesdayStartTimeChange} />
+                                        <TimeInput value={wednesdayStartTimes} eachInputDropdown onChange={(dateString)=>setWednesdayStartTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={wednesdayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={wednesdayEndTimeChange} />
+                                        <TimeInput value={wednesdayEndTimes} eachInputDropdown onChange={(dateString)=>setWednesdayEndTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={wednesdayEndTimeChange} /> */}
                                     </div>
                                 </div>
 
@@ -759,11 +761,14 @@ function UpdateSingleUserData() {
                                     <h6>Thursday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={thursdayStartTimeChange} />
+                                        <TimeInput value={thursdayStartTimes} eachInputDropdown onChange={(dateString)=>setThursdayStartTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={thursdayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={thursdayEndTimeChange} />
+                                        <TimeInput value={thursdayEndTimes} eachInputDropdown onChange={(dateString)=>setThursdayEndTime(dateString)}/>
+
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={thursdayEndTimeChange} /> */}
                                     </div>
                                 </div>
 
@@ -771,11 +776,13 @@ function UpdateSingleUserData() {
                                     <h6>Friday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={fridayStartTimeChange} />
+                                        <TimeInput value={fridayStartTimes} eachInputDropdown onChange={(dateString)=>setFridayStartTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={fridayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={fridayEndTimeChange} />
+                                        <TimeInput value={fridayEndTimes} eachInputDropdown onChange={(dateString)=>setFridayEndTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={fridayEndTimeChange} /> */}
                                     </div>
                                 </div>
 
@@ -783,23 +790,28 @@ function UpdateSingleUserData() {
                                     <h6>Saturday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={saturdayStartTimeChange} />
+                                        <TimeInput value={saturdayStartTimes} eachInputDropdown onChange={(dateString)=>setSaturdayStartTime(dateString)}/>
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={saturdayEndTimeChange} />
+                                        <TimeInput value={saturdayEndTimes} eachInputDropdown onChange={(dateString)=>setSaturdayEndTime(dateString)}/>
+
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={saturdayEndTimeChange} /> */}
                                     </div>
                                 </div>
 
                                 <div className='col-lg-9 box-col d-flex align-items-center justify-content-around'>
-                                    <h6>Saturday</h6>
+                                    <h6>Sunday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={sundayStartTimeChange} />
+                                        <TimeInput value={sundayStartTimes} eachInputDropdown onChange={(dateString)=>setSundayStartTime(dateString)}/>
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={sundayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimePicker defaultValue={0} showSecond={false} onChange={sundayEndTimeChange} />
+                                        <TimeInput value={sundayEndTimes} eachInputDropdown onChange={(dateString)=>setSundayEndTime(dateString)}/>
+
+                                        {/* <TimePicker defaultValue={0} showSecond={false} onChange={sundayEndTimeChange} /> */}
                                     </div>
                                 </div>
 

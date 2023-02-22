@@ -463,6 +463,7 @@ app.get("/schedule_googles_filter/:key",cors(), async(req,res)=>{
         console.log("teacherId", teacherId);
 
     // console.log("query", query);
+    
     let result = await NewSchedule.find({
         $and: [
             {"teacherSelect" : {$all: teacherId}},

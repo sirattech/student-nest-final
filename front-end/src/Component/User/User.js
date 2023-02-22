@@ -25,7 +25,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import "rc-time-picker/assets/index.css";
 import TimePicker from "rc-time-picker";
 import moment from "moment";
-import {toSeconds} from "../../Convertor"
+import TimeInput from "react-time-picker-input";
+
+import { toSeconds } from "../../Convertor"
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -119,7 +121,7 @@ function User() {
   const [reTypePassword, setReTypePassword] = useState("");
   const [showreTypePassword, setShowreTypePassword] = useState(false);
   // ........Time Pick .................//
-  const [mondayStartTimes, setMondayStartTime] = useState("00:00");
+  const [mondayStartTimes, setMondayStartTime] = useState("");
   const [mondayEndTimes, setMondayEndTime] = useState("");
   const [tuesdayStartTimes, setTuesdayStartTime] = useState("");
   const [tuesdayEndTimes, setTuesdayEndTime] = useState("");
@@ -166,7 +168,7 @@ function User() {
   const [activeShow, setActiveShow] = useState(0);
   const [getAgencyDataFalse, setGetAgencyDataFalse] = useState([]);
   const [userActive, setUserActive] = useState(0)
-  const [userInactive,setUserInactive] = useState(0)
+  const [userInactive, setUserInactive] = useState(0)
   // ...........Show Password functon ....................//
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -358,51 +360,7 @@ function User() {
     setTimeZoneOpen(true);
   };
 
-  // ........Time Pick .................//
-  const mondayTimeChange = (value) => {
-    setMondayStartTime(value && value.format("HH:mm"));
-  };
-  const mondayendTimeChange = (value) => {
-    setMondayEndTime(value && value.format("HH:mm"));
-  };
-
-  const tuesdayStartTimeChange = (value) => {
-    setTuesdayStartTime(value && value.format("HH:mm"));
-  };
-  const tuesdayEndTimeChange = (value) => {
-    setTuesdayEndTime(value && value.format("HH:mm"));
-  };
-  const wednesdayStartTimeChange = (value) => {
-    setWednesdayStartTime(value && value.format("HH:mm"));
-  };
-  const wednesdayEndTimeChange = (value) => {
-    setWednesdayEndTime(value && value.format("HH:mm"));
-  };
-  const thursdayStartTimeChange = (value) => {
-    setThursdayStartTime(value && value.format("HH:mm"));
-  };
-  const thursdayEndTimeChange = (value) => {
-    setThursdayEndTime(value && value.format("HH:mm"));
-  };
-  const fridayStartTimeChange = (value) => {
-    setFridayStartTime(value && value.format("HH:mm"));
-  };
-  const fridayEndTimeChange = (value) => {
-    setFridayEndTime(value && value.format("HH:mm"));
-  };
-  const saturdayStartTimeChange = (value) => {
-    setSaturdayStartTime(value && value.format("HH:mm"));
-  };
-  const saturdayEndTimeChange = (value) => {
-    setSaturdayEndTime(value && value.format("HH:mm"));
-  };
-  const sundayStartTimeChange = (value) => {
-    setSundayStartTime(value && value.format("HH:mm"));
-  };
-  const sundayEndTimeChange = (value) => {
-    setSundayEndTime(value && value.format("HH:mm"));
-  };
-
+  
   // ............................user api function .......................//
 
   const changeAgenciews = () => {
@@ -491,19 +449,19 @@ function User() {
           active,
           activeStatus,
           mondayStartTime,
-            mondayEndTime,
-            tuesdayStartTime,
-            tuesdayEndTime,
-            wednesdayStartTime,
-            wednesdayEndTime,
-            thursdayStartTime,
-            thursdayEndTime,
-            fridayStartTime,
-            fridayEndTime,
-            saturdayStartTime,
-            saturdayEndTime,
-            sundayStartTime,
-            sundayEndTime,
+          mondayEndTime,
+          tuesdayStartTime,
+          tuesdayEndTime,
+          wednesdayStartTime,
+          wednesdayEndTime,
+          thursdayStartTime,
+          thursdayEndTime,
+          fridayStartTime,
+          fridayEndTime,
+          saturdayStartTime,
+          saturdayEndTime,
+          sundayStartTime,
+          sundayEndTime,
         })
         .then((userRes) => {
           console.log("userRes", userRes.data);
@@ -511,11 +469,11 @@ function User() {
           // ids = userRes.data._id;
           setRole("")
           setTimeZone([])
-          
+
           setStatus(false);
           getUserAllDatas();
         });
-      
+
     } catch (e) {
       console.log("e", e);
     }
@@ -682,20 +640,12 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={mondayTimeChange}
-                          />
+                          <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString) => setMondayStartTime(dateString)} />
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={mondayendTimeChange}
-                          />
+                          <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString) => setMondayEndTime(dateString)} />
                         </div>
                       </div>
 
@@ -704,20 +654,12 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={tuesdayStartTimeChange}
-                          />
+                          <TimeInput value={tuesdayStartTimes} eachInputDropdown onChange={(dateString) => setTuesdayStartTime(dateString)} />
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={tuesdayEndTimeChange}
-                          />
+                          <TimeInput value={tuesdayEndTimes} eachInputDropdown onChange={(dateString) => setTuesdayEndTime(dateString)} />
                         </div>
                       </div>
 
@@ -726,20 +668,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={wednesdayStartTimeChange}
-                          />
+                          <TimeInput value={wednesdayStartTimes} eachInputDropdown onChange={(dateString) => setWednesdayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={wednesdayEndTimeChange}
-                          />
+                          <TimeInput value={wednesdayEndTimes} eachInputDropdown onChange={(dateString) => setWednesdayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -748,20 +684,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={thursdayStartTimeChange}
-                          />
+                          <TimeInput value={thursdayStartTimes} eachInputDropdown onChange={(dateString) => setThursdayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={thursdayEndTimeChange}
-                          />
+                          <TimeInput value={thursdayEndTimes} eachInputDropdown onChange={(dateString) => setThursdayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -770,20 +700,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={fridayStartTimeChange}
-                          />
+                          <TimeInput value={fridayStartTimes} eachInputDropdown onChange={(dateString) => setFridayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={fridayEndTimeChange}
-                          />
+                          <TimeInput value={fridayEndTimes} eachInputDropdown onChange={(dateString) => setFridayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -792,20 +716,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={saturdayStartTimeChange}
-                          />
+                          <TimeInput value={saturdayStartTimes} eachInputDropdown onChange={(dateString) => setSaturdayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={saturdayEndTimeChange}
-                          />
+                          <TimeInput value={saturdayEndTimes} eachInputDropdown onChange={(dateString) => setSaturdayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -814,20 +732,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={sundayStartTimeChange}
-                          />
+                          <TimeInput value={sundayStartTimes} eachInputDropdown onChange={(dateString) => setSundayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={sundayEndTimeChange}
-                          />
+                          <TimeInput value={sundayEndTimes} eachInputDropdown onChange={(dateString) => setSundayEndTime(dateString)} />
+
                         </div>
                       </div>
                     </div>
@@ -1579,7 +1491,7 @@ function User() {
                   </div>
                 </div>
                 <div className="col-lg-10  ">
-                
+
                   {active ? (
                     <div className="row  d-flex justify-content-center">
                       <div className="col-lg-9 box-col d-flex align-items-center justify-content-around">
@@ -1587,20 +1499,12 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={mondayTimeChange}
-                          />
+                          <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString) => setMondayStartTime(dateString)} />
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={mondayendTimeChange}
-                          />
+                          <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString) => setMondayEndTime(dateString)} />
                         </div>
                       </div>
 
@@ -1609,20 +1513,12 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={tuesdayStartTimeChange}
-                          />
+                          <TimeInput value={tuesdayStartTimes} eachInputDropdown onChange={(dateString) => setTuesdayStartTime(dateString)} />
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={tuesdayEndTimeChange}
-                          />
+                          <TimeInput value={tuesdayEndTimes} eachInputDropdown onChange={(dateString) => setTuesdayEndTime(dateString)} />
                         </div>
                       </div>
 
@@ -1631,20 +1527,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={wednesdayStartTimeChange}
-                          />
+                          <TimeInput value={wednesdayStartTimes} eachInputDropdown onChange={(dateString) => setWednesdayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={wednesdayEndTimeChange}
-                          />
+                          <TimeInput value={wednesdayEndTimes} eachInputDropdown onChange={(dateString) => setWednesdayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -1653,20 +1543,13 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={thursdayStartTimeChange}
-                          />
+                          <TimeInput value={thursdayStartTimes} eachInputDropdown onChange={(dateString) => setThursdayStartTime(dateString)} />
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={thursdayEndTimeChange}
-                          />
+                          <TimeInput value={thursdayEndTimes} eachInputDropdown onChange={(dateString) => setThursdayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -1675,20 +1558,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={fridayStartTimeChange}
-                          />
+                          <TimeInput value={fridayStartTimes} eachInputDropdown onChange={(dateString) => setFridayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={fridayEndTimeChange}
-                          />
+                          <TimeInput value={fridayEndTimes} eachInputDropdown onChange={(dateString) => setFridayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -1697,20 +1574,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={saturdayStartTimeChange}
-                          />
+                          <TimeInput value={saturdayStartTimes} eachInputDropdown onChange={(dateString) => setSaturdayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={saturdayEndTimeChange}
-                          />
+                          <TimeInput value={saturdayEndTimes} eachInputDropdown onChange={(dateString) => setSaturdayEndTime(dateString)} />
+
                         </div>
                       </div>
 
@@ -1719,20 +1590,14 @@ function User() {
                         <div className="text-start">
                           <lable>Start Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={sundayStartTimeChange}
-                          />
+                          <TimeInput value={sundayStartTimes} eachInputDropdown onChange={(dateString) => setSundayStartTime(dateString)} />
+
                         </div>
                         <div className="text-start">
                           <lable>End Time</lable>
                           <br />
-                          <TimePicker
-                            defaultValue={0}
-                            showSecond={false}
-                            onChange={sundayEndTimeChange}
-                          />
+                          <TimeInput value={sundayEndTimes} eachInputDropdown onChange={(dateString) => setSundayEndTime(dateString)} />
+
                         </div>
                       </div>
                     </div>
@@ -2654,7 +2519,7 @@ function User() {
           </div>
 
           <div className="row " style={{ background: "white" }}>
-            <p className="text-start mt-3">Total Users: {activeShow == 1 ? <span>{userActive}</span>: <span>{userInactive}</span>}</p>
+            <p className="text-start mt-3">Total Users: {activeShow == 1 ? <span>{userActive}</span> : <span>{userInactive}</span>}</p>
             {/* <Table/> */}
             <div className="col-lg-12 table-responsive">
               <table className="table table-bordered table-striped table-hover">

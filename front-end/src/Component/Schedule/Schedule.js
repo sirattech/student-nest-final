@@ -23,7 +23,7 @@ import Form from "react-bootstrap/Form";
 import { element } from "prop-types";
 import toast, { Toaster } from "react-hot-toast";
 import TimePicker from "rc-time-picker";
-import {secondsToHms, toSeconds} from "../../Convertor"
+import { secondsToHms, toSeconds } from "../../Convertor"
 // import {getTime} from "./data"
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -88,7 +88,7 @@ const MenuProps = {
   },
 };
 
-function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData }) {
+function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData }) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [selectLanguages, setSelectLanguages] = useState([]);
@@ -114,7 +114,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
   const [scheduleTableData, setScheduleTableData] = useState([]);
   const [mondayStartTimes, setMondayStartTime] = useState("00:00");
   const [mondayEndTimes, setMondayEndTime] = useState("");
-  const [spiner,setSpiner] = useState(false)
+  const [spiner, setSpiner] = useState(false)
   const handleChange = (event) => {
     // console.log(event.target.value);
     const {
@@ -221,14 +221,14 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
                 localStorage.setItem("teacherName", JSON.stringify(text));
               }
             });
-            
+
             navigate("/newschedule");
             window.location.reload();
           } else {
             toast.error("please enter Schedule from User");
           }
         });
-        
+
       });
     } catch (e) {
       console.log("e", e);
@@ -296,8 +296,8 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
         UserData.data.forEach((dataElement) => {
           if (element == dataElement._id) {
             // console.log("dataElement", dataElement);
-            arr.push( dataElement);
-           
+            arr.push(dataElement);
+
           }
         });
       });
@@ -310,65 +310,65 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData,sessionData 
       setSpiner(false)
     }
   };
-  
-  const filterData = async()=>{
-    try{
+
+  const filterData = async () => {
+    try {
       let fetchdata = []
       let mondayStartTime = toSeconds(mondayStartTimes)
       let mondayEndTime = toSeconds(mondayEndTimes)
       // console.log("resSchedule", resSchedule.data);
-      await axios.get(`${BACKEND_URI}/User_Data_Filter/personName=${personName}&selectPrograms=${selectPrograms}&selectLanguages=${selectLanguages}&selectSchools=${selectSchools}&selectGrades=${selectGrades}&selectSubjects=${selectSubjects}&Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}`).then((filtersss)=>{
+      await axios.get(`${BACKEND_URI}/User_Data_Filter/personName=${personName}&selectPrograms=${selectPrograms}&selectLanguages=${selectLanguages}&selectSchools=${selectSchools}&selectGrades=${selectGrades}&selectSubjects=${selectSubjects}&Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}`).then((filtersss) => {
         console.log("filtersss", filtersss?.data);
-        
-        
-        
-        
-        
-        filtersss?.data.forEach(async(userAAA, index)=>{
+
+
+
+
+
+        filtersss?.data.forEach(async (userAAA, index) => {
           // console.log("userAAA", userAAA);
           let teacherId = userAAA._id;
-          
+
           let resSchedule = await axios.get(`${BACKEND_URI}/schedule_googles_filter/Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}&teacherId=${teacherId}`)
 
-          if( resSchedule?.data?.length  ){
+          if (resSchedule?.data?.length) {
 
-            if(teacherId === resSchedule?.data[index]?.teacherSelect){
-             
+            if (teacherId === resSchedule?.data[index]?.teacherSelect) {
+
               // setScheduleTableData([])
-            } else{
-            
+            } else {
+
 
               // setScheduleTableData(userAAA)
             }
-            
-          } else{
+
+          } else {
             fetchdata.push(userAAA)
             setSpiner(true)
             setTimeout(() => {
-              
+
               setScheduleTableData(fetchdata)
             }, 2000);
             setSpiner(false)
           }
-          
+
           // resSchedule.data.forEach(())
         })
-        
-        
+
+
       })
       //  return 
       console.log("fetchdata", fetchdata);
-      
-      
+
+
       // let newscheduledata = await axios.get(
       //   `${BACKEND_URI}/schedule_googles_Data`
       // );
       // console.log("newscheduledata", newscheduledata);
-    }catch(e){
+    } catch (e) {
       console.log("e", e);
     }
   }
-console.log(scheduleTableData);
+  console.log(scheduleTableData);
   useEffect(() => {
     scheduleShowData();
   }, []);
@@ -684,83 +684,85 @@ console.log(scheduleTableData);
                   <th scope="col">Control</th>
                 </tr>
               </thead>
-              
-                {scheduleTableData.length > 0 ? (
-                  scheduleTableData.map((item, index) => {
-                    // console.log("item", item);
-                    return (
-                      // <div>
-                      <tbody className="text-start">
+
+              {scheduleTableData.length > 0 ? (
+                scheduleTableData.map((item, index) => {
+                  // console.log("item", item);
+                  return (
+                    // <div>
+                    <tbody className="text-start">
                       {spiner == true ? (
                         <tr><Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner></tr>
-                      ): (
+                          <span className="visually-hidden">Loading...</span>
+                        </Spinner></tr>
+                      ) : (
                         <tr key={item?.index}>
-                        <td key={item?.index}>{index}</td>
-                        <td>{`${item?.firstName} ${item?.lastName}`}</td>
-                        <td>{`${secondsToHms(item?.mondayStartTime)} - ${secondsToHms(item?.mondayEndTime)}`}</td>
-                        <td>{`${secondsToHms(item?.tuesdayStartTime)} - ${secondsToHms(item?.tuesdayEndTime)}`}</td>
-                        <td>{`${secondsToHms(item?.wednesdayStartTime)} - ${secondsToHms(item?.wednesdayEndTime)}`}</td>
-                        <td>{`${secondsToHms(item?.thursdayStartTime)} - ${secondsToHms(item?.thursdayEndTime)}`}</td>
-                        <td>{`${secondsToHms(item?.fridayStartTime)} - ${secondsToHms(item?.fridayEndTime)}`}</td>
-                        <td>{`${secondsToHms(item?.saturdayStartTime)} - ${secondsToHms(item?.saturdayEndTime)}`}</td>
-                        <td>{`${secondsToHms(item?.sundayStartTime)} - ${secondsToHms(item?.sundayEndTime)}`}</td>
-                        <td>
-                          {/* <Link
+                          <td key={item?.index}>{index}</td>
+                          <td>{`${item?.firstName} ${item?.lastName}`}</td>
+                          {item?.mondayStartTime > 0 ? (<td>{`${secondsToHms(item?.mondayStartTime)} - ${secondsToHms(item?.mondayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.tuesdayStartTime > 0 ? (<td>{`${secondsToHms(item?.tuesdayStartTime)} - ${secondsToHms(item?.tuesdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.wednesdayStartTime > 0 ? <td>{`${secondsToHms(item?.wednesdayStartTime)} - ${secondsToHms(item?.wednesdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.thursdayStartTime > 0 ? <td>{`${secondsToHms(item?.thursdayStartTime)} - ${secondsToHms(item?.thursdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.fridayStartTime > 0 ? <td>{`${secondsToHms(item?.fridayStartTime)} - ${secondsToHms(item?.fridayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.saturdayStartTime > 0 ? (<td>{`${secondsToHms(item?.saturdayStartTime)} - ${secondsToHms(item?.saturdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.sundayStartTime > 0 ? (<td>{`${secondsToHms(item?.sundayStartTime)} - ${secondsToHms(item?.sundayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+
+                          <td>
+                            {/* secondsToHms(item?.sundayStartTime) */}
+                            {/* <Link
                                 to={`/view_single_User_Data/${items._id}`}
                                 style={{ textDecoration: "none" }}
                               > */}
-                          <button
-                            className="btn btn-xs btn-info me-2 mt-1"
-                            style={{ paddibg: "0" }}
-                            title="View"
-                          >
-                            <i
-                              className="fa-solid fa-eye"
-                              style={{ color: "white" }}
-                            ></i>
-                          </button>
-                          {/* </Link>
+                            <button
+                              className="btn btn-xs btn-info me-2 mt-1"
+                              style={{ paddibg: "0" }}
+                              title="View"
+                            >
+                              <i
+                                className="fa-solid fa-eye"
+                                style={{ color: "white" }}
+                              ></i>
+                            </button>
+                            {/* </Link>
                               <Link
                                 to={`/update_single_user_data/${items._id}`}
                                 style={{ textDecoration: "none" }}
                               > */}
-                          <button
-                            className="btn btn-xs btn-warning me-2 mt-1"
-                            style={{ paddibg: "0" }}
-                            title="Update"
-                          >
-                            <i
-                              className="fa-solid fa-pencil"
-                              style={{ color: "white" }}
-                            ></i>
-                          </button>
-                          {/* </Link> */}
-                          <button
-                            className="btn btn-xxs btn-danger mt-1"
-                            title="Delete"
+                            <button
+                              className="btn btn-xs btn-warning me-2 mt-1"
+                              style={{ paddibg: "0" }}
+                              title="Update"
+                            >
+                              <i
+                                className="fa-solid fa-pencil"
+                                style={{ color: "white" }}
+                              ></i>
+                            </button>
+                            {/* </Link> */}
+                            <button
+                              className="btn btn-xxs btn-danger mt-1"
+                              title="Delete"
                             // onClick={() => UserDataDelete(items._id)}
-                          >
-                            <i
-                              className="fa-solid fa-xmark"
-                              style={{ color: "white" }}
-                            ></i>
-                          </button>
-                        </td>
+                            >
+                              <i
+                                className="fa-solid fa-xmark"
+                                style={{ color: "white" }}
+                              ></i>
+                            </button>
+                          </td>
                         </tr>
                       )}
                     </tbody>
-                    );
-                  })
-                ) : (
-                  <tbody className="text-start">
+                  );
+                })
+              ) : (
+                <tbody className="text-start">
                   <tr>
                     <td colSpan="10" className="text-center fs-4">No Data</td>
                   </tr>
-                  </tbody>
-                )}
-              
+                </tbody>
+              )}
+
             </table>
           </div>
         </div>

@@ -15,3 +15,19 @@ export const  toSeconds = (timeStr) =>{
     
     return hDisplay + ":" + mDisplay; 
 }
+
+
+export const secondsToHmsssss =   (d) =>{
+  d = Number(d);
+  var h = Math.floor(d / 3600);
+  var m = Math.floor(d % 3600 / 60);
+  
+
+  var hDisplay = h > 0 ? h : "";
+  var mDisplay = m > 0 ? m : "";
+  // console.log();
+     var zeroHdispaly = hDisplay <= 9 ? "0" + hDisplay : hDisplay
+     
+  return zeroHdispaly + ":" + mDisplay; 
+}
+// secondsToHmsssss(71400)
