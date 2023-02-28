@@ -36,7 +36,7 @@ function UpdateSingleProgramData() {
                 currentTime,
             }).then((res2) => {
                 console.log("res2", res2);
-                navigate("/program")
+                navigate("/sidebar/program")
             })
         } catch (e) {
             console.log(e);
@@ -95,7 +95,7 @@ function UpdateSingleProgramData() {
 
                 <div className='col-md-11 mt-4 pt-3 pb-3 mb-5' style={{ borderBottom: "1px solid #838383", borderTop: "1px solid #838383" }}>
                     <button className='btn btn-save me-2' onClick={UpdateData}>Save</button>
-                    <button className='btn btn-Cancel' onClick={() => navigate("/program")}>Cancel</button>
+                    <button className='btn btn-Cancel' onClick={() => navigate("/sidebar/program")}>Cancel</button>
                 </div>
 
             </div>

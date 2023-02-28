@@ -580,6 +580,7 @@ function User() {
                     <MenuItem value="Teacher">Teacher</MenuItem>
                     <MenuItem value="Employee">Employee</MenuItem>
                     <MenuItem value="Developer">Developer</MenuItem>
+                    {/* <MenuItem value="Developer">Admin</MenuItem> */}
                   </Select>
                 </FormControl>
               </div>
@@ -2593,7 +2594,7 @@ function User() {
                               )}
                             </td>
                             <td>
-                              <Link
+                              {/* <Link
                                 to={`/view_single_User_Data/${items._id}`}
                                 style={{ textDecoration: "none" }}
                               >
@@ -2607,8 +2608,8 @@ function User() {
                                     style={{ color: "white" }}
                                   ></i>
                                 </button>
-                              </Link>
-                              <Link
+                              </Link> */}
+                              {/* <Link
                                 to={`/update_single_user_data/${items._id}`}
                                 style={{ textDecoration: "none" }}
                               >
@@ -2622,7 +2623,7 @@ function User() {
                                     style={{ color: "white" }}
                                   ></i>
                                 </button>
-                              </Link>
+                              </Link> */}
                               <button
                                 className="btn btn-xxs btn-danger mt-1"
                                 title="Delete"
@@ -2682,7 +2683,7 @@ function User() {
                             </td>
                             <td>
                               <Link
-                                to={`/view_single_User_Data/${items._id}`}
+                                to={`/sidebar/view_single_User_Data/${items._id}`}
                                 style={{ textDecoration: "none" }}
                               >
                                 <button
@@ -2697,7 +2698,7 @@ function User() {
                                 </button>
                               </Link>
                               <Link
-                                to={`/update_single_user_data/${items._id}`}
+                                to={`/sidebar/update_single_user_data/${items._id}`}
                                 style={{ textDecoration: "none" }}
                               >
                                 <button

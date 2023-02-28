@@ -61,8 +61,8 @@ function ShowSingleGradeData() {
                 </div>
 
                 <div className='col-md-11 mt-4 pt-3 pb-3 mb-5 ms-md-4 text-start' style={{ borderBottom: "1px solid #838383", borderTop: "1px solid #838383" }}>
-                    <Link to={`/update_single_Grade_data/${params.id}`} style={{ textDecoration: "none" }}><button className='btn btn-Edit me-2' >Edit</button></Link>
-                    <button className='btn btn-Cancel' onClick={() => navigate("/grade")}>Cancel</button>
+                    <Link to={`/sidebar/update_single_Grade_data/${params.id}`} style={{ textDecoration: "none" }}><button className='btn btn-Edit me-2' >Edit</button></Link>
+                    <button className='btn btn-Cancel' onClick={() => navigate("/sidebar/grade")}>Cancel</button>
                 </div>
 
             </div>

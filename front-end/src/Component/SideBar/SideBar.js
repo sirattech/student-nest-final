@@ -200,7 +200,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
       } */}
 
       <List>
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/sidebar/dashboard" style={{ textDecoration: "none" }}>
           <ListItem button href="#deshborad" key="Dashboard"
             onClick={() => {
               setIsColor("Create AR Project");
@@ -215,7 +215,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
             <ListItemText primary="Dashboard" />
           </ListItem>
         </Link>
-        <Link to="/user" style={{ textDecoration: "none" }}>
+        <Link to="/sidebar/user" style={{ textDecoration: "none" }}>
           <ListItem button key="My Project"
             onClick={() => {
               setIsColor("My Project")
@@ -233,7 +233,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
         </Link>
         {/* </Link>
           <Link to="/sidebar/myprofile" style={{ textDecoration: "none" }}> */}
-        <Link to="/schedule" style={{ textDecoration: "none" }}>
+        <Link to="/sidebar/schedule" style={{ textDecoration: "none" }}>
           <ListItem button key="My Account"
             onClick={() => {
               setIsColor("View Miner")
@@ -260,27 +260,27 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <Link to="/agencies" style={{ textDecoration: "none" }} >
+            <Link to="/sidebar/agencies" style={{ textDecoration: "none" }} >
               <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClick}>
                 <ListItemText inset primary="Agencies" />
               </ListItem>
             </Link>
-            <Link to="/program" style={{ textDecoration: "none" }}>
+            <Link to="/sidebar/program" style={{ textDecoration: "none" }}>
               <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClick}>
                 <ListItemText inset primary="Programs" />
               </ListItem>
             </Link>
-            <Link to="/schools" style={{ textDecoration: "none" }} >
+            <Link to="/sidebar/schools" style={{ textDecoration: "none" }} >
               <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClick}>
                 <ListItemText inset primary="Schools" />
               </ListItem>
             </Link>
-            <Link to="/grade" style={{ textDecoration: "none" }}>
+            <Link to="/sidebar/grade" style={{ textDecoration: "none" }}>
               <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClick}>
                 <ListItemText inset primary="Grades" />
               </ListItem>
             </Link>
-            <Link to="/subject" style={{ textDecoration: "none" }}>
+            <Link to="/sidebar/subject" style={{ textDecoration: "none" }}>
               <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClick}>
                 <ListItemText inset primary="Subjects" />
               </ListItem>
@@ -298,12 +298,12 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
         </ListItem>
         <Collapse in={openOne} timeout="auto" unmountOnExit>
           <Divider />
-          <Link to="/notification" style={{ textDecoration: "none" }}>
+          <Link to="/sidebar/notification" style={{ textDecoration: "none" }}>
           <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClickOne}>
             <ListItemText inset primary="Email Notifications" />
           </ListItem>
           </Link>
-          <Link to="/activity" style={{ textDecoration: "none" }}>
+          <Link to="/sidebar/activity" style={{ textDecoration: "none" }}>
           <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClickOne}>
             <ListItemText inset primary="Activity Log" />
           </ListItem>
@@ -415,7 +415,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
       >
         <Toolbar />
         <Routes>
-          <Route exact path='/' element={<Dashboard sessionData={sessionData}/>} />
+          <Route exact path='/dashboard' element={<Dashboard sessionData={sessionData}/>} />
           <Route exact path='/user' element={<User />} />
           <Route exact path="/schedule" element={<Schedule setTeacherSelect={setTeacherSelect} teacherSelect={teacherSelect} setSessionData={setSessionData} sessionData={sessionData}  />} />
           <Route exact path='/agencies' element={<Agencies />} />

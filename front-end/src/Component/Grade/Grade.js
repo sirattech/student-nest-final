@@ -111,7 +111,7 @@ function Grade() {
                     <div>
                         <div className='row user-box-1'>
                             <div className='col-lg-12 col-12  d-flex justify-content-center  justify-content-between align-items-center pt-3 pb-3'>
-                                <h4 className='user-h4 mt-2'>NEW AGENCY</h4>
+                                <h4 className='user-h4 mt-2'>NEW GRADE</h4>
 
                             </div>
                         </div>
@@ -230,8 +230,8 @@ function Grade() {
                                                                         <td className='pt-3'>{items?.currentTime}</td>
                                                                         <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
                                                                         <td>
-                                                                            <Link to={`/show_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
-                                                                            <Link to={`/update_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/show_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/update_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
                                                                             <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => gradeDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
         
                                                                         </td>
@@ -256,8 +256,8 @@ function Grade() {
                                                                         <td className='pt-3'>{items?.currentTime}</td>
                                                                         <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
                                                                         <td>
-                                                                            <Link to={`/show_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
-                                                                            <Link to={`/update_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/show_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/update_single_Grade_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
                                                                             <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => gradeDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
         
                                                                         </td>

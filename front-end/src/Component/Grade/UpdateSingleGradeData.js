@@ -36,7 +36,7 @@ function UpdateSingleUpdateData() {
                 currentTime,
             }).then((res2) => {
                 console.log("res2", res2);
-                navigate("/grade")
+                navigate("/sidebar/grade")
             })
         } catch (e) {
             console.log(e);
@@ -49,7 +49,7 @@ function UpdateSingleUpdateData() {
         <div className='container'>
             <div className='row user-box-1'>
                 <div className='col-lg-12 col-12  d-flex justify-content-center  justify-content-between align-items-center pt-3 pb-3'>
-                    <h4 className='user-h4 mt-2'>NEW AGENCY</h4>
+                    <h4 className='user-h4 mt-2'>NEW GRADE</h4>
 
                 </div>
             </div>
@@ -95,7 +95,7 @@ function UpdateSingleUpdateData() {
 
                 <div className='col-md-11 mt-4 pt-3 pb-3 mb-5' style={{ borderBottom: "1px solid #838383", borderTop: "1px solid #838383" }}>
                     <button className='btn btn-save me-2' onClick={UpdateData}>Save</button>
-                    <button className='btn btn-Cancel' onClick={() => navigate("/grade")}>Cancel</button>
+                    <button className='btn btn-Cancel' onClick={() => navigate("/sidebar/grade")}>Cancel</button>
                 </div>
 
             </div>

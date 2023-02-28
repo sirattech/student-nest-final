@@ -27,7 +27,7 @@ export const secondsToHmsssss =   (d) =>{
   var mDisplay = m > 0 ? m : "";
   // console.log();
      var zeroHdispaly = hDisplay <= 9 ? "0" + hDisplay : hDisplay
-     
-  return zeroHdispaly + ":" + mDisplay; 
+     var dZeroMdispaly =mDisplay == 0  ?  "00" : mDisplay
+  return zeroHdispaly + ":" + dZeroMdispaly;  
 }
 // secondsToHmsssss(71400)

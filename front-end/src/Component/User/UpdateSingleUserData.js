@@ -364,7 +364,7 @@ function UpdateSingleUserData() {
             console.log("e", e);
         }
     }
-    // console.log("timeStatus", timeStatus);
+
     const updateUserData = async () => {
         let mondayStartTime = toSeconds(mondayStartTimes);
         let mondayEndTime = toSeconds(mondayEndTimes)
@@ -382,38 +382,12 @@ function UpdateSingleUserData() {
         let sundayEndTime = toSeconds(sundayEndTimes)
         try {
             await axios.put(`${BACKEND_URI}/user_single_data_Update/${params.id}`, {
-                role,
-                timeZone,
-                personNameEnter,
-                selectProgramsEnter,
-                selectSchoolsEnter,
-                selectGradesEnter,
-                selectSubjectsEnter,
-                selectLanguagesEnter,
-                consortiumId,
-                gender,
-                firstName,
-                lastName,
-                email,
-                mobileNumber,
-                address,
-                mondayStartTime,
-                mondayEndTime,
-                tuesdayStartTime,
-                tuesdayEndTime,
-                wednesdayStartTime,
-                wednesdayEndTime,
-                thursdayStartTime,
-                thursdayEndTime,
-                fridayStartTime,
-                fridayEndTime,
-                saturdayStartTime,
-                saturdayEndTime,
-                sundayStartTime,
-                sundayEndTime
+                role,timeZone,personNameEnter,selectProgramsEnter,selectSchoolsEnter,selectGradesEnter,selectSubjectsEnter,selectLanguagesEnter,
+                consortiumId,gender,firstName,lastName,email,mobileNumber,address,mondayStartTime,mondayEndTime,tuesdayStartTime,tuesdayEndTime,wednesdayStartTime,wednesdayEndTime,
+                thursdayStartTime,thursdayEndTime,fridayStartTime,fridayEndTime,saturdayStartTime,saturdayEndTime,sundayStartTime,sundayEndTime
             }).then((res) => {
                 console.log("res", res);
-                navigate("/user")
+                navigate("/sidebar/user")
             })
         } catch (e) {
             console.log("e", e);
@@ -926,7 +900,7 @@ function UpdateSingleUserData() {
                     <button className='btn btn-save me-2' onClick={updateUserData}>Save</button>
                     <button className='btn btn-Cancel' onClick={() => {
                         // console.log("gggg");
-                        navigate("/user")
+                        navigate("/sidebar/user")
                     }
                     }>Cancel</button>
                 </div>

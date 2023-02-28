@@ -56,7 +56,7 @@ function Dashboard({sessionData}) {
                 <div className='row d-flex justify-content-start '>
                     <div className='col-lg-3 col-11 m-2 dashboard-box pt-4 pb-4 text-start d-flex '>
                         <div className='min-box ms-3'>
-                        <i class="fa-solid fa-users"></i>
+                        <i className="fa-solid fa-users"></i>
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
@@ -68,7 +68,7 @@ function Dashboard({sessionData}) {
                     </div>
                     <div className='col-lg-3 col-11 m-2 dashboard-box pt-4 pb-4 text-start d-flex '>
                         <div className='min-box1 ms-3'>
-                        <i class="fa-solid fa-certificate"></i>
+                        <i className="fa-solid fa-certificate"></i>
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
@@ -80,7 +80,7 @@ function Dashboard({sessionData}) {
                     </div>
                     <div className='col-lg-3 col-11 m-2 dashboard-box pt-4 pb-4 text-start d-flex '>
                         <div className='min-box2 ms-3'>
-                        <i class="fa-solid fa-user"></i>
+                        <i className="fa-solid fa-user"></i>
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
@@ -93,7 +93,7 @@ function Dashboard({sessionData}) {
 
                     <div className='col-lg-3 col-11 m-2 dashboard-box pt-4 pb-4 text-start d-flex '>
                         <div className='min-box2 ms-3'>
-                        <i class="fa-solid fa-user"></i>
+                        <i className="fa-solid fa-user"></i>
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">
@@ -105,7 +105,7 @@ function Dashboard({sessionData}) {
                     </div>
                     <div className='col-lg-3 col-11 m-2 dashboard-box pt-4 pb-4 text-start d-flex '>
                         <div className='min-box2 ms-3'>
-                        <i class="fa-solid fa-user"></i>
+                        <i className="fa-solid fa-user"></i>
                         </div>
                         <div className='ms-2 mt-2' style={{ lineHeight: "1.5rem" }}>
                             <span className="two-span">

@@ -36,7 +36,7 @@ console.log("active", active);
                 currentTime,
             }).then((res2) => {
                 console.log("res2", res2);
-                navigate("/agencies")
+                navigate("/sidebar/agencies")
             })
         } catch (e) {
             console.log(e);
@@ -95,7 +95,7 @@ console.log("active", active);
 
                 <div className='col-md-11 mt-4 pt-3 pb-3 mb-5' style={{ borderBottom: "1px solid #838383", borderTop: "1px solid #838383" }}>
                     <button className='btn btn-save me-2' onClick={UpdateData}>Save</button>
-                    <button className='btn btn-Cancel' onClick={() => navigate("/agencies")}>Cancel</button>
+                    <button className='btn btn-Cancel' onClick={() => navigate("/sidebar/agencies")}>Cancel</button>
                 </div>
 
             </div>

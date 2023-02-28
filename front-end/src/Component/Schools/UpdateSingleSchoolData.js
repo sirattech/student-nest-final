@@ -36,7 +36,7 @@ function UpdateSingleSchoolData() {
                 currentTime,
             }).then((res2) => {
                 console.log("res2", res2);
-                navigate("/schools")
+                navigate("/sidebar/schools")
             })
         } catch (e) {
             console.log(e);
@@ -98,7 +98,7 @@ function UpdateSingleSchoolData() {
                     <button className='btn btn-Cancel' onClick={() => 
                      { 
                       // console.log("gggg");
-                      navigate("/schools")
+                      navigate("/sidebar/schools")
                     }
                       }>Cancel</button>
                 </div>

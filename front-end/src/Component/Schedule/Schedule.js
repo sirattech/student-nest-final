@@ -23,7 +23,9 @@ import Form from "react-bootstrap/Form";
 import { element } from "prop-types";
 import toast, { Toaster } from "react-hot-toast";
 import TimePicker from "rc-time-picker";
-import { secondsToHms, toSeconds } from "../../Convertor"
+import { secondsToHms, toSeconds, secondsToHmsssss } from "../../Convertor"
+import TimeInput from "react-time-picker-input";
+
 // import {getTime} from "./data"
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -112,7 +114,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
   const [teacherId, setTeacherId] = useState([]);
   const [scheduleTable, setscheduleTable] = useState([]);
   const [scheduleTableData, setScheduleTableData] = useState([]);
-  const [mondayStartTimes, setMondayStartTime] = useState("00:00");
+  const [mondayStartTimes, setMondayStartTime] = useState("");
   const [mondayEndTimes, setMondayEndTime] = useState("");
   const [spiner, setSpiner] = useState(false)
   const handleChange = (event) => {
@@ -222,8 +224,8 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
               }
             });
 
-            navigate("/newschedule");
-            window.location.reload();
+            navigate("/sidebar/newschedule");
+            // window.location.reload();
           } else {
             toast.error("please enter Schedule from User");
           }
@@ -338,16 +340,16 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
             } else {
 
 
-              // setScheduleTableData(userAAA)
+              setScheduleTableData(userAAA)
             }
 
           } else {
             fetchdata.push(userAAA)
             setSpiner(true)
-            setTimeout(() => {
+            // setTimeout(() => {
 
-              setScheduleTableData(fetchdata)
-            }, 2000);
+            //   setScheduleTableData(fetchdata)
+            // }, 2000);
             setSpiner(false)
           }
 
@@ -358,6 +360,10 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
       })
       //  return 
       console.log("fetchdata", fetchdata);
+      setTimeout(() => {
+
+        setScheduleTableData(fetchdata)
+      }, 2000);
 
 
       // let newscheduledata = await axios.get(
@@ -632,20 +638,23 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
           </FormControl>
         </div>
         <div className="col-lg-3 mt-3">
-          <TimePicker
+        <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString)=>setMondayStartTime(dateString)}/>
+          {/* <TimePicker
             placeholder="Start Time"
             defaultValue={0}
             showSecond={false}
             onChange={mondayTimeChange}
-          />
+          /> */}
         </div>
         <div className="col-lg-4 mt-3">
-          <TimePicker
+        <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString)=>setMondayEndTime(dateString)}/>
+
+          {/* <TimePicker
             placeholder="End Time"
             defaultValue={0}
             showSecond={false}
             onChange={mondayendTimeChange}
-          />
+          /> */}
         </div>
         <div className="col-lg-4 col-11 mt-3 mb-3">
           <div className="d-grid gap-2">
@@ -699,13 +708,13 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
                         <tr key={item?.index}>
                           <td key={item?.index}>{index}</td>
                           <td>{`${item?.firstName} ${item?.lastName}`}</td>
-                          {item?.mondayStartTime > 0 ? (<td>{`${secondsToHms(item?.mondayStartTime)} - ${secondsToHms(item?.mondayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.tuesdayStartTime > 0 ? (<td>{`${secondsToHms(item?.tuesdayStartTime)} - ${secondsToHms(item?.tuesdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.wednesdayStartTime > 0 ? <td>{`${secondsToHms(item?.wednesdayStartTime)} - ${secondsToHms(item?.wednesdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.thursdayStartTime > 0 ? <td>{`${secondsToHms(item?.thursdayStartTime)} - ${secondsToHms(item?.thursdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.fridayStartTime > 0 ? <td>{`${secondsToHms(item?.fridayStartTime)} - ${secondsToHms(item?.fridayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.saturdayStartTime > 0 ? (<td>{`${secondsToHms(item?.saturdayStartTime)} - ${secondsToHms(item?.saturdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.sundayStartTime > 0 ? (<td>{`${secondsToHms(item?.sundayStartTime)} - ${secondsToHms(item?.sundayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.mondayStartTime > 0 &&  item?.mondayEndTime>0 ? (<td>{`${secondsToHmsssss(item?.mondayStartTime)} - ${secondsToHmsssss(item?.mondayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.tuesdayStartTime > 0 &&  item?.tuesdayEndTime>0 ? (<td>{`${secondsToHmsssss(item?.tuesdayStartTime)} - ${secondsToHmsssss(item?.tuesdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.wednesdayStartTime > 0 &&  item?.wednesdayEndTime>0 ? <td>{`${secondsToHmsssss(item?.wednesdayStartTime)} - ${secondsToHmsssss(item?.wednesdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.thursdayStartTime > 0 &&  item?.thursdayEndTime>0 ? <td>{`${secondsToHmsssss(item?.thursdayStartTime)} - ${secondsToHmsssss(item?.thursdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.fridayStartTime > 0 &&  item?.fridayEndTime>0 ? <td>{`${secondsToHmsssss(item?.fridayStartTime)} - ${secondsToHmsssss(item?.fridayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.saturdayStartTime > 0 &&  item?.saturdayEndTime>0 ? (<td>{`${secondsToHmsssss(item?.saturdayStartTime)} - ${secondsToHmsssss(item?.saturdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.sundayStartTime > 0 &&  item?.sundayEndTime >0 ? (<td>{`${secondsToHmsssss(item?.sundayStartTime)} - ${secondsToHmsssss(item?.sundayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
 
                           <td>
                             {/* secondsToHms(item?.sundayStartTime) */}

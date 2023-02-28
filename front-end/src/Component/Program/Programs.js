@@ -225,8 +225,8 @@ function Programs() {
                                                                         <td className='pt-3'>{items?.currentTime}</td>
                                                                         <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
                                                                         <td>
-                                                                            <Link to={`/show_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
-                                                                            <Link to={`/update_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/show_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/update_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
                                                                             <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => programsDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
 
                                                                         </td>
@@ -251,8 +251,8 @@ function Programs() {
                                                                         <td className='pt-3'>{items?.currentTime}</td>
                                                                         <td className='pt-2'>{items.active == "true" ? <button className='btn btn-active' size="sm">Active</button> : <button className='btn btn-Inactive' size="sm">Inactive</button>}</td>
                                                                         <td>
-                                                                            <Link to={`/show_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
-                                                                            <Link to={`/update_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/show_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-info me-2 mt-1' style={{ paddibg: "0" }} title="View"><i class="fa-solid fa-eye" style={{ color: "white" }}></i></button></Link>
+                                                                            <Link to={`/sidebar/update_single_program_data/${items._id}`} style={{ textDecoration: "none" }}><button className='btn btn-xs btn-warning me-2 mt-1' style={{ paddibg: "0" }} title="Update"><i class="fa-solid fa-pencil" style={{ color: "white" }}></i></button></Link>
                                                                             <button className='btn btn-xxs btn-danger mt-1' title="Delete" onClick={() => programsDataDelete(items._id)}><i class="fa-solid fa-xmark" style={{ color: "white" }}></i></button>
 
                                                                         </td>
