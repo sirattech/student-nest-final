@@ -15,7 +15,6 @@ function UpdateSingleAgencyData() {
     const singleDataAgency = async () => {
         try {
             await axios.get(`${BACKEND_URI}/single_person_agency_data/${params.id}`).then((res1) => {
-                console.log("res1", res1.data);
                 setTitle(res1.data.title)
                 setDescription(res1.data.description)
                 setCurrentTime(res1.data.currentTime);
@@ -25,7 +24,6 @@ function UpdateSingleAgencyData() {
             console.log("e", e);
         }
     }
-console.log("active", active);
     const UpdateData = async () => {
         try {
            
@@ -35,7 +33,6 @@ console.log("active", active);
                 description,
                 currentTime,
             }).then((res2) => {
-                console.log("res2", res2);
                 navigate("/sidebar/agencies")
             })
         } catch (e) {

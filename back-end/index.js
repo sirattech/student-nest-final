@@ -6,10 +6,10 @@ app.use(express.json())
 app.use(cors())
 const https = require('https');
 var fs = require('fs')
-// const options = {
-//     key: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/privkey.pem'),
-//     cert: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/fullchain.pem')
-// };
+const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/fullchain.pem')
+};
 
 
 
@@ -507,12 +507,71 @@ app.get("/", (req, res) => {
 
 
 //..............................login ...........................//
+const Admin = require("./Schema/AdminSchema")
+
+app.post("/admin_data", async(req,res)=>{
+    let admin = new Admin(req.body);
+    let result = await admin.save();
+    console.log(result);
+    res.send(req.body)
+})
+
+app.get("/admin_data", async(req,res)=>{
+    let use = await Admin.find();
+
+    if (use.length) {
+        res.send(use)
+    } else {
+        res.send({ result: "No Admin Data Found" })
+    }
+})
+
+app.get("/admin_data_show/:id", async(req,res)=>{ 
+      let result = await Admin.findOne({ _id: req.params.id })
+    res.send(result);
+})
+
+
+app.put("/admin_update_data/:id", async(req,res)=>{
+    let result = await Admin.updateOne(
+        { _id: req.params.id },
+        {
+            $set: req.body
+        }
+    )
+    res.send(result)
+})
+
+
+app.put("/reset_password/:id", async(req, res)=>{
+    let {oldPassword,password} = req.body
+    let result = await Admin.findOne({ _id: req.params.id })
+    const isMatched = await result.comparePassword(oldPassword);
+    
+    if (!isMatched){
+         
+        return res.send({result: "Old password not exist! please enter correct old password"})
+      }
+    if(isMatched == true){
+        let result = await Admin.updateOne(
+            { _id: req.params.id },
+            {
+                $set: password
+            }
+        )
+        res.send(result)
+        
+    }
+
+    // res.send(req.body)
+})
+
 app.post("/login", async(req,res)=>{
     let {email,password} = req.body
     if(!email || !password){
         return res.send({result: "E-mail and password are required"})
     }
-    let checklogin = await UserData.findOne({email: email})
+    let checklogin = await Admin.findOne({email: email})
     if(!checklogin){
         return res.send({result: "Invalid credentials"})
     }
@@ -526,13 +585,13 @@ app.post("/login", async(req,res)=>{
 
 
 
-// const port = process.env.PORT || 8000
-// https.createServer(options, app).listen(port, () => {
-//     console.log(`Server Running at ${port}`)
-// });
-
-
 const port = process.env.PORT || 8000
-app.listen(port, () => {
+https.createServer(options, app).listen(port, () => {
     console.log(`Server Running at ${port}`)
 });
+
+
+// const port = process.env.PORT || 8000
+// app.listen(port, () => {
+//     console.log(`Server Running at ${port}`)
+// });

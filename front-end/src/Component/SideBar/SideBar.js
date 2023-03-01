@@ -26,14 +26,10 @@ import Popover from 'react-bootstrap/Popover';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { GiGears } from "react-icons/gi"
-import {
-  Routes,
-  Route,
-  Link,
-  // useLocation,
-  // useNavigate,
-} from "react-router-dom";
+import { GiGears, GiTruce } from "react-icons/gi"
+// import Button from "@material-ui/core/Button";
+// import Popover from "@material-ui/core/Popover";
+import { Routes, Route, Link, } from "react-router-dom";
 import { FaClipboard } from "react-icons/fa"
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -69,13 +65,15 @@ import UpdateSingleSubjectData from '../Subject/UpdateSingleSubjectData';
 import ViewSingleUserData from '../User/ViewSingleUserData';
 import UpdateSingleUserData from '../User/UpdateSingleUserData';
 import NewSchedule from '../Schedule/NewSchedule';
-// import IconLibraryBooks from '@material-ui/icons/LibraryBooks'
-// import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
-// import { BACKEND_URI, LOCAL_URL } from "../../config/config"
-
-// import Popover from '@mui/material/Popover';
-// import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { BACKEND_URI } from "../../config/config";
+import admin_pic from "../../Assets/94592.png";
+import { FaSuitcase } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io"
+import { FiKey } from "react-icons/fi"
+import AdminShowData from '../Admin/AdminShowData';
+import AdminUpdate from '../Admin/AdminUpdate';
+import PasswordReset from '../Admin/PasswordReset';
 const drawerWidth = 240;
 
 interface Props {
@@ -99,80 +97,16 @@ const useStyles = makeStyles(theme =>
   }),
 )
 export default function ResponsiveDrawer(props: Props, { setData }) {
-  let [projectName, setProjectName] = useState([])
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isColor, setIsColor] = useState("Create AR Project")
   const [navColor, isNavColor] = useState("save")
   const [teacherSelect, setTeacherSelect] = useState("")
-  // const { pathname } = useLocation();
-  const [editData, setEditData] = useState("");
-  let [totalProject, setTotalProject] = useState(0);
-  let [sessionData,setSessionData] = useState()
-  // let auth = localStorage.getItem("webar")
 
-  // let auths = JSON.parse(auth)
-  // console.log("auths", auths);
+  let [sessionData, setSessionData] = useState()
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  // const changeRoute = () => {
-
-  //   if (pathname) {
-  //     if (pathname == "/sidebar/HomePage") {
-  //       setIsColor("Create AR Project")
-  //     } else if (pathname == "/sidebar/myproject") {
-  //       setIsColor("My Project")
-  //     } else if (pathname == "/sidebar/myprofile") {
-  //       setIsColor("View Miner")
-  //     }
-  //     else if (pathname == "/mindar") {
-  //       setIsColor("WebAR")
-  //     }
-  //   }
-  // }
-  // const ChangeRouteTwo = () => {
-  //   if (pathname) {
-  //     if (pathname == "/sidebar/HomePage") {
-  //       isNavColor("save")
-  //     } else if (pathname == "/sidebar/preview") {
-  //       isNavColor("Preview")
-  //     } else if (pathname == "/sidebar/publish") {
-  //       isNavColor("Publish")
-  //     }
-  //   }
-  // }
-
-  // const StatusData = async () => {
-  //   try {
-
-  //     await axios.get(`${BACKEND_URI}/getdata`).then((resp) => {
-  //       let statusShow = []
-  //       let projectnames = []
-  //       for (var i = 0; i < resp.data.length; i++) {
-  //         console.log(resp.data[i]);
-  //         if (resp.data[i].webardata.ids == auths.IdAddress) {
-  //           console.log("res1", resp.data[i].webardata.editData);
-  //           let statusData = resp.data[i]
-
-  //           projectnames.push(resp.data[i].webardata.editData)
-  //           statusShow.push(statusData)
-  //         }
-  //       }
-  //       setTotalProject(statusShow.length)
-  //       setProjectName(projectnames)
-  //     })
-  //   } catch (e) {
-  //     console.log("e", e);
-  //   }
-  // }
-  useEffect(() => {
-    // changeRoute();
-    // StatusData();
-  }, [])
-  useEffect(() => {
-    // ChangeRouteTwo();
-  }, [])
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const [openOne, setOpenOne] = React.useState(false)
@@ -183,22 +117,33 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
     setOpenOne(!openOne)
   }
 
+  const [fName, setFName] = useState("");
+  const [lname, setLName] = useState("")
+  const [objectId, setObjectId] = useState("")
+  const admin_Data = async () => {
+    try {
+      await axios.get(`${BACKEND_URI}/admin_data`).then((res) => {
+        console.log("res", res.data[0].firstName);
+        setFName(res?.data[0]?.firstName);
+        setLName(res?.data[0]?.lastName)
+        setObjectId(res?.data[0]?._id)
+      })
+    } catch (e) {
+      console.log("e", e);
+    }
+  }
+  useEffect(() => {
+    admin_Data()
+  }, [])
+
 
   const drawer = (
     <div className="stakenmsColor1" style={{ color: "white" }}>
       <Toolbar className="text-start d-flex align-items-center justify-content-start pb-3 pt-1" style={{ backgroundColor: "white", color: "black" }}>
         <img src={logo1} width="170px" />
-        {/* <p className="side-p mt-3 ms-2">AR Create Tool</p> */}
       </Toolbar>
       <br />
       <Divider />
-      {/* {
-        auth ? 
-        :
-          <>
-          </>
-      } */}
-
       <List>
         <Link to="/sidebar/dashboard" style={{ textDecoration: "none" }}>
           <ListItem button href="#deshborad" key="Dashboard"
@@ -299,20 +244,18 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
         <Collapse in={openOne} timeout="auto" unmountOnExit>
           <Divider />
           <Link to="/sidebar/notification" style={{ textDecoration: "none" }}>
-          <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClickOne}>
-            <ListItemText inset primary="Email Notifications" />
-          </ListItem>
+            <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClickOne}>
+              <ListItemText inset primary="Email Notifications" />
+            </ListItem>
           </Link>
           <Link to="/sidebar/activity" style={{ textDecoration: "none" }}>
-          <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClickOne}>
-            <ListItemText inset primary="Activity Log" />
-          </ListItem>
+            <ListItem button className="staking-btn-down pt-2 pb-2" onClick={handleClickOne}>
+              <ListItemText inset primary="Activity Log" />
+            </ListItem>
           </Link>
         </Collapse>
 
       </List>
-
-
     </div>
   );
 
@@ -333,7 +276,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
 
           <Typography style={{ color: "white", display: "flex", width: '100%' }} >
             <div style={{ width: '100%' }} >
-              <Navbar collapseOnSelect  sticky="top" variant="light" style={{ width: "100%", backgroundColor: '#fff' }} >
+              <Navbar collapseOnSelect sticky="top" variant="light" style={{ width: "100%", backgroundColor: '#fff' }} >
                 <IconButton
                   color="inherit"
                   aria-label="open drawer"
@@ -351,24 +294,29 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
                 <Navbar.Collapse id="responsive-navbar-nav" >
                   <Nav className=" nav  d-flex justify-content-evenly nav-one-width" >
 
-                    {/* <Nav.Link href="" className={navColor == "save" ? 'nav-text-active' : "nav-text"} id="save" onClick={() => {
-                      isNavColor("save")
-                     
-                      }} on>
-                      
-                      Save
-                     
-                    </Nav.Link>
-                    <Nav.Link href="" className={navColor == "Preview" ? 'nav-text-active' : "nav-text"} id="Preview" onClick={() => isNavColor("Preview")} >Preview</Nav.Link>
-                    <Nav.Link href="" className={navColor == "Publish" ? 'nav-text-active' : "nav-text"} id="Publish" onClick={() => isNavColor("Publish")}>Publish</Nav.Link> */}
+
                   </Nav>
                   <Nav className=' d-flex align-items-center justify-content-start'>
                     {/* <Nav.Link className='nav-text'><EmailIcon style={{ color: '#0e1a35' }} /></Nav.Link> */}
                     <Nav.Link className='nav-text'>
 
-                    <input id="s" type="search" placeholder="search"/>
+                      <input id="s" type="search" placeholder="search" />
                     </Nav.Link>
-                    <Nav.Link href=""></Nav.Link>
+                    <Nav.Link href="">
+                      <Dropdown>
+                        <Dropdown.Toggle id="dropdown-basic" className='drop-test'>
+                          <img src={admin_pic} width="30px" style={{ borderRadius: "50%" }} /> <span style={{ fontSize: "13px" }}>{fName} {lname}</span>  <span style={{ fontSize: "13px", fontWeight: "500" }}>(Admin)</span>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                          <Link to={`/sidebar/admin_show_data/${objectId}`} style={{ textDecoration: "none" }}><Dropdown.Item href="#/action-1" className='mt-2'><FaSuitcase size={16} /> &nbsp;Profile</Dropdown.Item></Link>
+                          {/* <Link to={`/sidebar/reset_password/${objectId}`} style={{ textDecoration: "none" }}> */}
+                            <Dropdown.Item href="#/action-2" className='mt-2'><IoMdSettings size={17} />  &nbsp;Setting</Dropdown.Item>
+                            {/* </Link> */}
+                          <Link to="/" style={{ textDecoration: "none" }}><Dropdown.Item href="#/action-3" className='mt-2'><FiKey size={17} /> &nbsp;Log Out</Dropdown.Item></Link>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Nav.Link>
                   </Nav>
                 </Navbar.Collapse>
               </Navbar>
@@ -415,31 +363,34 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
       >
         <Toolbar />
         <Routes>
-          <Route exact path='/dashboard' element={<Dashboard sessionData={sessionData}/>} />
+          <Route exact path='/dashboard' element={<Dashboard sessionData={sessionData} />} />
           <Route exact path='/user' element={<User />} />
-          <Route exact path="/schedule" element={<Schedule setTeacherSelect={setTeacherSelect} teacherSelect={teacherSelect} setSessionData={setSessionData} sessionData={sessionData}  />} />
+          <Route exact path="/schedule" element={<Schedule setTeacherSelect={setTeacherSelect} teacherSelect={teacherSelect} setSessionData={setSessionData} sessionData={sessionData} />} />
           <Route exact path='/agencies' element={<Agencies />} />
           <Route exact path="/program" element={<Programs />} />
           <Route exact path='/schools' element={<Schools />} />
           <Route exact path='/grade' element={<Grade />} />
           <Route exact path='/subject' element={<Subject />} />
-          <Route exact path='/notification' element={<EmailNotification/>}/>
-          <Route exact path='/activity' element={<ActivityLog/>}/>
-          <Route exact path="/show_single_agency_data/:id" element={<ShowSingleAgencyData/>}/>
-          <Route exact path="/update_single_agency_data/:id" element={<UpdateSingleAgencyData/>}/>
-          <Route exact path="/show_single_program_data/:id" element={<ShowSingleProgramData/>}/>
-          <Route exact path="/update_single_program_data/:id" element={<UpdateSingleProgramData/>}/>
-          <Route exact path="/show_single_school_data/:id" element={<ShowSingleSchoolData/>}/>
-          <Route exact path="/update_single_school_data/:id" element={<UpdateSingleSchoolData/>}/>
-          <Route exact path="/show_single_Grade_data/:id" element={<ShowSingleGradeData/>}/>
-          <Route exact path="/update_single_Grade_data/:id" element={<UpdateSingleGradeData/>}/>
-          <Route exact path='/show_single_subject_data/:id' element={<ShowSingleSubjectData/>}/>
-          <Route exact path='/update_single_subject_data/:id' element={<UpdateSingleSubjectData/>}/>
-          <Route exact path="/view_single_User_Data/:id" element={<ViewSingleUserData/>}/>
-          <Route exact path="/update_single_user_data/:id" element={<UpdateSingleUserData/>}/>
-          <Route exact path="/newschedule" element={<NewSchedule teacherSelect={teacherSelect}/>}/>
+          <Route exact path='/notification' element={<EmailNotification />} />
+          <Route exact path='/activity' element={<ActivityLog />} />
+          <Route exact path="/show_single_agency_data/:id" element={<ShowSingleAgencyData />} />
+          <Route exact path="/update_single_agency_data/:id" element={<UpdateSingleAgencyData />} />
+          <Route exact path="/show_single_program_data/:id" element={<ShowSingleProgramData />} />
+          <Route exact path="/update_single_program_data/:id" element={<UpdateSingleProgramData />} />
+          <Route exact path="/show_single_school_data/:id" element={<ShowSingleSchoolData />} />
+          <Route exact path="/update_single_school_data/:id" element={<UpdateSingleSchoolData />} />
+          <Route exact path="/show_single_Grade_data/:id" element={<ShowSingleGradeData />} />
+          <Route exact path="/update_single_Grade_data/:id" element={<UpdateSingleGradeData />} />
+          <Route exact path='/show_single_subject_data/:id' element={<ShowSingleSubjectData />} />
+          <Route exact path='/update_single_subject_data/:id' element={<UpdateSingleSubjectData />} />
+          <Route exact path="/view_single_User_Data/:id" element={<ViewSingleUserData />} />
+          <Route exact path="/update_single_user_data/:id" element={<UpdateSingleUserData />} />
+          <Route exact path="/newschedule" element={<NewSchedule teacherSelect={teacherSelect} />} />
+          <Route exact path="/admin_show_data/:id" element={<AdminShowData />} />
+          <Route exact path="/admin_Update_Data/:id" element={<AdminUpdate />} />
+          <Route exact path="/reset_password/:id" element={<PasswordReset/>} />
         </Routes>
-       
+
       </Box>
     </Box>
   );

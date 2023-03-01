@@ -12,12 +12,12 @@ function Login({setstate,state}) {
   const handleSubmit =async(e)=>{
     try{
       e.preventDefault();
-      // console.log(password, email);
+      console.log(password, email);
     await axios.post(`${BACKEND_URI}/login`,{
       email,
       password
     }).then((res)=>{
-      // console.log(res.data.result);
+    
       if(res.data.result == "E-mail and password are required"){
         toast.error("E-mail and password are required")
       } else if(res.data.result == "Invalid credentials"){
@@ -31,7 +31,8 @@ function Login({setstate,state}) {
       }
 
     })
-      
+      //      setstate(!state)
+      // Navigate("/sidebar/dashboard")
     }catch(e){
       console.log("e", e);
     }
