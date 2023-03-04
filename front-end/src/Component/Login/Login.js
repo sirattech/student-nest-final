@@ -17,7 +17,7 @@ function Login({setstate,state}) {
       email,
       password
     }).then((res)=>{
-    
+    console.log("res", res.data.status)
       if(res.data.result == "E-mail and password are required"){
         toast.error("E-mail and password are required")
       } else if(res.data.result == "Invalid credentials"){
@@ -27,11 +27,12 @@ function Login({setstate,state}) {
       }  else{
         toast.success("Login Successfully")
         setstate(!state)
-      Navigate("/sidebar/dashboard")
+        Navigate("/sidebar/dashboard")
+        localStorage.setItem("studentNest", JSON.stringify(res.data.status))
       }
 
     })
-      //      setstate(!state)
+      // setstate(!state)
       // Navigate("/sidebar/dashboard")
     }catch(e){
       console.log("e", e);

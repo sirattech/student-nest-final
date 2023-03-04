@@ -26,7 +26,7 @@ import { Link } from "react-router-dom"
 import InputAdornment from '@mui/material/InputAdornment';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
-import {secondsToHmsssss, toSeconds} from "../../Convertor"
+import { secondsToHmsssss, toSeconds } from "../../Convertor"
 import TimeInput from "react-time-picker-input";
 import moment from 'moment';
 
@@ -145,11 +145,13 @@ function UpdateSingleUserData() {
     const [sundayStartTimes, setSundayStartTime] = useState('');
     const [sundayEndTimes, setSundayEndTime] = useState('');
 
-    const [peragencyName,setAgencyPerNameSingle] = useState([])
-    const [slectagencydata,setSelectAgencyData] = useState([])
-    const [scheduleId,setScheduleId] = useState()
+    const [peragencyName, setAgencyPerNameSingle] = useState([])
+    
+    const [scheduleId, setScheduleId] = useState()
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     // ........Time Pick .................//
-  
+
     const handleChangeRole = (event) => {
         setRole(event.target.value);
         console.log(event.target.value);
@@ -245,9 +247,9 @@ function UpdateSingleUserData() {
                 let agenciesData = []
                 let agencydata = agencyRes.data;
                 console.log("peragencyName", peragencyName);
-                agencydata.map((res)=>{
+                agencydata.map((res) => {
                     console.log("2121", res._id);
-                    if(res._id === peragencyName){
+                    if (res._id === peragencyName) {
                         agenciesData.push(agencydata)
                     }
 
@@ -278,10 +280,11 @@ function UpdateSingleUserData() {
 
     const showSingleApiData = async () => {
         try {
-            let userIds ;
-            await axios.get(`${BACKEND_URI}/user_single_data_find/${params.id}`).then((showRes) => {                
+            let userIds;
+            await axios.get(`${BACKEND_URI}/user_single_data_find/${params.id}`).then((showRes) => {
                 let agencyarr = []
-                console.log("showRes", showRes.data);
+                let timeZone = []
+                console.log("showRes", showRes.data.selectLanguagesEnter);
                 setFirstName(showRes.data.firstName);
                 setLastName(showRes.data.lastName);
                 setEMail(showRes.data.email);
@@ -321,6 +324,16 @@ function UpdateSingleUserData() {
                 setSaturdayEndTime(satEndTime);
                 setSundayStartTime(sunSTartTime);
                 setSundayEndTime(sunEndTime)
+                timeZone.push(showRes?.data?.timeZone)
+                setTimeZone(showRes?.data?.timeZone)
+                setSelectProgramEnter(showRes.data.selectProgramsEnter)
+                setSelectSchoolEnter(showRes.data.selectSchoolsEnter)
+                setSelectGradesEnter(showRes.data.selectGradesEnter)
+                setSelectSubjectsEnter(showRes.data.selectSubjectsEnter)
+                setSelectLanguagesEnter(showRes.data.selectLanguagesEnter)
+                setPersonNameEnter(showRes.data.personNameEnter)
+// console.log("timeZoneOpen", timeZone);
+
                 // console.log("mondyStartTime, ", mondyendTime);
                 // setPersonNameEnter(agencyData)
                 // console.log("agencydata", agencyData.length);
@@ -330,18 +343,21 @@ function UpdateSingleUserData() {
                 //     setPersonNameEnter(
                 //         typeof agencyData[i].title === 'string' ? agencyData[i].title.split(',') : agencyData[i].title,
                 //     )
-                // }
-                agencyData.map((agencydataaaa) => {
-                    agencyarr.push(agencydataaaa)
-                    console.log("agencydataaaa", agencydataaaa._id);
-                    let textcheck = agencydataaaa
-                    agencyarr.push(textcheck)
+                // // }
+                // console.log("agencyData", agencyData);
+                // agencyData.map((agencydataaaa) => {
+                //     // agencyarr.push(agencydataaaa)
+                //     // console.log("agencydataaaa", agencydataaaa._id);
+                //     let textcheck = agencydataaaa;
+                //     // console.log("textcheck", textcheck.title);
+                //     agencyarr.push(textcheck)
 
-                    setPersonNameEnter(
-                        {agencyarr}
-                    )
-                })
-               
+                //     // setPersonNameEnter(
+                //             // typeof agencyarr === 'string' ? agencyarr.split(',') : agencyarr
+                //         // agencyarr
+                //     // )
+                // })
+
             })
             // let scheduleApi = await axios.get(`${BACKEND_URI}/schedule`)
 
@@ -356,15 +372,15 @@ function UpdateSingleUserData() {
             // }
 
 
-    //  await axios.get(`${BACKEND_URI}/schedule`).then((schedule)=>{
-    //     console.log("schedule", schedule);
-    //  })
+            //  await axios.get(`${BACKEND_URI}/schedule`).then((schedule)=>{
+            //     console.log("schedule", schedule);
+            //  })
 
         } catch (e) {
             console.log("e", e);
         }
     }
-
+console.log("timeZone", timeZone);
     const updateUserData = async () => {
         let mondayStartTime = toSeconds(mondayStartTimes);
         let mondayEndTime = toSeconds(mondayEndTimes)
@@ -382,18 +398,28 @@ function UpdateSingleUserData() {
         let sundayEndTime = toSeconds(sundayEndTimes)
         try {
             await axios.put(`${BACKEND_URI}/user_single_data_Update/${params.id}`, {
-                role,timeZone,personNameEnter,selectProgramsEnter,selectSchoolsEnter,selectGradesEnter,selectSubjectsEnter,selectLanguagesEnter,
-                consortiumId,gender,firstName,lastName,email,mobileNumber,address,mondayStartTime,mondayEndTime,tuesdayStartTime,tuesdayEndTime,wednesdayStartTime,wednesdayEndTime,
-                thursdayStartTime,thursdayEndTime,fridayStartTime,fridayEndTime,saturdayStartTime,saturdayEndTime,sundayStartTime,sundayEndTime
+                role, timeZone, personNameEnter, selectProgramsEnter, selectSchoolsEnter, selectGradesEnter, selectSubjectsEnter, selectLanguagesEnter,
+                consortiumId, gender, firstName, lastName, email, mobileNumber, address, mondayStartTime, mondayEndTime, tuesdayStartTime, tuesdayEndTime, wednesdayStartTime, wednesdayEndTime,
+                thursdayStartTime, thursdayEndTime, fridayStartTime, fridayEndTime, saturdayStartTime, saturdayEndTime, sundayStartTime, sundayEndTime,
+                password
             }).then((res) => {
-                console.log("res", res);
+                // console.log("res", res);
                 navigate("/sidebar/user")
             })
         } catch (e) {
             console.log("e", e);
         }
     }
-    // console.log("mondayEndTime", mondayEndTime);
+
+
+    const handleChangepassword = (e) => {
+        // console.log(e.target.value);
+        setPassword(e.target.value);
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
     useEffect(() => {
         allApiData()
     }, [])
@@ -470,7 +496,7 @@ function UpdateSingleUserData() {
                                 {
                                     timeZoneGet.map((items) => {
                                         return (
-                                            <MenuItem value={items} key={items._id}>{items.timezone}</MenuItem>
+                                            <MenuItem value={items.timezone} key={items._id}>{items.timezone}</MenuItem>
                                         )
                                     })
                                 }
@@ -493,12 +519,13 @@ function UpdateSingleUserData() {
                                 labelId="demo-multiple-name-label"
                                 id="demo-multiple-name"
                                 multiple
-                                defaultValue={personNameEnter}
+                                value={personNameEnter}
+                                defaultValue={personNameEnter.title}
                                 //     .map((items)=>{
                                 //         console.log("id", items.title);
                                 //        let value = items.title
                                 //      return   typeof value === 'string' ? value.split(',') : value
-                                
+
                                 // })}
                                 onChange={handleChangeAgency}
                                 input={<OutlinedInput label="Select Agency" />}
@@ -508,10 +535,10 @@ function UpdateSingleUserData() {
                                 {agencyData.map((name) => (
                                     <MenuItem
                                         key={name.id}
-                                        value={name}
-                                        // style={getStylesAgency(name, personNameEnter, theme)}
-                                        // data-value = {name}
-                                        // value2={}
+                                        value={name.title}
+                                    // style={getStylesAgency(name, personNameEnter, theme)}
+                                    // data-value = {name}
+                                    // value2={}
                                     >
                                         {name.title}
                                         {/* {personNameEnter} */}
@@ -519,8 +546,6 @@ function UpdateSingleUserData() {
                                 ))}
                             </Select>
                         </FormControl>
-
-
                     </div>
                 </div>
                 <div className='col-lg-10  '>
@@ -544,8 +569,8 @@ function UpdateSingleUserData() {
                                 {programData.map((name) => (
                                     <MenuItem
                                         key={name.id}
-                                        value={name}
-                                        // style={getStylesAgency(name, personNameEnter, theme)}
+                                        value={name.title}
+                                    // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -576,8 +601,8 @@ function UpdateSingleUserData() {
                                 {schoolsData.map((name) => (
                                     <MenuItem
                                         key={name.id}
-                                        value={name}
-                                        // style={getStylesAgency(name, personNameEnter, theme)}
+                                        value={name.title}
+                                    // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -608,8 +633,8 @@ function UpdateSingleUserData() {
                                 {gradeData.map((name) => (
                                     <MenuItem
                                         key={name.id}
-                                        value={name}
-                                        // style={getStylesAgency(name, personNameEnter, theme)}
+                                        value={name.title}
+                                    // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -640,8 +665,8 @@ function UpdateSingleUserData() {
                                 {subjectData.map((name) => (
                                     <MenuItem
                                         key={name.id}
-                                        value={name}
-                                        // style={getStylesAgency(name, personNameEnter, theme)}
+                                        value={name.title}
+                                    // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.title}
                                     </MenuItem>
@@ -672,8 +697,8 @@ function UpdateSingleUserData() {
                                 {languageGet.map((name) => (
                                     <MenuItem
                                         key={name.id}
-                                        value={name}
-                                        // style={getStylesAgency(name, personNameEnter, theme)}
+                                        value={name.language}
+                                    // style={getStylesAgency(name, personNameEnter, theme)}
                                     >
                                         {name.language}
                                     </MenuItem>
@@ -684,7 +709,7 @@ function UpdateSingleUserData() {
                 </div>
 
                 {
-                    
+
                     timeStatus !== true ? (
                         <div className='col-lg-10  text-start'>
                             <label htmlFor="exampleFormControlInput1" className="form-label mt-2">Schedule</label>
@@ -693,12 +718,12 @@ function UpdateSingleUserData() {
                                     <h6>Monday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString)=>setMondayStartTime(dateString)}/>
+                                        <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString) => setMondayStartTime(dateString)} />
                                         {/* <TimePicker defaultValue={mondayStartTime} showSecond={false}  onChange={mondayTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString)=>setMondayEndTime(dateString)}/>
+                                        <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString) => setMondayEndTime(dateString)} />
                                         {/* <TimePicker defaultValue={moment("13:56" , 'HH:mm' )}   showSecond={false} onChange={mondayendTimeChange} dateFormat="MMMM dd, yyyy"/> */}
                                     </div>
                                 </div>
@@ -707,11 +732,11 @@ function UpdateSingleUserData() {
                                     <h6>Tuesday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimeInput value={tuesdayStartTimes} eachInputDropdown onChange={(dateString)=>setTuesdayStartTime(dateString)}/>
+                                        <TimeInput value={tuesdayStartTimes} eachInputDropdown onChange={(dateString) => setTuesdayStartTime(dateString)} />
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimeInput value={tuesdayEndTimes} eachInputDropdown onChange={(dateString)=>setTuesdayEndTime(dateString)}/>
+                                        <TimeInput value={tuesdayEndTimes} eachInputDropdown onChange={(dateString) => setTuesdayEndTime(dateString)} />
                                     </div>
                                 </div>
 
@@ -720,12 +745,12 @@ function UpdateSingleUserData() {
                                     <h6>Wednesday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimeInput value={wednesdayStartTimes} eachInputDropdown onChange={(dateString)=>setWednesdayStartTime(dateString)}/>
+                                        <TimeInput value={wednesdayStartTimes} eachInputDropdown onChange={(dateString) => setWednesdayStartTime(dateString)} />
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={wednesdayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimeInput value={wednesdayEndTimes} eachInputDropdown onChange={(dateString)=>setWednesdayEndTime(dateString)}/>
+                                        <TimeInput value={wednesdayEndTimes} eachInputDropdown onChange={(dateString) => setWednesdayEndTime(dateString)} />
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={wednesdayEndTimeChange} /> */}
                                     </div>
                                 </div>
@@ -735,12 +760,12 @@ function UpdateSingleUserData() {
                                     <h6>Thursday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimeInput value={thursdayStartTimes} eachInputDropdown onChange={(dateString)=>setThursdayStartTime(dateString)}/>
+                                        <TimeInput value={thursdayStartTimes} eachInputDropdown onChange={(dateString) => setThursdayStartTime(dateString)} />
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={thursdayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimeInput value={thursdayEndTimes} eachInputDropdown onChange={(dateString)=>setThursdayEndTime(dateString)}/>
+                                        <TimeInput value={thursdayEndTimes} eachInputDropdown onChange={(dateString) => setThursdayEndTime(dateString)} />
 
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={thursdayEndTimeChange} /> */}
                                     </div>
@@ -750,12 +775,12 @@ function UpdateSingleUserData() {
                                     <h6>Friday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimeInput value={fridayStartTimes} eachInputDropdown onChange={(dateString)=>setFridayStartTime(dateString)}/>
+                                        <TimeInput value={fridayStartTimes} eachInputDropdown onChange={(dateString) => setFridayStartTime(dateString)} />
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={fridayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimeInput value={fridayEndTimes} eachInputDropdown onChange={(dateString)=>setFridayEndTime(dateString)}/>
+                                        <TimeInput value={fridayEndTimes} eachInputDropdown onChange={(dateString) => setFridayEndTime(dateString)} />
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={fridayEndTimeChange} /> */}
                                     </div>
                                 </div>
@@ -764,11 +789,11 @@ function UpdateSingleUserData() {
                                     <h6>Saturday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimeInput value={saturdayStartTimes} eachInputDropdown onChange={(dateString)=>setSaturdayStartTime(dateString)}/>
+                                        <TimeInput value={saturdayStartTimes} eachInputDropdown onChange={(dateString) => setSaturdayStartTime(dateString)} />
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimeInput value={saturdayEndTimes} eachInputDropdown onChange={(dateString)=>setSaturdayEndTime(dateString)}/>
+                                        <TimeInput value={saturdayEndTimes} eachInputDropdown onChange={(dateString) => setSaturdayEndTime(dateString)} />
 
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={saturdayEndTimeChange} /> */}
                                     </div>
@@ -778,12 +803,12 @@ function UpdateSingleUserData() {
                                     <h6>Sunday</h6>
                                     <div className='text-start'>
                                         <lable>Start Time</lable><br />
-                                        <TimeInput value={sundayStartTimes} eachInputDropdown onChange={(dateString)=>setSundayStartTime(dateString)}/>
+                                        <TimeInput value={sundayStartTimes} eachInputDropdown onChange={(dateString) => setSundayStartTime(dateString)} />
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={sundayStartTimeChange} /> */}
                                     </div>
                                     <div className='text-start'>
                                         <lable>End Time</lable><br />
-                                        <TimeInput value={sundayEndTimes} eachInputDropdown onChange={(dateString)=>setSundayEndTime(dateString)}/>
+                                        <TimeInput value={sundayEndTimes} eachInputDropdown onChange={(dateString) => setSundayEndTime(dateString)} />
 
                                         {/* <TimePicker defaultValue={0} showSecond={false} onChange={sundayEndTimeChange} /> */}
                                     </div>
@@ -894,6 +919,46 @@ function UpdateSingleUserData() {
                             </Select>
                         </FormControl>
 
+                    </div>
+                </div>
+
+
+                <div className="col-lg-10 ">
+                    <div className="mb-3 d-flex align-items-center">
+                        <div className="col-md-2 text-start ">
+                            <label
+                                htmlFor="exampleFormControlInput1"
+                                className="form-label mt-2"
+                            >
+                                Password
+                            </label>
+                        </div>
+                        <div>
+                            <OutlinedInput
+                                className="select-width-demo"
+                                id="outlined-adornment-password"
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={handleChangepassword}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Enter Your Password"
+                            />
+                            {/* {dataError &&   !password && (
+                    <div className="text-start" style={{ color: "red" }}>
+                      Please Enter Password
+                    </div>
+                  )} */}
+                        </div>
                     </div>
                 </div>
                 <div className='col-md-11 mt-4 pt-3 pb-3 mb-5' style={{ borderBottom: "1px solid #838383", borderTop: "1px solid #838383" }}>

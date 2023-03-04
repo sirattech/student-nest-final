@@ -25,7 +25,7 @@ import toast, { Toaster } from "react-hot-toast";
 import TimePicker from "rc-time-picker";
 import { secondsToHms, toSeconds, secondsToHmsssss } from "../../Convertor"
 import TimeInput from "react-time-picker-input";
-
+import $ from "jquery";
 // import {getTime} from "./data"
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -205,6 +205,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
   const handleChangetTeacher = (event) => {
     try {
       let techerid = event.target.value;
+      console.log("techerid", techerid);
       localStorage.setItem("teacherSelect", JSON.stringify(techerid));
       setTeacherSelect(event.target.value);
     } catch (e) {
@@ -318,69 +319,40 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
       let fetchdata = []
       let mondayStartTime = toSeconds(mondayStartTimes)
       let mondayEndTime = toSeconds(mondayEndTimes)
-      // console.log("resSchedule", resSchedule.data);
       await axios.get(`${BACKEND_URI}/User_Data_Filter/personName=${personName}&selectPrograms=${selectPrograms}&selectLanguages=${selectLanguages}&selectSchools=${selectSchools}&selectGrades=${selectGrades}&selectSubjects=${selectSubjects}&Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}`).then((filtersss) => {
         console.log("filtersss", filtersss?.data);
-
-
-
-
-
         filtersss?.data.forEach(async (userAAA, index) => {
-          // console.log("userAAA", userAAA);
           let teacherId = userAAA._id;
-
           let resSchedule = await axios.get(`${BACKEND_URI}/schedule_googles_filter/Day=${age}&StartTime=${mondayStartTime}&EndTime=${mondayEndTime}&teacherId=${teacherId}`)
-
           if (resSchedule?.data?.length) {
-
             if (teacherId === resSchedule?.data[index]?.teacherSelect) {
-
-              // setScheduleTableData([])
             } else {
-
-
               setScheduleTableData(userAAA)
             }
-
           } else {
             fetchdata.push(userAAA)
             setSpiner(true)
-            // setTimeout(() => {
-
-            //   setScheduleTableData(fetchdata)
-            // }, 2000);
             setSpiner(false)
           }
-
-          // resSchedule.data.forEach(())
         })
-
-
       })
-      //  return 
-      console.log("fetchdata", fetchdata);
       setTimeout(() => {
-
         setScheduleTableData(fetchdata)
       }, 2000);
-
-
-      // let newscheduledata = await axios.get(
-      //   `${BACKEND_URI}/schedule_googles_Data`
-      // );
-      // console.log("newscheduledata", newscheduledata);
     } catch (e) {
       console.log("e", e);
     }
   }
-  console.log(scheduleTableData);
   useEffect(() => {
     scheduleShowData();
   }, []);
   useEffect(() => {
     allApiData();
   }, []);
+
+
+
+
 
   return (
     <div className="container">
@@ -638,7 +610,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
           </FormControl>
         </div>
         <div className="col-lg-3 mt-3">
-        <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString)=>setMondayStartTime(dateString)}/>
+          <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString) => setMondayStartTime(dateString)} />
           {/* <TimePicker
             placeholder="Start Time"
             defaultValue={0}
@@ -647,7 +619,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
           /> */}
         </div>
         <div className="col-lg-4 mt-3">
-        <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString)=>setMondayEndTime(dateString)}/>
+          <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString) => setMondayEndTime(dateString)} />
 
           {/* <TimePicker
             placeholder="End Time"
@@ -708,13 +680,13 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
                         <tr key={item?.index}>
                           <td key={item?.index}>{index}</td>
                           <td>{`${item?.firstName} ${item?.lastName}`}</td>
-                          {item?.mondayStartTime > 0 &&  item?.mondayEndTime>0 ? (<td>{`${secondsToHmsssss(item?.mondayStartTime)} - ${secondsToHmsssss(item?.mondayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.tuesdayStartTime > 0 &&  item?.tuesdayEndTime>0 ? (<td>{`${secondsToHmsssss(item?.tuesdayStartTime)} - ${secondsToHmsssss(item?.tuesdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.wednesdayStartTime > 0 &&  item?.wednesdayEndTime>0 ? <td>{`${secondsToHmsssss(item?.wednesdayStartTime)} - ${secondsToHmsssss(item?.wednesdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.thursdayStartTime > 0 &&  item?.thursdayEndTime>0 ? <td>{`${secondsToHmsssss(item?.thursdayStartTime)} - ${secondsToHmsssss(item?.thursdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.fridayStartTime > 0 &&  item?.fridayEndTime>0 ? <td>{`${secondsToHmsssss(item?.fridayStartTime)} - ${secondsToHmsssss(item?.fridayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.saturdayStartTime > 0 &&  item?.saturdayEndTime>0 ? (<td>{`${secondsToHmsssss(item?.saturdayStartTime)} - ${secondsToHmsssss(item?.saturdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
-                          {item?.sundayStartTime > 0 &&  item?.sundayEndTime >0 ? (<td>{`${secondsToHmsssss(item?.sundayStartTime)} - ${secondsToHmsssss(item?.sundayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.mondayStartTime > 0 && item?.mondayEndTime > 0 ? (<td>{`${secondsToHmsssss(item?.mondayStartTime)} - ${secondsToHmsssss(item?.mondayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.tuesdayStartTime > 0 && item?.tuesdayEndTime > 0 ? (<td>{`${secondsToHmsssss(item?.tuesdayStartTime)} - ${secondsToHmsssss(item?.tuesdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.wednesdayStartTime > 0 && item?.wednesdayEndTime > 0 ? <td>{`${secondsToHmsssss(item?.wednesdayStartTime)} - ${secondsToHmsssss(item?.wednesdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.thursdayStartTime > 0 && item?.thursdayEndTime > 0 ? <td>{`${secondsToHmsssss(item?.thursdayStartTime)} - ${secondsToHmsssss(item?.thursdayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.fridayStartTime > 0 && item?.fridayEndTime > 0 ? <td>{`${secondsToHmsssss(item?.fridayStartTime)} - ${secondsToHmsssss(item?.fridayEndTime)}`}</td> : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.saturdayStartTime > 0 && item?.saturdayEndTime > 0 ? (<td>{`${secondsToHmsssss(item?.saturdayStartTime)} - ${secondsToHmsssss(item?.saturdayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
+                          {item?.sundayStartTime > 0 && item?.sundayEndTime > 0 ? (<td>{`${secondsToHmsssss(item?.sundayStartTime)} - ${secondsToHmsssss(item?.sundayEndTime)}`}</td>) : (<td style={{ backgroundColor: "#ebe8e8" }}>Null</td>)}
 
                           <td>
                             {/* secondsToHms(item?.sundayStartTime) */}
@@ -790,6 +762,28 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            {/* <Autocomplete
+              className="select-width"
+              disablePortal
+              id="combo-box-demo"
+              options={teacherId}
+              onChange={handleChangetTeacher}
+              getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+              renderOption={(props, option) => (
+                
+                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+
+                  {option.firstName} {option.lastName}
+                </Box>
+              )}
+
+              sx={{ width: 450 }}
+              renderInput={(params) => 
+              <TextField {...params} value={params} label="Teacher Name" />
+            }
+            /> */}
+        
+        
             <Form.Select
               aria-label="Default select example"
               value={teacherSelect}

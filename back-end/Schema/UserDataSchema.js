@@ -3,54 +3,13 @@ const bcrypt = require('bcryptjs');
 let UserData = new mongoose.Schema(
     {
     role : String,
-    timeZone: [
-        {
-        _id: String,
-        timezone: String
-    }
-],
-    personNameEnter: [
-        {
-        _id : String,
-        title: String,
-        active: String,
-    }
-],
-    selectProgramsEnter: [
-        {
-            _id : String,
-            title: String,
-            active: String,
-        }
-    ],
-    selectSchoolsEnter: [
-        {
-            _id : String,
-            title: String,
-            active: String,
-        }
-    ],
-    selectGradesEnter: [
-        {
-            _id : String,
-            title: String,
-            active: String,
-        }
-    ],
-    selectSubjectsEnter: [
-        {
-            _id : String,
-            title: String,
-            active: String,
-        }
-    ],
-    selectLanguagesEnter: [
-        {
-            _id : String,
-            language: String,
-            active: String,
-        }
-    ],
+    timeZone: [String],
+    personNameEnter: [String],
+    selectProgramsEnter: [String],
+    selectSchoolsEnter:[String],
+    selectGradesEnter: [String],
+    selectSubjectsEnter:[String],
+    selectLanguagesEnter: [String],
     consortiumId: String,
     gender: String,
     firstName: String,
@@ -94,3 +53,57 @@ UserData.methods.comparePassword = async function(yourPassword){
 }
 
 module.exports = mongoose.model("UserData", UserData)
+
+
+
+
+
+
+// timeZone: [
+//     {
+//     _id: String,
+//     timezone: String
+// }
+// ],
+// personNameEnter: [
+//     {
+//     // _id : String,
+//     title: String,
+//     // active: String,
+// }
+// ],
+// selectProgramsEnter: [
+//     {
+//         // _id : String,
+//         title: String,
+//         // active: String,
+//     }
+// ],
+// selectSchoolsEnter: [
+//     {
+//         // _id : String,
+//         title: String,
+//         // active: String,
+//     }
+// ],
+// selectGradesEnter: [
+//     {
+//         // _id : String,
+//         title: String,
+//         // active: String,
+//     }
+// ],
+// selectSubjectsEnter: [
+//     {
+//         // _id : String,
+//         title: String,
+//         // active: String,
+//     }
+// ],
+// selectLanguagesEnter: [
+//     {
+//         // _id : String,
+//         language: String,
+//         // active: String,
+//     }
+// ],

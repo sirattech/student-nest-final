@@ -3,11 +3,11 @@ import axios from "axios"
 import {BACKEND_URI} from "../../config/config"
 
 let teacherSelect = JSON.parse(localStorage.getItem("teacherSelect"))
-console.log("teacherSelect", teacherSelect);
+// console.log("teacherSelect", teacherSelect);
 
 let myarray = [];
 
-console.log("mydata", getTime() );
+// console.log("mydata", getTime() );
 export const dinnerTime =  getTime();
  function getTime (){ 
     try{
@@ -43,7 +43,7 @@ export const dinnerTime =  getTime();
             
         });
     })
-    console.log("myarray",myarray);
+    // console.log("myarray",myarray);
     return myarray;
     
     }catch(e){

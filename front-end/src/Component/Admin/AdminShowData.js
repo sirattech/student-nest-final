@@ -15,7 +15,6 @@ function AdminShowData() {
     const showData = async () => {
         try {
             await axios.get(`${BACKEND_URI}/admin_data_show/${params.id}`).then((adminRes) => {
-                console.log("dddd", adminRes.data);
                 setFirstName(adminRes.data?.firstName)
                 setLastName(adminRes.data?.lastName)
                 setEMail(adminRes.data?.email)

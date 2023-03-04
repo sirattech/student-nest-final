@@ -11,7 +11,7 @@ const options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/fullchain.pem')
 };
 
-
+const bcrypt = require('bcryptjs');
 
 // ........................Agency data add .......................//
 const Agency = require("./Schema/AgencySchema")
@@ -364,12 +364,12 @@ app.get("/User_Data_Filter/:key", async (req, res) => {
         }
         let result = await UserData.find({
             $and: [
-                    {"personNameEnter.title" : {$all: personName}},
-                {"selectProgramsEnter.title" : {$all : selectPrograms}},
-                {"selectSchoolsEnter.title" : {$all : selectSchools}},
-                {"selectGradesEnter.title" : {$all : selectGrades}},
-                {"selectSubjectsEnter.title": {$all : selectSubjects}},
-                {"selectLanguagesEnter.language" : {$all : selectLanguages}},
+                { "personNameEnter": { $all: personName } },
+                { "selectProgramsEnter": { $all: selectPrograms } },
+                { "selectSchoolsEnter": { $all: selectSchools } },
+                { "selectGradesEnter": { $all: selectGrades } },
+                { "selectSubjectsEnter": { $all: selectSubjects } },
+                { "selectLanguagesEnter": { $all: selectLanguages } },
                 dbStartTime,
                 dbEndTime,
             ]
@@ -378,7 +378,16 @@ app.get("/User_Data_Filter/:key", async (req, res) => {
     } catch (e) {
         console.log("e", e);
     }
-
+    // $and: [
+    //     { "personNameEnter.title": { $all: personName } },
+    //     { "selectProgramsEnter.title": { $all: selectPrograms } },
+    //     { "selectSchoolsEnter.title": { $all: selectSchools } },
+    //     { "selectGradesEnter.title": { $all: selectGrades } },
+    //     { "selectSubjectsEnter.title": { $all: selectSubjects } },
+    //     { "selectLanguagesEnter.language": { $all: selectLanguages } },
+    //     dbStartTime,
+    //     dbEndTime,
+    // ]
 })
 // Find user Single data
 app.get("/user_single_data_find/:id", async (req, res) => {
@@ -387,13 +396,48 @@ app.get("/user_single_data_find/:id", async (req, res) => {
 })
 
 app.put("/user_single_data_Update/:id", async (req, res) => {
-    let result = await UserData.updateOne(
-        { _id: req.params.id },
-        {
-            $set: req.body
-        }
-    )
-    res.send(result);
+    // console.log(req.body);
+    let { password, role, timeZone, personNameEnter, selectProgramsEnter, selectSchoolsEnter, selectGradesEnter, selectSubjectsEnter, selectLanguagesEnter,
+        consortiumId, gender, firstName, lastName, email, mobileNumber, address, mondayStartTime, mondayEndTime, tuesdayStartTime, tuesdayEndTime, wednesdayStartTime,
+        wednesdayEndTime, thursdayStartTime, thursdayEndTime, fridayStartTime, fridayEndTime, saturdayStartTime, saturdayEndTime, sundayStartTime, sundayEndTime
+    } = req.body
+    const passwordss = await bcrypt.hash(password, 10);
+    let withoutpassword = ({role: role, timeZone: timeZone,personNameEnter: personNameEnter, selectProgramsEnter:selectProgramsEnter,selectSchoolsEnter: selectSchoolsEnter,
+        selectGradesEnter: selectGradesEnter,selectSubjectsEnter:selectSubjectsEnter, selectLanguagesEnter:selectLanguagesEnter,consortiumId:consortiumId,gender:gender,
+        firstName:firstName,lastName:lastName,email:email,mobileNumber:mobileNumber,address:address ,mondayStartTime :mondayStartTime, mondayEndTime:mondayEndTime,
+        tuesdayStartTime:tuesdayStartTime,tuesdayEndTime:tuesdayEndTime,wednesdayStartTime:wednesdayStartTime,wednesdayEndTime:wednesdayEndTime,thursdayStartTime:thursdayStartTime,
+        thursdayEndTime:thursdayEndTime,fridayStartTime: fridayStartTime,fridayEndTime:fridayEndTime,saturdayStartTime:saturdayStartTime,saturdayEndTime:saturdayEndTime,sundayStartTime:sundayStartTime,sundayEndTime:sundayEndTime
+    })
+    let withpassword = ({role: role, timeZone: timeZone,personNameEnter: personNameEnter, selectProgramsEnter:selectProgramsEnter,selectSchoolsEnter: selectSchoolsEnter,
+        selectGradesEnter: selectGradesEnter,selectSubjectsEnter:selectSubjectsEnter, selectLanguagesEnter:selectLanguagesEnter,consortiumId:consortiumId,gender:gender,
+        firstName:firstName,lastName:lastName,email:email,mobileNumber:mobileNumber,address:address ,mondayStartTime :mondayStartTime, mondayEndTime:mondayEndTime,
+        tuesdayStartTime:tuesdayStartTime,tuesdayEndTime:tuesdayEndTime,wednesdayStartTime:wednesdayStartTime,wednesdayEndTime:wednesdayEndTime,thursdayStartTime:thursdayStartTime,
+        thursdayEndTime:thursdayEndTime,fridayStartTime: fridayStartTime,fridayEndTime:fridayEndTime,saturdayStartTime:saturdayStartTime,saturdayEndTime:saturdayEndTime,sundayStartTime:sundayStartTime,sundayEndTime:sundayEndTime,password:passwordss
+    })
+    console.log("password", password.length);
+    
+    console.log("password", passwordss);
+    if (password.length <= 0) {
+        let result = await UserData.updateOne(
+            { _id: req.params.id },
+            {
+                $set: withoutpassword
+            }
+        )
+        console.log("resultOk" ,result);
+        res.send(result);
+    } else {
+     
+         let result = await UserData.updateOne(
+                { _id: req.params.id },
+                {
+                    $set: withpassword
+                }
+            )
+            console.log("resultNot" ,result);
+            res.send(result);
+    }
+
 })
 
 // ........................... Schedule api ................//
@@ -455,12 +499,12 @@ app.get("/schedule_googles_filter/:key", cors(), async (req, res) => {
     }
     let result = await NewSchedule.find({
         $expr: {
-               $cond: {
-                  if: { "recurrenceRule": { regex: "WEEKLY" } },
-                  then: { "recurrenceRule" : {regex: /dayWeek$/} },
-                  else: { "day" : {all: day} }
-                }
-            },
+            $cond: {
+                if: { "recurrenceRule": { regex: "WEEKLY" } },
+                then: { "recurrenceRule": { regex: /dayWeek$/ } },
+                else: { "day": { all: day } }
+            }
+        },
         $and: [
             { "teacherSelect": { $all: teacherId } },
             { "startTime": { $all: startTime } },
@@ -509,16 +553,15 @@ app.get("/", (req, res) => {
 //..............................login ...........................//
 const Admin = require("./Schema/AdminSchema")
 
-app.post("/admin_data", async(req,res)=>{
+app.post("/admin_data", async (req, res) => {
     let admin = new Admin(req.body);
     let result = await admin.save();
     console.log(result);
     res.send(req.body)
 })
 
-app.get("/admin_data", async(req,res)=>{
-    let use = await Admin.find();
-
+app.get("/admin_data", async (req, res) => {
+    let use = await UserData.find();
     if (use.length) {
         res.send(use)
     } else {
@@ -526,14 +569,14 @@ app.get("/admin_data", async(req,res)=>{
     }
 })
 
-app.get("/admin_data_show/:id", async(req,res)=>{ 
-      let result = await Admin.findOne({ _id: req.params.id })
+app.get("/admin_data_show/:id", async (req, res) => {
+    let result = await UserData.findOne({ _id: req.params.id })
     res.send(result);
 })
 
 
-app.put("/admin_update_data/:id", async(req,res)=>{
-    let result = await Admin.updateOne(
+app.put("/admin_update_data/:id", async (req, res) => {
+    let result = await UserData.updateOne(
         { _id: req.params.id },
         {
             $set: req.body
@@ -543,44 +586,48 @@ app.put("/admin_update_data/:id", async(req,res)=>{
 })
 
 
-app.put("/reset_password/:id", async(req, res)=>{
-    let {oldPassword,password} = req.body
-    let result = await Admin.findOne({ _id: req.params.id })
-    const isMatched = await result.comparePassword(oldPassword);
-    
-    if (!isMatched){
-         
-        return res.send({result: "Old password not exist! please enter correct old password"})
-      }
-    if(isMatched == true){
-        let result = await Admin.updateOne(
-            { _id: req.params.id },
-            {
-                $set: password
-            }
-        )
-        res.send(result)
-        
-    }
+app.put("/reset_password/:id", async (req, res) => {
+    try {
+        let { oldPassword, password } = req.body
+        let result = await UserData.findOne({ _id: req.params.id })
+        const isMatched = await result?.comparePassword(oldPassword);
+        if (!isMatched) {
 
-    // res.send(req.body)
+            return res.send({ result: "Old password not exist! please enter correct old password" })
+        }
+        if (isMatched == true) {
+            const passwordss = await bcrypt.hash(password, 10);
+            let resultsss = await UserData.updateOne(
+                { _id: req.params.id },
+                {
+                    $set: { password: passwordss }
+
+                }
+            )
+            res.send(resultsss)
+
+        }
+
+    } catch (e) {
+        console.log("e", e);
+    }
 })
 
-app.post("/login", async(req,res)=>{
-    let {email,password} = req.body
-    if(!email || !password){
-        return res.send({result: "E-mail and password are required"})
+app.post("/login", async (req, res) => {
+    let { email, password } = req.body
+    if (!email || !password) {
+        return res.send({ result: "E-mail and password are required" })
     }
-    let checklogin = await Admin.findOne({email: email})
-    if(!checklogin){
-        return res.send({result: "Invalid credentials"})
+    let checklogin = await UserData.findOne({ email: email })
+    if (!checklogin) {
+        return res.send({ result: "Invalid credentials" })
     }
     const isMatched = await checklogin.comparePassword(password);
-    if (!isMatched){
-         
-        return res.send({result: "Invalid credentials password"})
-      }
-      res.send({result: "Login Successfully", status: email})
+    if (!isMatched) {
+
+        return res.send({ result: "Invalid credentials password" })
+    }
+    res.send({ result: "Login Successfully", status: checklogin })
 })
 
 

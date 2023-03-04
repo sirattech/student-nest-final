@@ -135,8 +135,8 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
   useEffect(() => {
     admin_Data()
   }, [])
-
-
+  let stuent_data = JSON.parse(localStorage.getItem("studentNest"));
+  // console.log("stuent_data", stuent_data._id);
   const drawer = (
     <div className="stakenmsColor1" style={{ color: "white" }}>
       <Toolbar className="text-start d-flex align-items-center justify-content-start pb-3 pt-1" style={{ backgroundColor: "white", color: "black" }}>
@@ -194,7 +194,9 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
           </ListItem>
         </Link>
 
-        <ListItem button onClick={handleClick} className="staking-btn pt-3 pb-3">
+       {stuent_data?.role === "Admin" ? (
+<>
+<ListItem button onClick={handleClick} className="staking-btn pt-3 pb-3">
           <ListItemIcon className={classes.menuItemIcon}>
             <GiGears color='#AEB2B7' className='ms-3' size={18} />
             {/* <i class="fa-solid fa-gears"></i> */}
@@ -254,6 +256,12 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
             </ListItem>
           </Link>
         </Collapse>
+</>
+       ):(<></>)
+      }
+ 
+
+        
 
       </List>
     </div>
@@ -287,33 +295,26 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
                   <MenuIcon style={{ color: "black" }} />
                 </IconButton>
                 <Navbar.Brand href="#home" className="newProject-span d-flex" >
-
-
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav" >
                   <Nav className=" nav  d-flex justify-content-evenly nav-one-width" >
-
-
                   </Nav>
                   <Nav className=' d-flex align-items-center justify-content-start'>
                     {/* <Nav.Link className='nav-text'><EmailIcon style={{ color: '#0e1a35' }} /></Nav.Link> */}
                     <Nav.Link className='nav-text'>
-
                       <input id="s" type="search" placeholder="search" />
                     </Nav.Link>
                     <Nav.Link href="">
                       <Dropdown>
                         <Dropdown.Toggle id="dropdown-basic" className='drop-test'>
-                          <img src={admin_pic} width="30px" style={{ borderRadius: "50%" }} /> <span style={{ fontSize: "13px" }}>{fName} {lname}</span>  <span style={{ fontSize: "13px", fontWeight: "500" }}>(Admin)</span>
+                          <img src={admin_pic} width="30px" style={{ borderRadius: "50%" }} /> <span style={{ fontSize: "13px" }}>{stuent_data.firstName} {stuent_data.lastName}</span>  <span style={{ fontSize: "13px", fontWeight: "500" }}>(Admin)</span>
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                          <Link to={`/sidebar/admin_show_data/${objectId}`} style={{ textDecoration: "none" }}><Dropdown.Item href="#/action-1" className='mt-2'><FaSuitcase size={16} /> &nbsp;Profile</Dropdown.Item></Link>
-                          {/* <Link to={`/sidebar/reset_password/${objectId}`} style={{ textDecoration: "none" }}> */}
-                            <Dropdown.Item href="#/action-2" className='mt-2'><IoMdSettings size={17} />  &nbsp;Setting</Dropdown.Item>
-                            {/* </Link> */}
-                          <Link to="/" style={{ textDecoration: "none" }}><Dropdown.Item href="#/action-3" className='mt-2'><FiKey size={17} /> &nbsp;Log Out</Dropdown.Item></Link>
+                          <Link to={`/sidebar/admin_show_data/${stuent_data._id}`} style={{ textDecoration: "none" }}><Dropdown.Item href="#/action-1" className='mt-2'><FaSuitcase size={16} /> &nbsp;Profile</Dropdown.Item></Link>
+                          {stuent_data?.role === "Admin" ? <Link to={`/sidebar/reset_password/${stuent_data._id}`} style={{ textDecoration: "none" }}><Dropdown.Item href="#/action-2" className='mt-2'><IoMdSettings size={17} />  &nbsp;Setting</Dropdown.Item></Link> : <></>}
+                          <Link to="/" style={{ textDecoration: "none" }} onClick={()=>localStorage.clear()}><Dropdown.Item href="#/action-3" className='mt-2'><FiKey size={17} /> &nbsp;Log Out</Dropdown.Item></Link>
                         </Dropdown.Menu>
                       </Dropdown>
                     </Nav.Link>
@@ -388,7 +389,7 @@ export default function ResponsiveDrawer(props: Props, { setData }) {
           <Route exact path="/newschedule" element={<NewSchedule teacherSelect={teacherSelect} />} />
           <Route exact path="/admin_show_data/:id" element={<AdminShowData />} />
           <Route exact path="/admin_Update_Data/:id" element={<AdminUpdate />} />
-          <Route exact path="/reset_password/:id" element={<PasswordReset/>} />
+          <Route exact path="/reset_password/:id" element={<PasswordReset />} />
         </Routes>
 
       </Box>
