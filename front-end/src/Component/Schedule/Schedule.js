@@ -99,7 +99,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
   const [selectGrades, setSelectGrades] = useState([]);
   const [selectSubjects, setSelectSubjects] = useState([]);
   const [modalShow, setModalShow] = useState(false);
-
+  const [modalShowOne, setModalShowOne] = useState(false);
   const navigate = useNavigate();
   const [agencyData, setAgencyData] = useState([]);
   const [programData, setProgramData] = useState([]);
@@ -112,7 +112,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
   const [open, setOpen] = React.useState(false);
   const [openTeacher, setOpenTeacher] = useState(false);
   const [teacherId, setTeacherId] = useState([]);
-  const [scheduleTable, setscheduleTable] = useState([]);
+  const [scheduleTableId, setscheduleTableId] = useState("");
   const [scheduleTableData, setScheduleTableData] = useState([]);
   const [mondayStartTimes, setMondayStartTime] = useState("");
   const [mondayEndTimes, setMondayEndTime] = useState("");
@@ -205,7 +205,6 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
   const handleChangetTeacher = (event) => {
     try {
       let techerid = event.target.value;
-      console.log("techerid", techerid);
       localStorage.setItem("teacherSelect", JSON.stringify(techerid));
       setTeacherSelect(event.target.value);
     } catch (e) {
@@ -220,23 +219,44 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
           if (teacherSelectssss == element._id) {
             teacherId.forEach((text) => {
               if (teacherSelectssss == text._id) {
-                console.log("element.ids", text);
                 localStorage.setItem("teacherName", JSON.stringify(text));
               }
             });
-
+            setTeacherSelect("")
             navigate("/sidebar/newschedule");
             // window.location.reload();
           } else {
             toast.error("please enter Schedule from User");
           }
         });
-
       });
     } catch (e) {
       console.log("e", e);
     }
   };
+  const viewTeacherData=async(ids)=>{
+    try {
+     
+      await axios.get(`${BACKEND_URI}/User_Data`).then((resss) => {
+        resss.data.forEach((element) => {
+          if (ids == element._id) {
+            teacherId.forEach((text) => {
+              if (ids == text._id) {
+                localStorage.setItem("teacherName", JSON.stringify(text));
+              }
+            });
+            setTeacherSelect("")
+            navigate("/sidebar/newschedule");
+            // window.location.reload();
+          } else {
+            toast.error("please enter Schedule from User");
+          }
+        });
+      });
+    } catch (e) {
+      console.log("e", e);
+    }
+  }
   const handleChangesix = (event) => {
     setAge(event.target.value);
   };
@@ -343,6 +363,28 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
       console.log("e", e);
     }
   }
+
+  const UserDataDelete = async (ids) => {
+    try {
+      setscheduleTableId(ids)
+      setModalShowOne(true)
+    } catch (e) {
+      console.log("e", e);
+    }
+  }
+
+const handleDataDelete = async()=>{
+  try{
+    console.log("scheduleTableId", scheduleTableId);
+
+    await axios.delete(`${BACKEND_URI}/delete_Student_All_Data/${scheduleTableId}`).then((resDelete)=>{
+      scheduleShowData();
+      setModalShowOne(false)
+    })
+  }catch(e){
+    console.log("e",e);
+  }
+}
   useEffect(() => {
     scheduleShowData();
   }, []);
@@ -611,22 +653,9 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
         </div>
         <div className="col-lg-3 mt-3">
           <TimeInput value={mondayStartTimes} eachInputDropdown onChange={(dateString) => setMondayStartTime(dateString)} />
-          {/* <TimePicker
-            placeholder="Start Time"
-            defaultValue={0}
-            showSecond={false}
-            onChange={mondayTimeChange}
-          /> */}
         </div>
         <div className="col-lg-4 mt-3">
           <TimeInput value={mondayEndTimes} eachInputDropdown onChange={(dateString) => setMondayEndTime(dateString)} />
-
-          {/* <TimePicker
-            placeholder="End Time"
-            defaultValue={0}
-            showSecond={false}
-            onChange={mondayendTimeChange}
-          /> */}
         </div>
         <div className="col-lg-4 col-11 mt-3 mb-3">
           <div className="d-grid gap-2">
@@ -668,7 +697,7 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
 
               {scheduleTableData.length > 0 ? (
                 scheduleTableData.map((item, index) => {
-                  // console.log("item", item);
+                  // console.log("item", item._id);
                   return (
                     // <div>
                     <tbody className="text-start">
@@ -691,25 +720,28 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
                           <td>
                             {/* secondsToHms(item?.sundayStartTime) */}
                             {/* <Link
-                                to={`/view_single_User_Data/${items._id}`}
-                                style={{ textDecoration: "none" }}
-                              > */}
-                            <button
-                              className="btn btn-xs btn-info me-2 mt-1"
-                              style={{ paddibg: "0" }}
-                              title="View"
-                            >
-                              <i
-                                className="fa-solid fa-eye"
-                                style={{ color: "white" }}
-                              ></i>
-                            </button>
-                            {/* </Link>
+                              to={`/sidebar/newscheduless/${item._id}`}
+                              style={{ textDecoration: "none" }}
+                            > */}
+                              <button
+                              // data-teachrID = {item._id}
+                                className="btn btn-xs btn-info me-2 mt-1"
+                                style={{ paddibg: "0" }}
+                                title="View"
+                              onClick={()=>viewTeacherData(item._id)}
+                              >
+                                <i
+                                  className="fa-solid fa-eye"
+                                  style={{ color: "white" }}
+                                ></i>
+                              </button>
+                            {/* </Link> */}
+                            {/*
                               <Link
                                 to={`/update_single_user_data/${items._id}`}
                                 style={{ textDecoration: "none" }}
                               > */}
-                            <button
+                            {/* <button
                               className="btn btn-xs btn-warning me-2 mt-1"
                               style={{ paddibg: "0" }}
                               title="Update"
@@ -718,12 +750,12 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
                                 className="fa-solid fa-pencil"
                                 style={{ color: "white" }}
                               ></i>
-                            </button>
+                            </button> */}
                             {/* </Link> */}
                             <button
                               className="btn btn-xxs btn-danger mt-1"
                               title="Delete"
-                            // onClick={() => UserDataDelete(items._id)}
+                              onClick={() => UserDataDelete(item._id)}
                             >
                               <i
                                 className="fa-solid fa-xmark"
@@ -748,6 +780,35 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
           </div>
         </div>
       </div>
+
+      {
+        modalShowOne ? (
+          <Modal
+            show={modalShowOne}
+            onHide={() => setModalShowOne(false)}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                Delete Confirmation
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete session. This will be remove all student in this Session!
+            </Modal.Body>
+            <Modal.Footer>
+              <button className="btn btn-danger" onClick={handleDataDelete}>
+                Done
+              </button>
+            </Modal.Footer>
+          </Modal>
+        ) : (<>
+        </>)
+      }
+
+
+
 
       {modalShow ? (
         <Modal
@@ -782,8 +843,8 @@ function Schedule({ setTeacherSelect, teacherSelect, setSessionData, sessionData
               <TextField {...params} value={params} label="Teacher Name" />
             }
             /> */}
-        
-        
+
+
             <Form.Select
               aria-label="Default select example"
               value={teacherSelect}

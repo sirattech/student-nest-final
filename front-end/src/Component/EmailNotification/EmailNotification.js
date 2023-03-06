@@ -1,15 +1,30 @@
-import React from 'react'
-
+import React, { useState, useEffect } from 'react'
+import { BACKEND_URI } from "../../config/config";
+import axios from "axios";
 function EmailNotification() {
-  return (
-    <div className='container'>
-<div className='row user-box-1'>
+
+    const [getEmailRecord, setGetEmailRecord] = useState([])
+    const [emailLength, setEmailLength] = useState(0)
+    const get_Email_Data = async () => {
+        try {
+            await axios.get(`${BACKEND_URI}/get_Email_Data`).then((res) => {
+                setGetEmailRecord(res.data)
+                setEmailLength(res.data.length)
+            })
+        } catch (e) {
+            console.log("e", e);
+        }
+    }
+    useEffect(() => {
+        get_Email_Data()
+    }, [])
+    return (
+        <div className='container'>
+            <div className='row user-box-1'>
                 <div className='col-lg-12 col-12  d-flex justify-content-center  justify-content-between align-items-center pt-3 pb-3'>
                     <h4 className='user-h4 mt-2'>EMAIL NOTIFICATIONS</h4>
                     <div>
-
                         <button className='btn btn-dangerpdf me-md-3 mt-2'>EXPORT TO PDF</button>
-
                         <button className='btn btn-dangerexcel mt-2'>EXPORT TO EXCEL</button>
                     </div>
                 </div>
@@ -38,57 +53,45 @@ function EmailNotification() {
 
             </div>
             <div className='row d-flex justify-content-center' style={{ background: "white" }}>
-                <p className='text-start mt-3 '>Total Users: 195</p>
-                
+                <p className='text-start mt-3 '>Total Email: {emailLength}</p>
+
                 <div className='col-lg-12  '>
                     <div className='table-responsive' >
-                    <table className="table table-bordered table-striped table-hover">
-                        <thead className='text-start'>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Create Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Control</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody className='text-start'>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                               
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table className="table table-bordered table-striped table-hover">
+                            <thead className='text-start'>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Send Time</th>
+                                </tr>
+                            </thead>
+                            <tbody className='text-start'>
+                                {getEmailRecord.length > 0 ? (
+                                    getEmailRecord.map((item, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{item.fName} {item.lName}</td>
+                                                <td>{item.email}</td>
+                                                <td>{item.dateTime}</td>
+                                            </tr>
+                                        )
+                                    })
+                                ) : (
+                                    <tr className="text-center">
+                                        <td colSpan={4}>
+                                            <h1>No Result Found</h1>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default EmailNotification

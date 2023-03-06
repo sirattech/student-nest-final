@@ -170,82 +170,7 @@ function User() {
   const [userActive, setUserActive] = useState(0)
   const [userInactive, setUserInactive] = useState(0)
 
-  const userDataSave = async () => {
-    // console.log([role, timeZone, personNameEnter,selectProgramsEnter,selectSchoolsEnter,selectGradesEnter,selectSubjectsEnter,selectLanguagesEnter,consortiumId,gender, firstName,lastName,email,mobileNumber,address,password,reTypePassword,active]);
-    try {
-      if (
-        !firstName ||!lastName ||!email ||!mobileNumber ||!address ||!password
-      ) {
-        setDataError(true);
-        return false;
-      }
-
-      if (password !== reTypePassword) {
-        setPasswordError(true);
-        return false;
-      }
-      let mondayStartTime = toSeconds(mondayStartTimes);
-      let mondayEndTime = toSeconds(mondayEndTimes);
-      let tuesdayStartTime = toSeconds(tuesdayStartTimes);
-      let tuesdayEndTime = toSeconds(tuesdayEndTimes);
-      let wednesdayStartTime = toSeconds(wednesdayStartTimes);
-      let wednesdayEndTime = toSeconds(wednesdayEndTimes);
-      let thursdayStartTime = toSeconds(thursdayStartTimes);
-      let thursdayEndTime = toSeconds(thursdayEndTimes);
-      let fridayStartTime = toSeconds(fridayStartTimes);
-      let fridayEndTime = toSeconds(fridayEndTimes);
-      let saturdayStartTime = toSeconds(saturdayStartTimes);
-      let saturdayEndTime = toSeconds(saturdayEndTimes);
-      let sundayStartTime = toSeconds(sundayStartTimes);
-      let sundayEndTime = toSeconds(sundayEndTimes)
-      await axios
-        .post(`${BACKEND_URI}/User_Data`, {
-          role, timeZone, personNameEnter, selectProgramsEnter, selectSchoolsEnter, selectGradesEnter, selectSubjectsEnter, selectLanguagesEnter, consortiumId, gender, firstName, lastName, email,
-          mobileNumber, address, password, active, activeStatus, mondayStartTime, mondayEndTime, tuesdayStartTime, tuesdayEndTime, wednesdayStartTime, wednesdayEndTime, thursdayStartTime, thursdayEndTime, fridayStartTime,
-          fridayEndTime, saturdayStartTime, saturdayEndTime, sundayStartTime, sundayEndTime,
-        })
-        .then((userRes) => {
-          console.log("userRes", userRes.data);
-          // statusCheck = userRes.data.active;
-          // ids = userRes.data._id;
-          setRole("")
-          setTimeZone([])
-          setPersonNameEnter([]);
-          setSelectProgramEnter([]);
-          setSelectSchoolEnter([])
-          setSelectGradesEnter([])
-          setSelectSubjectsEnter([]);
-          setSelectLanguagesEnter([])
-          setGender('')
-          setConsortiumId('')
-          setFirstName("")
-          setLastName("")
-          setEMail("")
-          setMobileNumber('')
-          setAddress("")
-          setPassword("")
-          setMondayStartTime("")
-          setMondayEndTime("")
-          setTuesdayStartTime("")
-          setTuesdayEndTime("")
-          setWednesdayStartTime("")
-          setThursdayStartTime("")
-          setThursdayEndTime("")
-          setFridayStartTime("")
-          setFridayEndTime("")
-          setSaturdayStartTime("")
-          setSaturdayEndTime('')
-          setSundayStartTime("");
-          setSundayEndTime("");
-          setStatus(false);
-          getUserAllDatas();
-
-        });
-
-    } catch (e) {
-      console.log("e", e);
-    }
-  };
+  
   // ...........Show Password functon ....................//
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -472,7 +397,82 @@ function User() {
     }
   };
 //????????????????????????????
- 
+const userDataSave = async () => {
+  // console.log([role, timeZone, personNameEnter,selectProgramsEnter,selectSchoolsEnter,selectGradesEnter,selectSubjectsEnter,selectLanguagesEnter,consortiumId,gender, firstName,lastName,email,mobileNumber,address,password,reTypePassword,active]);
+  try {
+    if (
+      !firstName ||!lastName ||!email ||!mobileNumber ||!address ||!password
+    ) {
+      setDataError(true);
+      return false;
+    }
+
+    if (password !== reTypePassword) {
+      setPasswordError(true);
+      return false;
+    }
+    let mondayStartTime = toSeconds(mondayStartTimes);
+    let mondayEndTime = toSeconds(mondayEndTimes);
+    let tuesdayStartTime = toSeconds(tuesdayStartTimes);
+    let tuesdayEndTime = toSeconds(tuesdayEndTimes);
+    let wednesdayStartTime = toSeconds(wednesdayStartTimes);
+    let wednesdayEndTime = toSeconds(wednesdayEndTimes);
+    let thursdayStartTime = toSeconds(thursdayStartTimes);
+    let thursdayEndTime = toSeconds(thursdayEndTimes);
+    let fridayStartTime = toSeconds(fridayStartTimes);
+    let fridayEndTime = toSeconds(fridayEndTimes);
+    let saturdayStartTime = toSeconds(saturdayStartTimes);
+    let saturdayEndTime = toSeconds(saturdayEndTimes);
+    let sundayStartTime = toSeconds(sundayStartTimes);
+    let sundayEndTime = toSeconds(sundayEndTimes)
+    await axios
+      .post(`${BACKEND_URI}/User_Data`, {
+        role, timeZone, personNameEnter, selectProgramsEnter, selectSchoolsEnter, selectGradesEnter, selectSubjectsEnter, selectLanguagesEnter, consortiumId, gender, firstName, lastName, email,
+        mobileNumber, address, password, active, activeStatus, mondayStartTime, mondayEndTime, tuesdayStartTime, tuesdayEndTime, wednesdayStartTime, wednesdayEndTime, thursdayStartTime, thursdayEndTime, fridayStartTime,
+        fridayEndTime, saturdayStartTime, saturdayEndTime, sundayStartTime, sundayEndTime,
+      })
+      .then((userRes) => {
+        console.log("userRes", userRes.data);
+        // statusCheck = userRes.data.active;
+        // ids = userRes.data._id;
+        setRole("")
+        setTimeZone([])
+        setPersonNameEnter([]);
+        setSelectProgramEnter([]);
+        setSelectSchoolEnter([])
+        setSelectGradesEnter([])
+        setSelectSubjectsEnter([]);
+        setSelectLanguagesEnter([])
+        setGender('')
+        setConsortiumId('')
+        setFirstName("")
+        setLastName("")
+        setEMail("")
+        setMobileNumber('')
+        setAddress("")
+        setPassword("")
+        setMondayStartTime("")
+        setMondayEndTime("")
+        setTuesdayStartTime("")
+        setTuesdayEndTime("")
+        setWednesdayStartTime("")
+        setThursdayStartTime("")
+        setThursdayEndTime("")
+        setFridayStartTime("")
+        setFridayEndTime("")
+        setSaturdayStartTime("")
+        setSaturdayEndTime('')
+        setSundayStartTime("");
+        setSundayEndTime("");
+        setStatus(false);
+        getUserAllDatas();
+
+      });
+
+  } catch (e) {
+    console.log("e", e);
+  }
+};
 
   const getUserAllDatas = async () => {
     try {
@@ -2558,7 +2558,6 @@ function User() {
                   <tbody className="text-start">
                     {getAgencyDataFalse.length > 0 ? (
                       getAgencyDataFalse.map((items, index) => {
-                        console.log("items", items);
                         return (
                           <tr key={index}>
                             <th scope="row">{index + 1}</th>
@@ -2649,7 +2648,6 @@ function User() {
                   <tbody className="text-start">
                     {userAllData.length > 0 ? (
                       userAllData.map((items, index) => {
-                        console.log("items", items);
                         return (
                           <tr key={index}>
                             <th scope="row">{index + 1}</th>

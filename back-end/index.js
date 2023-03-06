@@ -6,6 +6,11 @@ app.use(express.json())
 app.use(cors())
 const https = require('https');
 var fs = require('fs')
+const sendEmail = require("./sendEmail.js");
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+require("dotenv").config();
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/rktutoring.com/fullchain.pem')
@@ -322,19 +327,22 @@ app.put("/user_Single_Data_Delete/:id", async (req, res) => {
 })
 
 app.get("/User_Data_Filter/:key", async (req, res) => {
+    
     try {
+        let myARR = [];
         let data = req.params.key
         let query = new URLSearchParams(data);
         let personName = query.get("personName")
         let selectPrograms = query.get("selectPrograms")
-        selectPrograms = selectPrograms.split(",");
+        // selectPrograms = selectPrograms.split(",");
+        console.log("hhhhh",selectPrograms);
         let selectLanguages = query.get("selectLanguages")
-        selectLanguages = selectLanguages.split(",");
+        // selectLanguages = selectLanguages.split(",");
         let selectSchools = query.get("selectSchools");
-        selectSchools = selectSchools.split(",")
+        // selectSchools = selectSchools.split(",")
         let selectGrades = query.get("selectGrades");
         let selectSubjects = query.get("selectSubjects")
-        selectSubjects = selectSubjects.split(",")
+        // selectSubjects = selectSubjects.split(",")
         let day = query.get("Day")
         let startTime = query.get("StartTime")
         let endTime = query.get("EndTime")
@@ -362,32 +370,61 @@ app.get("/User_Data_Filter/:key", async (req, res) => {
             dbStartTime = { "sundayStartTime": { $lte: startTime } };
             dbEndTime = { "sundayEndTime": { $gte: endTime } }
         }
+
+         if(personName.length > 0){
+            myARR.push({ "personNameEnter": { $all: personName } }) 
+         }
+console.log("selectPrograms", selectPrograms.length);
+         if(selectPrograms.length > 0){
+            // agency =  { "personNameEnter": { $all: personName } },
+            // program=  { "selectProgramsEnter": { $all: selectPrograms } },
+            // school=  { "selectSchoolsEnter": { $all: selectSchools } },
+            // grade =  { "selectGradesEnter": { $all: selectGrades } },
+            // subject=  { "selectSubjectsEnter": { $all: selectSubjects } },
+            // language=   { "selectLanguagesEnter": { $all: selectLanguages } }
+            myARR.push({ "selectProgramsEnter": { $all: selectPrograms } })
+           
+         }
+         console.log("selectSchools", selectSchools.length);
+         if(selectSchools.length > 0){
+            myARR.push({ "selectSchoolsEnter": { $all: selectSchools } })
+           
+         }
+         console.log("selectGrades", selectGrades.length);
+         if(selectGrades.length > 0){
+            myARR.push({ "selectGradesEnter": { $all: selectGrades } }) 
+         }
+         console.log("selectSubjects", selectSubjects.length);
+         if(selectSubjects.length > 0){
+            myARR.push({ "selectSubjectsEnter": { $all: selectSubjects } })
+         }
+         console.log("selectLanguages", selectLanguages.length);
+         if(selectLanguages.length > 0){
+            myARR.push({ "selectLanguagesEnter": { $all: selectLanguages } })
+           
+         }
+         myARR.push(dbStartTime);
+         myARR.push(dbEndTime);
+        // console.log("personName", myARR);
+        
         let result = await UserData.find({
-            $and: [
-                { "personNameEnter": { $all: personName } },
-                { "selectProgramsEnter": { $all: selectPrograms } },
-                { "selectSchoolsEnter": { $all: selectSchools } },
-                { "selectGradesEnter": { $all: selectGrades } },
-                { "selectSubjectsEnter": { $all: selectSubjects } },
-                { "selectLanguagesEnter": { $all: selectLanguages } },
-                dbStartTime,
-                dbEndTime,
-            ]
+            $and :myARR
+            // $and: [
+            //     agency,
+            //     language,
+            //     subject,
+            //     grade,
+            //     school,
+            //     program,
+            //     dbStartTime,
+            //     dbEndTime,
+            // ]
         })
         res.send(result)
     } catch (e) {
         console.log("e", e);
     }
-    // $and: [
-    //     { "personNameEnter.title": { $all: personName } },
-    //     { "selectProgramsEnter.title": { $all: selectPrograms } },
-    //     { "selectSchoolsEnter.title": { $all: selectSchools } },
-    //     { "selectGradesEnter.title": { $all: selectGrades } },
-    //     { "selectSubjectsEnter.title": { $all: selectSubjects } },
-    //     { "selectLanguagesEnter.language": { $all: selectLanguages } },
-    //     dbStartTime,
-    //     dbEndTime,
-    // ]
+ 
 })
 // Find user Single data
 app.get("/user_single_data_find/:id", async (req, res) => {
@@ -402,20 +439,22 @@ app.put("/user_single_data_Update/:id", async (req, res) => {
         wednesdayEndTime, thursdayStartTime, thursdayEndTime, fridayStartTime, fridayEndTime, saturdayStartTime, saturdayEndTime, sundayStartTime, sundayEndTime
     } = req.body
     const passwordss = await bcrypt.hash(password, 10);
-    let withoutpassword = ({role: role, timeZone: timeZone,personNameEnter: personNameEnter, selectProgramsEnter:selectProgramsEnter,selectSchoolsEnter: selectSchoolsEnter,
-        selectGradesEnter: selectGradesEnter,selectSubjectsEnter:selectSubjectsEnter, selectLanguagesEnter:selectLanguagesEnter,consortiumId:consortiumId,gender:gender,
-        firstName:firstName,lastName:lastName,email:email,mobileNumber:mobileNumber,address:address ,mondayStartTime :mondayStartTime, mondayEndTime:mondayEndTime,
-        tuesdayStartTime:tuesdayStartTime,tuesdayEndTime:tuesdayEndTime,wednesdayStartTime:wednesdayStartTime,wednesdayEndTime:wednesdayEndTime,thursdayStartTime:thursdayStartTime,
-        thursdayEndTime:thursdayEndTime,fridayStartTime: fridayStartTime,fridayEndTime:fridayEndTime,saturdayStartTime:saturdayStartTime,saturdayEndTime:saturdayEndTime,sundayStartTime:sundayStartTime,sundayEndTime:sundayEndTime
+    let withoutpassword = ({
+        role: role, timeZone: timeZone, personNameEnter: personNameEnter, selectProgramsEnter: selectProgramsEnter, selectSchoolsEnter: selectSchoolsEnter,
+        selectGradesEnter: selectGradesEnter, selectSubjectsEnter: selectSubjectsEnter, selectLanguagesEnter: selectLanguagesEnter, consortiumId: consortiumId, gender: gender,
+        firstName: firstName, lastName: lastName, email: email, mobileNumber: mobileNumber, address: address, mondayStartTime: mondayStartTime, mondayEndTime: mondayEndTime,
+        tuesdayStartTime: tuesdayStartTime, tuesdayEndTime: tuesdayEndTime, wednesdayStartTime: wednesdayStartTime, wednesdayEndTime: wednesdayEndTime, thursdayStartTime: thursdayStartTime,
+        thursdayEndTime: thursdayEndTime, fridayStartTime: fridayStartTime, fridayEndTime: fridayEndTime, saturdayStartTime: saturdayStartTime, saturdayEndTime: saturdayEndTime, sundayStartTime: sundayStartTime, sundayEndTime: sundayEndTime
     })
-    let withpassword = ({role: role, timeZone: timeZone,personNameEnter: personNameEnter, selectProgramsEnter:selectProgramsEnter,selectSchoolsEnter: selectSchoolsEnter,
-        selectGradesEnter: selectGradesEnter,selectSubjectsEnter:selectSubjectsEnter, selectLanguagesEnter:selectLanguagesEnter,consortiumId:consortiumId,gender:gender,
-        firstName:firstName,lastName:lastName,email:email,mobileNumber:mobileNumber,address:address ,mondayStartTime :mondayStartTime, mondayEndTime:mondayEndTime,
-        tuesdayStartTime:tuesdayStartTime,tuesdayEndTime:tuesdayEndTime,wednesdayStartTime:wednesdayStartTime,wednesdayEndTime:wednesdayEndTime,thursdayStartTime:thursdayStartTime,
-        thursdayEndTime:thursdayEndTime,fridayStartTime: fridayStartTime,fridayEndTime:fridayEndTime,saturdayStartTime:saturdayStartTime,saturdayEndTime:saturdayEndTime,sundayStartTime:sundayStartTime,sundayEndTime:sundayEndTime,password:passwordss
+    let withpassword = ({
+        role: role, timeZone: timeZone, personNameEnter: personNameEnter, selectProgramsEnter: selectProgramsEnter, selectSchoolsEnter: selectSchoolsEnter,
+        selectGradesEnter: selectGradesEnter, selectSubjectsEnter: selectSubjectsEnter, selectLanguagesEnter: selectLanguagesEnter, consortiumId: consortiumId, gender: gender,
+        firstName: firstName, lastName: lastName, email: email, mobileNumber: mobileNumber, address: address, mondayStartTime: mondayStartTime, mondayEndTime: mondayEndTime,
+        tuesdayStartTime: tuesdayStartTime, tuesdayEndTime: tuesdayEndTime, wednesdayStartTime: wednesdayStartTime, wednesdayEndTime: wednesdayEndTime, thursdayStartTime: thursdayStartTime,
+        thursdayEndTime: thursdayEndTime, fridayStartTime: fridayStartTime, fridayEndTime: fridayEndTime, saturdayStartTime: saturdayStartTime, saturdayEndTime: saturdayEndTime, sundayStartTime: sundayStartTime, sundayEndTime: sundayEndTime, password: passwordss
     })
     console.log("password", password.length);
-    
+
     console.log("password", passwordss);
     if (password.length <= 0) {
         let result = await UserData.updateOne(
@@ -424,18 +463,18 @@ app.put("/user_single_data_Update/:id", async (req, res) => {
                 $set: withoutpassword
             }
         )
-        console.log("resultOk" ,result);
+        console.log("resultOk", result);
         res.send(result);
     } else {
-     
-         let result = await UserData.updateOne(
-                { _id: req.params.id },
-                {
-                    $set: withpassword
-                }
-            )
-            console.log("resultNot" ,result);
-            res.send(result);
+
+        let result = await UserData.updateOne(
+            { _id: req.params.id },
+            {
+                $set: withpassword
+            }
+        )
+        console.log("resultNot", result);
+        res.send(result);
     }
 
 })
@@ -459,10 +498,6 @@ app.get("/schedule", async (req, res) => {
     }
 
 })
-
-
-
-
 
 // ................... Schedule google api .................//
 const NewSchedule = require("./Schema/NewScheduleSchema")
@@ -537,9 +572,7 @@ app.get("/schedule_googles_Data", cors(), async (req, res) => {
 app.delete(("/schedule_google/:id"), async (req, res) => {
     let result = await NewSchedule.deleteOne({ _id: req.params.id })
     res.send(result)
-
 })
-
 app.get("/", (req, res) => {
     try {
         res.status(200).send("server 🏃🏻‍♂️ good")
@@ -547,19 +580,19 @@ app.get("/", (req, res) => {
         console.error("error while get method", error);
     }
 });
-
-
-
+app.delete("/delete_Student_All_Data/:id", async(req,res)=>{
+    console.log(req.params.id);
+    let result = await NewSchedule.deleteMany({ teacherSelect: req.params.id })
+    res.send(result)
+})
 //..............................login ...........................//
 const Admin = require("./Schema/AdminSchema")
-
 app.post("/admin_data", async (req, res) => {
     let admin = new Admin(req.body);
     let result = await admin.save();
-    console.log(result);
+    // console.log(result);
     res.send(req.body)
 })
-
 app.get("/admin_data", async (req, res) => {
     let use = await UserData.find();
     if (use.length) {
@@ -568,13 +601,10 @@ app.get("/admin_data", async (req, res) => {
         res.send({ result: "No Admin Data Found" })
     }
 })
-
 app.get("/admin_data_show/:id", async (req, res) => {
     let result = await UserData.findOne({ _id: req.params.id })
     res.send(result);
 })
-
-
 app.put("/admin_update_data/:id", async (req, res) => {
     let result = await UserData.updateOne(
         { _id: req.params.id },
@@ -584,8 +614,6 @@ app.put("/admin_update_data/:id", async (req, res) => {
     )
     res.send(result)
 })
-
-
 app.put("/reset_password/:id", async (req, res) => {
     try {
         let { oldPassword, password } = req.body
@@ -612,7 +640,6 @@ app.put("/reset_password/:id", async (req, res) => {
         console.log("e", e);
     }
 })
-
 app.post("/login", async (req, res) => {
     let { email, password } = req.body
     if (!email || !password) {
@@ -631,6 +658,78 @@ app.post("/login", async (req, res) => {
 })
 
 
+// ...........................mail send .................//
+const EmailRecordSchema = require("./Schema/EmailRecordSchema")
+
+
+app.post("/send_Reservation_Data", async (req, res) => {
+    // console.log("hhhhh", req.body);
+    let { mailSTartTime, mailEndTime, email, description, text, day, recurrenceRule } = req.body
+    // let {dropOff,date,time,service,passengerSelect,firstName,lastName,email,phone,returnDate,returnTime,pickUp} = req.body
+    try {
+
+        const send_to = email;
+        const sent_from = "muhmdbilal3333@gmail.com"
+        // process.env.SEND_From;
+        const reply_to = email;
+        const subject = "Thank You Message From StudentNest";
+        const message = `
+        <div style="font-size: .8rem; margin: 0 30px">
+                <p>Start Time: <b>${mailSTartTime}</b></p>
+                <p>End Time: <b>${mailEndTime}</b></p>
+                <p>Subject: <b>${text}</b></p>
+                <p>Day <b>${day}</b></p>
+                <p>Description <b>${description}</b></p>
+                <pWeekly Repeat <b>${recurrenceRule}</b></p>
+
+              </div>
+        `;
+        await sendEmail(subject, message, send_to, sent_from, reply_to);
+        let emailRecord = new EmailRecordSchema(req.body)
+        let result = await emailRecord.save();
+        res.send({ success: true, message: "Email Sent", result: result });
+    } catch (error) {
+        res.send(error.message);
+    }
+})
+
+app.get("/get_Email_Data", async (req, res) => {
+    let use = await EmailRecordSchema.find();
+    if (use.length) {
+        res.send(use)
+    } else {
+        res.send({ result: "No Email Data Found" })
+    }
+})
+app.post("/send_Reservation_Update_Data", async (req, res) => {
+    console.log("hhhhh", req.body);
+    let { startTime, endTIme, email, description, text, day, recurrenceRule } = req.body
+    // let {dropOff,date,time,service,passengerSelect,firstName,lastName,email,phone,returnDate,returnTime,pickUp} = req.body
+    try {
+
+        const send_to = email;
+        const sent_from = "muhmdbilal3333@gmail.com"
+        // process.env.SEND_From;
+        const reply_to = email;
+        const subject = "Upadte Teacher Scheduler";
+        const message = `
+        <div style="font-size: .8rem; margin: 0 30px">
+                <p>Start Time: <b>${startTime}</b></p>
+                <p>End Time: <b>${endTIme}</b></p>
+                <p>Subject: <b>${text}</b></p>
+                <p>Day <b>${day}</b></p>
+                <p>Description <b>${description}</b></p>
+                <pWeekly Repeat <b>${recurrenceRule}</b></p>
+
+              </div>
+        `;
+        await sendEmail(subject, message, send_to, sent_from, reply_to);
+        
+        res.send({ success: true, message: "Email Sent" });
+    } catch (error) {
+        res.send(error.message);
+    }
+})
 
 const port = process.env.PORT || 8000
 https.createServer(options, app).listen(port, () => {
@@ -642,3 +741,4 @@ https.createServer(options, app).listen(port, () => {
 // app.listen(port, () => {
 //     console.log(`Server Running at ${port}`)
 // });
+

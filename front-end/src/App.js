@@ -66,6 +66,7 @@ function App() {
               <Route path='view_single_User_Data/:id' element={<ViewSingleUserData/>}/>
               <Route path='update_single_user_data/:id' element={<UpdateSingleUserData/>}/>
               <Route path='newschedule' element={<NewSchedule/>}/>
+              <Route path='newscheduless/:id' element={<NewSchedule/>}/>
               <Route path="admin_show_data/:id" element={<AdminShowData/>} />
               <Route path="admin_Update_Data/:id" element={<AdminUpdate/>} />
               <Route path="reset_password/:id"  element={<PasswordReset/>}/>

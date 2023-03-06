@@ -15,7 +15,7 @@ import CustomStore from 'devextreme/data/custom_store';
 import { BACKEND_URI } from "../../config/config";
 import { Menu } from 'devextreme-react/menu';
 import { format } from 'date-fns'
-import {toSeconds} from "../../Convertor"
+import {toSeconds,secondsToHmsssss} from "../../Convertor"
 import 'whatwg-fetch';
 const currentDate = new Date();
 const views = ['week', 'month'];
@@ -35,39 +35,42 @@ function NewSchedule() {
 
   let teacherSelect = JSON.parse(localStorage.getItem("teacherSelect"))
   let teacherName = JSON.parse(localStorage.getItem("teacherName"))
-  // console.log("teacherName", teacherName.firstName);
+  // let email = teacherName.email
+  let fName = teacherName.firstName;
+  let lName = teacherName.lastName
+  // console.log("teacherName", teacherName);
   const customDataSource = new CustomStore({
     load: () => {
       return fetch(`${BACKEND_URI}/schedule_googles/${teacherSelect}`).then(response => response.json()).catch(() => { throw 'Network error' })
     },
     insert: (values) => {
-      // console.log("values", values);
       let data = new Date(values.startDate)
       const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
       let startTime = format(new Date(values.startDate), 'kk:mm');
       let endTIme = format(new Date(values.EndDate), 'kk:mm')
       startTime = toSeconds(startTime)
       endTIme = toSeconds(endTIme)
+      let mailSTartTime = secondsToHmsssss(startTime)
+      let mailEndTime = secondsToHmsssss(endTIme)
      let  day = weekday[data.getDay()]
       let text = values.text;
       let startDate = values.startDate;
       let EndDate = values.EndDate;
       let allDay = values.AllDay;
       let description = values.description;
-      let recurrenceRule = values.recurrenceRule
-      console.log("values", recurrenceRule);
-      let value = {
-        startDate,
-        EndDate,
-        allDay,
-        description,
-        recurrenceRule,
-        teacherSelect,
-        text,
-        day,
-        startTime,
-        endTIme
-      }
+      let recurrenceRule = values.recurrenceRule;
+      let dateTime = data.toDateString();
+      let email = "bilalsattar55544@gmail.com"
+      let value = {startDate,EndDate,allDay,description,recurrenceRule,teacherSelect,text,day,startTime,endTIme}
+      let valueaaaa = {mailSTartTime,mailEndTime, email,description,text,day,recurrenceRule,fName,lName, dateTime }
+
+       fetch(`${BACKEND_URI}/send_Reservation_Data`, {
+        method: 'POST',
+        body: JSON.stringify(valueaaaa),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+       })
       return fetch(`${BACKEND_URI}/schedule_google`, {
         method: 'POST',
         body: JSON.stringify(value),
@@ -92,7 +95,32 @@ function NewSchedule() {
         .catch(() => { throw 'Network error' });
     },
     update: (key, values) => {
+      console.log("values", values.startDate);
       console.log("keys", key);
+      let dataUpdate = new Date(values.startDate);
+      let dateTime = dataUpdate.toDateString();
+      const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      let startTime = format(new Date(values.startDate), 'kk:mm');
+      let endTIme = format(new Date(values.EndDate), 'kk:mm')
+      let data = new Date(values.startDate);
+      let recurrenceRule = values.recurrenceRule;
+      let text = values.text;
+      let description = values.description;
+      let  day = weekday[data.getDay()]
+      let email = "bilalsattar55544@gmail.com"
+    let valueaaa = {startTime,endTIme, email,description,text,day,recurrenceRule}
+    console.log("dataUpdate", valueaaa);
+    fetch(`${BACKEND_URI}/send_Reservation_Update_Data`,{
+        method: 'POST',
+        body: JSON.stringify(valueaaa),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+       })
+
+
+    
+
       return fetch(`${BACKEND_URI}/schedule_google/${encodeURIComponent(key)}`, {
         method: 'PUT',
         body: JSON.stringify(values),

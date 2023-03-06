@@ -357,7 +357,7 @@ function ViewSingleUserData() {
                 <div className='col-lg-10 text-md-start mt-2'>
                     <div>{agency.map((agency) => {
                         return (
-                            <>{agency.title} ,</>
+                            <>{agency} ,</>
                         )
                     })}</div>
                 </div>
@@ -367,7 +367,7 @@ function ViewSingleUserData() {
                 <div className='col-lg-10 text-md-start mt-2'>
                     <div>{programs.map((agency) => {
                         return (
-                            <>{agency.title} ,</>
+                            <>{agency} ,</>
                         )
                     })}</div>
                 </div>
@@ -376,8 +376,9 @@ function ViewSingleUserData() {
                 </div>
                 <div className='col-lg-10 text-md-start mt-2'>
                     <div>{school.map((agency) => {
+                        console.log("agency", agency);
                         return (
-                            <>{agency.title} ,</>
+                            <>{agency} ,</>
                         )
                     })}</div>
                 </div>
